@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn CSS</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <header>
+        <h1>Learn CSS</h1>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="html.html">Previous: Learn HTML</a></li>
+                <li><a href="js.html">Next: Learn JavaScript</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <h3>CSS Quiz</h3>
+        <div id="quiz-container"></div>
+        <button onclick="loadQuiz()">Start Quiz</button>
+
+        <script src="../quiz.js"></script>
+
+        <h2>Introduction to CSS</h2>
+        <p>CSS (Cascading Style Sheets) is used to style HTML elements.</p>
+
+        <h3>Basic CSS Syntax:</h3>
+        <pre>
+            <code>
+body {
+    background-color: lightblue;
+    font-family: Arial, sans-serif;
+}
+            </code>
+        </pre>
+
+        <h3>Try It Yourself</h3>
+        <textarea id="css-code" rows="5" cols="50">body { background-color: lightblue; }</textarea>
+        <br>
+        <button onclick="applyCSS()">Apply CSS</button>
+
+        <h3>Output:</h3>
+        <iframe id="css-output"></iframe>
+    </main>
+
+    <script src="../script.js"></script>
+</body>
+</html>

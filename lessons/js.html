@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn JavaScript</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <header>
+        <h1>Learn JavaScript</h1>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="css.html">Previous: Learn CSS</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <h2>Introduction to JavaScript</h2>
+        <p>JavaScript is a programming language that adds interactivity to web pages.</p>
+
+        <h3>Basic JavaScript Example:</h3>
+        <pre>
+            <code>
+function greet() {
+    alert("Hello, World!");
+}
+            </code>
+        </pre>
+
+        <h3>Try It Yourself</h3>
+        <textarea id="js-code" rows="5" cols="50">alert("Hello, World!");</textarea>
+        <br>
+        <button onclick="runJS()">Run JavaScript</button>
+
+        <h3>Console Output:</h3>
+        <iframe id="js-output"></iframe>
+
+        <h3>Mark as Completed</h3>
+        <button onclick="markCompleted('js')">Mark as Completed</button>
+    </main>
+
+    <script src="../script.js"></script>
+</body>
+</html>

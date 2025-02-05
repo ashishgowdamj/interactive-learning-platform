@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Learning Platform</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to the Interactive Learning Platform</h1>
+        <nav>
+            <ul>
+                <li><a href="lessons/html.html">HTML</a></li>
+                <li><a href="lessons/css.html">CSS</a></li>
+                <li><a href="lessons/js.html">JavaScript</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Choose a topic to start learning:</h2>
+        <ul>
+            <li><a href="lessons/html.html">HTML</a> <span id="html-status"></span></li>
+            <li><a href="lessons/css.html">CSS</a> <span id="css-status"></span></li>
+            <li><a href="lessons/js.html">JavaScript</a> <span id="js-status"></span></li>
+        </ul>
+        <button onclick="resetProgress()">Reset Progress</button>
+
+    </main>
+        
+    <script src="script.js"></script>
+    
+</body>
+</html>
