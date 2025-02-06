@@ -8,7 +8,7 @@
 </head>
 <body>
     <header>
-        <h1>Welcome to the Interactive Learning Platform</h1>
+        <h1>Interactive Learning Platform</h1>
         <nav>
             <ul>
                 <li><a href="lessons/html.html">HTML</a></li>
@@ -16,6 +16,7 @@
                 <li><a href="lessons/js.html">JavaScript</a></li>
             </ul>
         </nav>
+        <button id="dark-mode-toggle">🌙 Dark Mode</button>
     </header>
     <main>
         <h2>Choose a topic to start learning:</h2>
@@ -26,7 +27,39 @@
         </ul>
         <button onclick="resetProgress()">Reset Progress</button>
 
+        <h2>Your Progress</h2>
+        <div id="progress-dashboard">
+            <p>HTML: <span id="html-progress">0%</span></p>
+            <p>CSS: <span id="css-progress">0%</span></p>
+            <p>JavaScript: <span id="js-progress">0%</span></p>
+        </div>
+
+        <h2>Your Progress Dashboard</h2>
+        <div id="progress-dashboard">
+            <div class="progress-bar">
+                <div class="progress-fill" id="html-progress-bar"></div>
+            </div>
+            <p>HTML Progress: <span id="html-progress-text">0%</span></p>
+    
+            <div class="progress-bar">
+                <div class="progress-fill" id="css-progress-bar"></div>
+            </div>
+            <p>CSS Progress: <span id="css-progress-text">0%</span></p>
+    
+            <div class="progress-bar">
+                <div class="progress-fill" id="js-progress-bar"></div>
+            </div>
+            <p>JavaScript Progress: <span id="js-progress-text">0%</span></p>
+        </div>
+
     </main>
+    <section id="feedback">
+        <h2>Share Your Feedback</h2>
+        <form id="feedback-form">
+            <textarea id="feedback-message" placeholder="Your feedback..." required></textarea>
+            <button type="submit">Submit</button>
+        </form>
+    </section>
         
     <script src="script.js"></script>
     

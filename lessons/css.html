@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learn CSS</title>
     <link rel="stylesheet" href="../style.css">
+
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/codemirror.min.css">
+    <!-- CodeMirror JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/codemirror.min.js"></script>
+    <!-- CodeMirror Modes -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/mode/htmlmixed/htmlmixed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/mode/css/css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/mode/javascript/javascript.min.js"></script>
+
 </head>
 <body>
     <header>
@@ -16,6 +26,7 @@
                 <li><a href="js.html">Next: Learn JavaScript</a></li>
             </ul>
         </nav>
+        <button id="dark-mode-toggle">🌙 Dark Mode</button>
     </header>
     
     <main>
@@ -30,6 +41,11 @@
 
         <h3>Basic CSS Syntax:</h3>
         <pre>
+
+            <h3>Quiz</h3>
+            <div id="quiz-container"></div>
+            <button onclick="loadQuiz('CSS')">Start Quiz</button>
+
             <code>
 body {
     background-color: lightblue;
@@ -39,7 +55,8 @@ body {
         </pre>
 
         <h3>Try It Yourself</h3>
-        <textarea id="css-code" rows="5" cols="50">body { background-color: lightblue; }</textarea>
+        <div id="code-editor"></div>
+
         <br>
         <button onclick="applyCSS()">Apply CSS</button>
 
