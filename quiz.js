@@ -52,3 +52,30 @@ function loadQuiz(topic) {
 
     displayQuestion();
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    const options = document.querySelectorAll(".option"); // Select all answer options
+
+    options.forEach(option => {
+        option.addEventListener("click", function () {
+            const isCorrect = this.getAttribute("data-correct") === "true"; // Check correct answer
+
+            if (!isCorrect) {
+                showPopup("Wrong Answer! Try again."); // Show popup for incorrect answers
+            }
+        });
+    });
+});
+
+// Function to show the popup
+function showPopup(message) {
+    const popup = document.createElement("div"); // Create popup element
+    popup.classList.add("popup");
+    popup.innerText = message;
+    
+    document.body.appendChild(popup); // Add popup to the page
+
+    setTimeout(() => {
+        popup.remove(); // Remove popup after 2 seconds
+    }, 2000);
+}
