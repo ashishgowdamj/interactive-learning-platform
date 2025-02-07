@@ -43,20 +43,20 @@ function checkProgress() {
 
 window.onload = checkProgress;
 
-// Dark Mode Toggle
+// ✅ New Dark Mode Toggle (Using Switch)
 document.addEventListener("DOMContentLoaded", function () {
-    const checkbox = document.getElementById("checkbox");
+    const darkModeToggle = document.getElementById("color_mode");
     const body = document.body;
 
-    // Check if dark mode was enabled before
+    // Check if dark mode is enabled in localStorage
     if (localStorage.getItem("dark-mode") === "enabled") {
         body.classList.add("dark-mode");
-        checkbox.checked = true; // Toggle switch ON
+        darkModeToggle.checked = true;
     }
 
     // Toggle dark mode when clicking the switch
-    checkbox.addEventListener("change", () => {
-        if (checkbox.checked) {
+    darkModeToggle.addEventListener("change", () => {
+        if (darkModeToggle.checked) {
             body.classList.add("dark-mode");
             localStorage.setItem("dark-mode", "enabled");
         } else {
@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// Quiz Functionality with Pop-up Message for Wrong Answers
+// ✅ Quiz Functionality with Pop-up Message for Wrong Answers
 function loadQuiz(topic) {
     const quizContainer = document.getElementById(`${topic}-quiz-container`);
     if (!quizContainer) return;
