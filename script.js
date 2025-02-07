@@ -65,3 +65,4 @@ darkModeToggle.addEventListener("click", () => {
         darkModeToggle.innerText = "🌙 Dark Mode";
     }
 });
+
