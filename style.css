@@ -7,13 +7,14 @@ body {
     color: #000000;
 }
 
+/* Dark Mode */
 body.dark-mode {
     background-color: #121212;
     color: #ffffff;
 }
 
 header {
-    background: rgb(89, 89, 170);
+    background: rgb(0, 0, 0);
     color: white;
     padding: 20px;
     font-size: larger;
@@ -194,8 +195,8 @@ li{
  
 .btn-container {
     position: absolute;
-    right: 20px;
-    top: 15px;
+    left: 10px;
+    top: 170px;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -303,6 +304,53 @@ li{
     background: #fff;
   }
   
-  
+  h1 {
+    --main-color: rgb(46, 213, 115);
+    --main-bg-color: rgba(46, 213, 116, 0.36);
+    --pattern-color: rgba(46, 213, 116, 0.073);
 
-  
+    filter: hue-rotate(0deg);
+
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.5rem;
+    background: radial-gradient(
+            circle,
+            var(--main-bg-color) 0%,
+            rgba(0, 0, 0, 0) 95%
+        ),
+        linear-gradient(var(--pattern-color) 1px, transparent 1px),
+        linear-gradient(to right, var(--pattern-color) 1px, transparent 1px);
+    background-size:
+        cover,
+        15px 15px,
+        15px 15px;
+    background-position:
+        center center,
+        center center,
+        center center;
+    border-image: radial-gradient(
+            circle,
+            var(--main-color) 0%,
+            rgba(0, 0, 0, 0) 100%
+        )
+        1;
+    border-width: 2px;
+    border-style: solid;
+    color: var(--main-color);
+    padding: 10px 20px;
+    font-weight: 700;
+    font-size: 2rem;
+    transition: background-size 0.2s ease-in-out;
+}
+
+h1:hover {
+    background-size:
+        cover,
+        10px 10px,
+        10px 10px;
+}
+
+h1:active {
+    filter: hue-rotate(250deg);
+}
