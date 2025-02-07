@@ -5,16 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learn CSS</title>
     <link rel="stylesheet" href="../style.css">
-
-    <!-- CodeMirror CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/codemirror.min.css">
-    <!-- CodeMirror JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/codemirror.min.js"></script>
-    <!-- CodeMirror Modes -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/mode/htmlmixed/htmlmixed.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/mode/css/css.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/mode/javascript/javascript.min.js"></script>
-
 </head>
 <body>
     <header>
@@ -26,26 +16,14 @@
                 <li><a href="js.html">Next: Learn JavaScript</a></li>
             </ul>
         </nav>
-        <button id="dark-mode-toggle">🌙 Dark Mode</button>
     </header>
     
     <main>
-        <h3>CSS Quiz</h3>
-        <div id="quiz-container"></div>
-        <button onclick="loadQuiz()">Start Quiz</button>
-
-        <script src="../quiz.js"></script>
-
         <h2>Introduction to CSS</h2>
         <p>CSS (Cascading Style Sheets) is used to style HTML elements.</p>
 
         <h3>Basic CSS Syntax:</h3>
         <pre>
-
-            <h3>Quiz</h3>
-            <div id="quiz-container"></div>
-            <button onclick="loadQuiz('CSS')">Start Quiz</button>
-
             <code>
 body {
     background-color: lightblue;
@@ -55,15 +33,21 @@ body {
         </pre>
 
         <h3>Try It Yourself</h3>
-        <div id="code-editor"></div>
-
+        <textarea id="css-code" rows="5" cols="50">body { background-color: lightblue; }</textarea>
         <br>
         <button onclick="applyCSS()">Apply CSS</button>
 
         <h3>Output:</h3>
         <iframe id="css-output"></iframe>
-    </main>
 
+        <h3>CSS Quiz</h3>
+        <button onclick="loadQuiz('css')">Start Quiz</button>
+        <div id="css-quiz-container"></div>
+        <button onclick="markCompleted('css')">Mark as Completed</button>
+
+
+    </main>
+    <script src="../quiz.js"></script>
     <script src="../script.js"></script>
 </body>
 </html>

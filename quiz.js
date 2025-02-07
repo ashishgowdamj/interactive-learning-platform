@@ -1,77 +1,54 @@
 const quizData = {
     html: [
-        {
-            question: "What does HTML stand for?",
-            options: ["HyperText Markup Language", "Home Tool Markup Language", "Hyperlinks and Text Markup Language"],
-            answer: "HyperText Markup Language"
-        },
-        {
-            question: "Which tag is used to create a hyperlink?",
-            options: ["<a>", "<link>", "<href>"],
-            answer: "<a>"
-        }
+        { question: "What does HTML stand for?", options: ["Hyper Text Markup Language", "Home Tool Markup Language", "Hyperlinks and Text Markup Language"], answer: "Hyper Text Markup Language" },
+        { question: "Which tag is used for creating a hyperlink?", options: ["<a>", "<link>", "<href>"], answer: "<a>" }
     ],
     css: [
-        {
-            question: "What does CSS stand for?",
-            options: ["Cascading Style Sheets", "Creative Style Sheets", "Computer Style System"],
-            answer: "Cascading Style Sheets"
-        },
-        {
-            question: "Which property is used to change text color in CSS?",
-            options: ["color", "text-color", "font-color"],
-            answer: "color"
-        }
+        { question: "What does CSS stand for?", options: ["Cascading Style Sheets", "Creative Style Sheets", "Computer Style System"], answer: "Cascading Style Sheets" },
+        { question: "Which property changes text color in CSS?", options: ["color", "text-color", "font-color"], answer: "color" },
+        { question: "Which property is used to change the background color?", options: ["color", "bg-color", "background-color"], answer: "background-color" }
     ],
     js: [
-        {
-            question: "What is JavaScript used for?",
-            options: ["Styling web pages", "Adding interactivity to web pages", "Creating databases"],
-            answer: "Adding interactivity to web pages"
-        },
-        {
-            question: "Which keyword is used to declare a variable in JavaScript?",
-            options: ["var", "let", "both var and let"],
-            answer: "both var and let"
-        }
+        { question: "Which keyword is used to declare a variable in JavaScript?", options: ["var", "int", "string"], answer: "var" },
+        { question: "Which function is used to print in JavaScript?", options: ["console.log()", "print()", "echo()"], answer: "console.log()" }
     ]
 };
 
-let currentQuestion = 0;
-let currentTopic = "";
-
 function loadQuiz(topic) {
-    currentTopic = topic;
-    currentQuestion = 0;
-    showQuestion();
-}
+    const quizContainer = document.getElementById(`${topic}-quiz-container`);
+    if (!quizContainer) return;
+    quizContainer.innerHTML = ""; // Clear previous quiz
 
-function showQuestion() {
-    const quizContainer = document.getElementById("quiz-container");
-    const questionEl = document.createElement("h3");
-    questionEl.innerText = quizData[currentTopic][currentQuestion].question;
-    
-    quizContainer.innerHTML = "";
-    quizContainer.appendChild(questionEl);
-    
-    quizData[currentTopic][currentQuestion].options.forEach(option => {
-        let button = document.createElement("button");
-        button.innerText = option;
-        button.onclick = () => checkAnswer(option);
-        quizContainer.appendChild(button);
-    });
-}
+    const currentQuiz = quizData[topic];
+    let currentQuestion = 0;
 
-function checkAnswer(answer) {
-    if (answer === quizData[currentTopic][currentQuestion].answer) {
-        alert("Correct!");
-    } else {
-        alert("Incorrect! Try again.");
+    function displayQuestion() {
+        quizContainer.innerHTML = "";
+        const questionEl = document.createElement("h3");
+        questionEl.innerText = currentQuiz[currentQuestion].question;
+        quizContainer.appendChild(questionEl);
+
+        currentQuiz[currentQuestion].options.forEach(option => {
+            let button = document.createElement("button");
+            button.innerText = option;
+            button.onclick = () => checkAnswer(option);
+            quizContainer.appendChild(button);
+        });
     }
-    currentQuestion++;
-    if (currentQuestion < quizData[currentTopic].length) {
-        showQuestion();
-    } else {
-        document.getElementById("quiz-container").innerHTML = "<h3>Quiz Completed!</h3>";
+
+    function checkAnswer(answer) {
+        if (answer === currentQuiz[currentQuestion].answer) {
+            alert("Correct!");
+        } else {
+            alert("Incorrect! Try again.");
+        }
+        currentQuestion++;
+        if (currentQuestion < currentQuiz.length) {
+            displayQuestion();
+        } else {
+            quizContainer.innerHTML = "<h3>Quiz Completed!</h3>";
+        }
     }
+
+    displayQuestion();
 }

@@ -5,16 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learn JavaScript</title>
     <link rel="stylesheet" href="../style.css">
-
-    <!-- CodeMirror CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/codemirror.min.css">
-    <!-- CodeMirror JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/codemirror.min.js"></script>
-    <!-- CodeMirror Modes -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/mode/htmlmixed/htmlmixed.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/mode/css/css.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/mode/javascript/javascript.min.js"></script>
-
 </head>
 <body>
     <header>
@@ -25,7 +15,6 @@
                 <li><a href="css.html">Previous: Learn CSS</a></li>
             </ul>
         </nav>
-        <button id="dark-mode-toggle">🌙 Dark Mode</button>
     </header>
     
     <main>
@@ -34,11 +23,6 @@
 
         <h3>Basic JavaScript Example:</h3>
         <pre>
-
-        <h3>Quiz</h3>
-        <div id="quiz-container"></div>
-        <button onclick="loadQuiz('CSS')">Start Quiz</button>
-
             <code>
 function greet() {
     alert("Hello, World!");
@@ -47,18 +31,24 @@ function greet() {
         </pre>
 
         <h3>Try It Yourself</h3>
-        
-        <div id="code-editor"></div>
+        <textarea id="js-code" rows="5" cols="50">alert("Hello, World!");</textarea>
         <br>
         <button onclick="runJS()">Run JavaScript</button>
 
         <h3>Console Output:</h3>
         <iframe id="js-output"></iframe>
 
+        <h3>JavaScript Quiz</h3>
+        <div id="js-quiz-container"></div>
+        <button onclick="loadQuiz('js')">Start Quiz</button>
+        <div id="js-quiz-container"></div>
+        <button onclick="markCompleted('js')">Mark as Completed</button>
+
+        
         <h3>Mark as Completed</h3>
         <button onclick="markCompleted('js')">Mark as Completed</button>
     </main>
-
+    <script src="../quiz.js"></script>
     <script src="../script.js"></script>
 </body>
 </html>
