@@ -44,19 +44,42 @@ function checkProgress() {
 window.onload = checkProgress;
 
 // ✅ New Dark Mode Toggle (Using Switch)
+
+//document.addEventListener("DOMContentLoaded", function () {
+   // const darkModeToggle = document.getElementById("color_mode");
+    //const body = document.body;
+
+    // Check if dark mode is enabled in localStorage
+    //if (localStorage.getItem("dark-mode") === "enabled") {
+     //   body.classList.add("dark-mode");
+     //   darkModeToggle.checked = true;
+    //}
+
+    // Toggle dark mode when clicking the switch
+   // darkModeToggle.addEventListener("change", () => {
+   //     if (darkModeToggle.checked) {
+   //         body.classList.add("dark-mode");
+   //         localStorage.setItem("dark-mode", "enabled");
+   //     } else {
+  //          body.classList.remove("dark-mode");
+  //          localStorage.setItem("dark-mode", "disabled");
+  //      }
+  //  });
+//});
+
 document.addEventListener("DOMContentLoaded", function () {
-    const darkModeToggle = document.getElementById("color_mode");
+    const toggleSwitch = document.getElementById("dark-mode-toggle");
     const body = document.body;
 
     // Check if dark mode is enabled in localStorage
     if (localStorage.getItem("dark-mode") === "enabled") {
         body.classList.add("dark-mode");
-        darkModeToggle.checked = true;
+        toggleSwitch.checked = true;
     }
 
-    // Toggle dark mode when clicking the switch
-    darkModeToggle.addEventListener("change", () => {
-        if (darkModeToggle.checked) {
+    // Event listener for the toggle button
+    toggleSwitch.addEventListener("change", () => {
+        if (toggleSwitch.checked) {
             body.classList.add("dark-mode");
             localStorage.setItem("dark-mode", "enabled");
         } else {
@@ -65,6 +88,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+
 
 // ✅ Quiz Functionality with Pop-up Message for Wrong Answers
 function loadQuiz(topic) {
