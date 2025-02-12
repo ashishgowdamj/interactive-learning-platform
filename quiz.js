@@ -4,9 +4,16 @@ const quizData = {
         { question: "Which tag is used for creating a hyperlink?", options: ["<a>", "<link>", "<href>"], answer: "<a>" }
     ],
     css: [
-        { question: "What does CSS stand for?", options: ["Cascading Style Sheets", "Creative Style Sheets", "Computer Style System"], answer: "Cascading Style Sheets" },
-        { question: "Which property changes text color in CSS?", options: ["color", "text-color", "font-color"], answer: "color" },
-        { question: "Which property is used to change the background color?", options: ["color", "bg-color", "background-color"], answer: "background-color" }
+        { question: "What does CSS stand for?", options: ["Cascading Style Sheets", "Creative Style Sheets", "Computer Style System", "Colorful Style Sheets"], answer: "Cascading Style Sheets" },
+        { question: "Which property changes text color in CSS?", options: ["color", "text-color", "font-color", "fg-color"], answer: "color" },
+        { question: "Which property is used to change the background color?", options: ["color", "bg-color", "background-color", "bg-color"], answer: "background-color" },
+        { question: "How do you add a comment in CSS?", options: ["<!-- this is a comment -->", " // this is a comment", "/* this is a comment */", "# this is a comment"], answer: "/* this is a comment */" },
+        { question: "How do you select an element with id 'header'?", options: ["#header", ".header", "header", "*header"], answer: "#header" },
+        { question: "Which property is used to change the font of an element?", options: ["font-family", "font-style", "font-weight", "font-size"], answer: "font-family" },
+        { question: "How do you make each word in a text start with a capital letter?", options: ["text-transform: capitalize", "text-transform: uppercase", "text-transform: lowercase", "text-transform: initial"], answer: "text-transform: capitalize" },
+        { question: "Which property is used to change the space between lines of text?", options: ["spacing", "line-height", "line-spacing", "text-spacing"], answer: "line-height" },
+        { question: "How do you select elements with class name 'intro'?", options: ["#intro", ".intro", "intro", "*intro"], answer: ".intro" },
+        { question: "Which property is used to change the left margin of an element?", options: ["margin-left", "padding-left", "indent-left", "space-left"], answer: "margin-left" }
     ],
     js: [
         { question: "Which keyword is used to declare a variable in JavaScript?", options: ["var", "int", "string"], answer: "var" },
@@ -37,18 +44,42 @@ function loadQuiz(topic) {
     }
 
     function checkAnswer(answer) {
-        if (answer === currentQuiz[currentQuestion].answer) {
-            alert("Correct!");
+        const quizContainer = document.getElementById(`${topic}-quiz-container`);
+    
+        // Remove old feedback if it exists
+        let existingMessage = document.getElementById("quiz-message");
+        if (existingMessage) existingMessage.remove();
+    
+        // Create a new message element
+        let messageDiv = document.createElement("div");
+        messageDiv.id = "quiz-message";
+    
+        if (answer === quizData[topic][currentQuestion].answer) {
+            messageDiv.innerHTML = `<p class="correct">✅ Correct!</p>`;
+    
+            // Increase score based on topic
+            let currentScore = parseInt(localStorage.getItem(topic + "Score") || 0);
+            localStorage.setItem(topic + "Score", currentScore + 10); // Add 10 points per correct answer
         } else {
-            alert("Incorrect! Try again.");
+            messageDiv.innerHTML = `<p class="incorrect">❌ Incorrect! Try again.</p>`;
         }
-        currentQuestion++;
-        if (currentQuestion < currentQuiz.length) {
-            displayQuestion();
-        } else {
-            quizContainer.innerHTML = "<h3>Quiz Completed!</h3>";
-        }
+    
+        // Append the message below the question
+        quizContainer.appendChild(messageDiv);
+    
+        // Move to next question after a delay
+        setTimeout(() => {
+            messageDiv.remove(); // Remove feedback message
+    
+            currentQuestion++; // Move to next question
+            if (currentQuestion < quizData[topic].length) {
+                displayQuestion(); // Show next question
+            } else {
+                quizContainer.innerHTML = "<h3>🎉 Quiz Completed!</h3>";
+            }
+        }, 1500);
     }
+    
 
     displayQuestion();
 }

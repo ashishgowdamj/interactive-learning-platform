@@ -8,6 +8,12 @@
 <body>
     <header>
         <h1 class = "styled-heading">Interactive Learning Platform</h1>
+        <div class="welcome-container">
+            <h2>Welcome, <span id="username-display">Guest</span>!</h2>
+            <input type="text" id="username-input" placeholder="Enter your name" />
+            <button onclick="saveUsername()">Save</button>
+        </div>
+        
 
 <!-------------       <div class="btn-container">
             <svg viewBox="0 0 16 16" class="bi bi-sun-fill" fill="currentColor" width="23">
@@ -31,6 +37,8 @@
             <label for="checkbox" class="label"> </label>
           </div> -->
 
+
+          <!---
           <nav class="styled-nav">
             <ul>
                 <li><a href="lessons/html.html" class="btn">HTML</a></li>
@@ -38,6 +46,8 @@
                 <li><a href="lessons/js.html" class="btn">JavaScript</a></li>
             </ul>
         </nav>
+
+    -->
         
         <!-- <button id="dark-mode-toggle">🌙 Dark Mode</button> -->
         
@@ -54,12 +64,70 @@
 
     <main>
         <h2>Choose a topic to start learning:</h2>
-        <ul>
-            <li><a href="lessons/html.html">HTML</a> <span id="html-status"></span></li>
-            <li><a href="lessons/css.html">CSS</a> <span id="css-status"></span></li>
-            <li><a href="lessons/js.html">JavaScript</a> <span id="js-status"></span></li>
-        </ul>
-        <button onclick="resetProgress()">Reset Progress</button>
+        <div class="btn-group">
+            <button class="btn left" onclick="saveRecentActivity('HTML'); setTimeout(() => location.href='lessons/html.html', 100);">HTML</button>
+            <button class="btn middle" onclick="saveRecentActivity('CSS'); setTimeout(() => location.href='lessons/css.html', 100);">CSS</button>
+            <button class="btn right" onclick="saveRecentActivity('JavaScript'); setTimeout(() => location.href='lessons/js.html', 100);">JavaScript</button>
+        </div>
+        
+        
+    <!--    <button onclick="resetProgress()">Reset Progress</button> -->
+    
+
+
+    <div class="dashboard-container">
+        <div class="score-container">
+            <h2>Your Scores</h2>
+            <p>HTML Score: <span id="html-score-display">0</span></p>
+            <p>CSS Score: <span id="css-score-display">0</span></p>
+            <p>JavaScript Score: <span id="js-score-display">0</span></p>
+            <h2 id="score-display">Total Score: 0</h2>
+            <button onclick="resetScores()">Reset Scores</button>
+        </div>
+
+    
+      <!---  <h2 id="score-display">Total Score: 0</h2>-->
+      <!--  <button onclick="resetScore()">Reset Score</button>  --->
+
+        <section id="dashboard">
+            <h2>Your Learning Dashboard</h2>
+            <div class="progress-container">
+                <p>HTML: <span id="html-status">Not started</span></p>
+                <p>CSS: <span id="css-status">Not started</span></p>
+                <p>JavaScript: <span id="js-status">Not started</span></p>
+            </div>
+        
+            <h3>Daily Challenge</h3>
+            <p id="daily-challenge">Loading...</p>
+        </section>
+    </div>
+
+    <section id="recent-activity">
+        <h2>Recent Activity</h2>
+        <p id="recent-topic">No recent activity.</p>
+    </section>
+    
+    <div class="stats-container">
+        <div class="streak-container">
+            <h2>Your Learning Streak 🔥</h2>
+            <p id="streak-count">Streak: 0 days</p>
+        </div>
+    
+        <div class="progress-container">
+            <h2>Course Progress 📊</h2>
+            <div class="progress-bar">
+                <div class="progress" id="progress-bar" style="width: 0%;"></div>
+            </div>
+            <p id="progress-text">0% Completed</p>
+        </div>
+    
+        <div class="quote-container">
+            <h2>Motivational Quote 💡</h2>
+            <p id="quote-text">Loading...</p>
+        </div>
+    </div>
+        
+
     </main>
     <script src="script.js"></script>
 </body>

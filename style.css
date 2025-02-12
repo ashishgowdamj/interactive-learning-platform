@@ -426,7 +426,7 @@ h1:active {
 .btn-container {
     position: absolute;
     right: 20px;
-    bottom: 800px;
+    bottom:800px;
     display: flex;
     align-items: center;
 }
@@ -622,4 +622,142 @@ h1:active {
 
 .input:checked + .slider:before {
     transform: translateX(30px);
+}
+
+#dashboard {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.progress-container p {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#daily-challenge {
+    font-style: italic;
+    color: #007bff;
+}
+
+.score-container {
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.score-container p {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#score-display {
+    color: #007bff;
+    font-size: 22px;
+}
+
+.correct {
+    color: green;
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.incorrect {
+    color: red;
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.dashboard-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    margin-top: 20px;
+}
+
+.score-container,
+#dashboard {
+    width: 45%;
+    min-height: 250px; /* Ensures both boxes have equal height */
+    text-align: center;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Centers content inside the boxes */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+}
+
+/* Default light mode styling */
+.score-container,
+#dashboard {
+    background-color: #f9f9f9;
+    color: #000; /* Ensure text is black in light mode */
+}
+
+/* Dark mode styles */
+.dark-mode .score-container,
+.dark-mode #dashboard {
+    background-color: #222; /* Dark background for dark mode */
+    color: #fff; /* White text for readability */
+}
+
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background-color: #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.progress {
+    height: 100%;
+    background-color: #4caf50;
+    width: 0%;
+    transition: width 0.5s ease-in-out;
+}
+
+.stats-container {
+    display: flex;
+    justify-content: space-between; /* Distributes items evenly */
+    align-items: stretch;
+    text-align: center;
+    margin-top: 20px;
+    gap: 20px;
+}
+
+.streak-container,
+.progress-container,
+.quote-container {
+    width: 30%; /* Each section takes equal width */
+    min-height: 180px; /* Ensures equal height */
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Ensure all boxes expand to the same height dynamically */
+.stats-container > div {
+    flex: 1; /* Makes sure all sections are equal in height */
+}
+
+/* Dark mode adjustments */
+.dark-mode .streak-container,
+.dark-mode .progress-container,
+.dark-mode .quote-container {
+    background-color: #222;
+    color: #fff;
 }
