@@ -136,12 +136,24 @@ function loadQuiz(topic) {
     }
 
     function checkAnswer(answer) {
+        let correctSound = document.getElementById("correct-sound");
+        let wrongSound = document.getElementById("wrong-sound");
+
         const quizContainer = document.getElementById(`${topic}-quiz-container`);
         let messageDiv = document.getElementById("quiz-message");
+        
         if (!messageDiv) {
             messageDiv = document.createElement("div");
             messageDiv.id = "quiz-message";
             quizContainer.appendChild(messageDiv);
+        }
+
+        if (answer === currentQuiz[currentQuestion].answer) {
+            correctSound.currentTime = 0;
+            correctSound.play().catch(err => console.error("❌ Error playing correct sound:", err));
+        } else {
+            wrongSound.currentTime = 0;
+            wrongSound.play().catch(err => console.error("❌ Error playing wrong sound:", err));
         }
 
         if (answer === currentQuiz[currentQuestion].answer) {
@@ -329,3 +341,4 @@ function displayQuote() {
 
 // Show a random quote when the page loads
 document.addEventListener("DOMContentLoaded", displayQuote);
+
