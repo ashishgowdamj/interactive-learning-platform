@@ -761,3 +761,35 @@ h1:active {
     background-color: #222;
     color: #fff;
 }
+
+textarea {
+    width: 40%;
+    height: 100px;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    background-color: #1e1e1e; /* Dark background */
+    color: #fff; /* White text */
+    border: 2px solid #4ca3af; /* Green border */
+    border-radius: 8px; /* Rounded corners */
+    padding: 10px;
+    resize: none; /* Allow resizing */
+    outline: none;
+    transition: all 0.3s ease-in-out;
+    min-height: 50px;
+    max-height: 500px;
+    overflow-y: hidden;
+
+}
+
+/* Add glow effect on focus */
+textarea:focus {
+    border-color: #00d1b2;
+    box-shadow: 0 0 10px #00d1b2;
+}
+
+/* Light mode */
+body:not(.dark-mode) textarea {
+    background-color: #f4f4f4;
+    color: #333;
+    border-color: #333;
+}

@@ -1,7 +1,17 @@
 const quizData = {
     html: [
-        { question: "What does HTML stand for?", options: ["Hyper Text Markup Language", "Home Tool Markup Language", "Hyperlinks and Text Markup Language"], answer: "Hyper Text Markup Language" },
-        { question: "Which tag is used for creating a hyperlink?", options: ["<a>", "<link>", "<href>"], answer: "<a>" }
+        { question: "1. What does HTML stand for?", options: ["Hyper Text Markup Language", "Home Tool Markup Language", "Hyperlinks and Text Markup Language"], answer: "Hyper Text Markup Language" },
+        { question: "2. Which tag is used for creating a hyperlink?", options: ["<a>", "<link>", "<href>"], answer: "<a>" },
+        { question: "3. Which HTML tag is used to define an unordered list?", options: ["<ul>", "<ol>", "<li>" , "<list>"], answer: "<ul>" },
+        { question: "4. What is the correct HTML tag for inserting a line break?", options: ["<br>", "<lb>", "<break>" , "<newline>"], answer: "<br>" },
+        { question: "5. Which attribute is used to specify an image source in an <img> tag?", options: ["<href>", "<src>", "<alt>" , "<title>"], answer: "<src>" },
+        { question: "6. Which HTML tag is used to define a table row?", options: ["<tr>", "<td>", "<th>" , "<row>"], answer: "<tr>" },
+        { question: "7. Which doctype declaration is correct for HTML5?", options: ["<!DOCTYPE html>", "<!DOCTYPE HTML5>", "<!DOCTYPE XHTML>" , "<!DOCTYPE document>"], answer: "<!DOCTYPE html>" },
+        { question: "8. Which HTML tag is used to create a checkbox?", options: ["<input type='checkbox'>", "<checkbox>", "<check>" , "<cb>"], answer: "<input type='checkbox'>" },
+        { question: "9. Which tag is used to define the main content of an HTML document?", options: ["<main>", "<body>", "<content>" , "<section>"], answer: "<main>" },
+        { question: "10. Which HTML tag is used to create a dropdown list?", options: ["<select>", "<dropdown>", "<option>" , "<list>"], answer: "<select>" },
+
+
     ],
     css: [
         { question: "What does CSS stand for?", options: ["Cascading Style Sheets", "Creative Style Sheets", "Computer Style System", "Colorful Style Sheets"], answer: "Cascading Style Sheets" },
@@ -15,9 +25,18 @@ const quizData = {
         { question: "How do you select elements with class name 'intro'?", options: ["#intro", ".intro", "intro", "*intro"], answer: ".intro" },
         { question: "Which property is used to change the left margin of an element?", options: ["margin-left", "padding-left", "indent-left", "space-left"], answer: "margin-left" }
     ],
+
     js: [
-        { question: "Which keyword is used to declare a variable in JavaScript?", options: ["var", "int", "string"], answer: "var" },
-        { question: "Which function is used to print in JavaScript?", options: ["console.log()", "print()", "echo()"], answer: "console.log()" }
+        { question: "1. What is the correct syntax to declare a JavaScript variable?", options: ["var x;", "variable x;", "v x;", "let x;"], answer: "var x;" },
+        { question: "2. Which keyword is used to define a constant variable in JavaScript?", options: ["const", "var", "let", "constant"], answer: "const" },
+        { question: "3. How do you write a comment in JavaScript?", options: ["<!-- This is a comment -->", "// This is a comment", "' This is a comment", "/* This is a comment */"], answer: "// This is a comment" },
+        { question: "4. How do you create a function in JavaScript?", options: ["function: myFunction()", "function myFunction()", "def myFunction()", "create myFunction()"], answer: "function myFunction()" },
+        { question: "5. How do you call a function named 'myFunction'?", options: ["call myFunction();", "myFunction();", "execute myFunction();", "run myFunction();"], answer: "myFunction();" },
+        { question: "6. Which operator is used to assign a value to a variable?", options: ["=", "==", "===", ":"], answer: "=" },
+        { question: "7. How do you check the type of a variable in JavaScript?", options: ["typeof", "typeOf", "checkType", "getType"], answer: "typeof" },
+        { question: "8. Which symbol is used for strict equality comparison?", options: ["==", "===", "=", "!=="], answer: "===" },
+        { question: "9. How do you write an array in JavaScript?", options: ["let arr = (1,2,3);", "let arr = [1,2,3];", "let arr = {1,2,3};", "let arr = <1,2,3>;"], answer: "let arr = [1,2,3];" },
+        { question: "10. What will 'console.log(typeof [])' output?", options: ["array", "object", "list", "undefined"], answer: "object" }
     ]
 };
 

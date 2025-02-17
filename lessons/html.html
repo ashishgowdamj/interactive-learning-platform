@@ -56,9 +56,16 @@
         </pre>
 
         <h3>Try It Yourself</h3>
-        <textarea id="html-code" rows="5" cols="50"><h1>Hello World!</h1></textarea>
+        <textarea id="html-code" id="code-editor" oninput="autoResize(this)" spellcheck="false" rows="5" cols="50"><h1>Hello World!</h1></textarea>
+
+
         <br>
         <button onclick="runCode()">Run Code</button>
+
+        <h3>Code Challenge</h3>
+        <p id="challenge-text">Create an H1 tag with the text "Hello, World!"</p>
+        <button onclick="checkHTMLChallenge()">Submit Challenge</button>    
+        <p id="challenge-feedback"></p>
 
         <h3>Output:</h3>
         <iframe id="output"></iframe>

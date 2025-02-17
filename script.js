@@ -24,7 +24,6 @@ function applyCSS() {
     outputFrame.close();
 }
 
-
 // Function to execute JavaScript separately
 function runJS() {
     let jsCode = document.getElementById("js-code").value;
@@ -133,6 +132,9 @@ function loadQuiz(topic) {
         let messageDiv = document.createElement("div");
         messageDiv.id = "quiz-message";
         quizContainer.appendChild(messageDiv);
+        
+        // ✅ Scroll to the quiz container smoothly
+    quizContainer.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
     function checkAnswer(answer) {
@@ -341,4 +343,72 @@ function displayQuote() {
 
 // Show a random quote when the page loads
 document.addEventListener("DOMContentLoaded", displayQuote);
+
+//validate user HTML code to check the answer
+
+function checkHTMLChallenge() {
+    let userCode = document.getElementById("html-code").value.trim();
+    let expectedCode = '<h1>Hello, World!</h1>';
+
+    if (userCode === expectedCode) {
+        document.getElementById("challenge-feedback").innerHTML = "✅ Correct!";
+        localStorage.setItem("htmlChallengeCompleted", "true");
+    } else {
+        document.getElementById("challenge-feedback").innerHTML = "❌ Try Again!";
+    }
+}
+
+// Check if challenge was completed before
+document.addEventListener("DOMContentLoaded", () => {
+    if (localStorage.getItem("htmlChallengeCompleted") === "true") {
+        document.getElementById("challenge-feedback").innerHTML = "🎉 Challenge Completed!";
+    }
+});
+
+//validate user CSS code to check the answer
+
+function checkCSSChallenge() {
+    let userCode = document.getElementById("css-code").value.trim();
+    let expectedCode = "h1 { color: red; }";
+
+    if (userCode === expectedCode) {
+        document.getElementById("challenge-feedback").innerHTML = "✅ Correct!";
+        localStorage.setItem("cssChallengeCompleted", "true");
+    } else {
+        document.getElementById("challenge-feedback").innerHTML = "❌ Try Again!";
+    }
+}
+
+// Check if challenge was completed before
+document.addEventListener("DOMContentLoaded", () => {
+    if (localStorage.getItem("cssChallengeCompleted") === "true") {
+        document.getElementById("challenge-feedback").innerHTML = "🎉 Challenge Completed!";
+    }
+});
+
+//vaalidatee js challenge
+
+function checkJSChallenge() {
+    let jsCode = document.getElementById("js-code").value.trim();
+
+    if (jsCode.includes("return 'Hello, World!'")) {
+        document.getElementById("challenge-feedback").innerHTML = "✅ Correct!";
+        localStorage.setItem("jsChallengeCompleted", "true");
+    } else {
+        document.getElementById("challenge-feedback").innerHTML = "❌ Try Again!";
+    }
+}
+
+// Check progress on page load
+document.addEventListener("DOMContentLoaded", () => {
+    if (localStorage.getItem("jsChallengeCompleted") === "true") {
+        document.getElementById("challenge-feedback").innerHTML = "🎉 Challenge Completed!";
+    }
+});
+
+//adjust height atomatically
+function autoResize(textarea) {
+    textarea.style.height = "auto"; // Reset height
+    textarea.style.height = textarea.scrollHeight + "px"; // Set new height
+}
 
