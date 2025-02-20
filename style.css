@@ -1021,3 +1021,157 @@ textarea, iframe {
     0% { transform: scale(1); }
     100% { transform: scale(1.05); }
 }
+
+    .quote-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
+    
+    .quote-card {
+      width: 220px;
+      height: 200px;
+      background: linear-gradient(135deg, rgb(183, 226, 25), rgb(127, 155, 29));
+      font-family: inherit;
+      position: relative;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      transition: transform 0.3s ease-in-out;
+    }
+    
+    .quote-card:hover {
+      transform: scale(1.05);
+    }
+
+    .quote-container {
+        background: none !important;
+
+    }
+
+    .quote-card {
+        background-color: transparent !important;
+        box-shadow: none !important;
+    }
+    
+    /* ✅ Override any existing .card styles */
+    .quote-container .card {
+        background: none !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+    
+    .card-name {
+      text-transform: uppercase;
+      font-weight: 700;
+      color: white;
+      padding-bottom: 10px;
+      font-size: 16px;
+    }
+    
+    .quote {
+      color: rgba(255, 255, 255, 0.8);
+      margin-top: 10px;
+    }
+    
+    .quote-text {
+      font-size: 18px;
+      font-weight: 900;
+      color: #f0f0f0;
+      margin-top: 20px;
+      min-height: 60px;
+    }
+    
+    .quote-author {
+      font-weight: 700;
+      color: #d9ffcc;
+      opacity: 0;
+      transition: 0.5s;
+    }
+    
+    .quote-card:hover .quote-author {
+      opacity: 1;
+    }
+
+.stats-container {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    text-align: center;
+    margin-top: 20px;
+    gap: 20px;
+    background: none; /* Ensure no unwanted background */
+    padding: 0;
+}
+
+.streak-card {
+    width: 220px;
+    height: 200px;
+    background: linear-gradient(135deg, rgb(255, 140, 0), rgb(255, 94, 0));
+    font-family: inherit;
+    position: relative;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.streak-card:hover {
+    transform: scale(1.05);
+}
+
+.card-name {
+    text-transform: uppercase;
+    font-weight: 700;
+    color: white;
+    padding-bottom: 10px;
+    font-size: 16px;
+}
+
+.streak-count {
+    font-size: 22px;
+    font-weight: bold;
+    color: #fefefe;
+    margin-top: 10px;
+}
+
+.streak-info {
+    font-size: 14px;
+    font-weight: 500;
+    color: #ffddcc;
+    margin-top: 20px;
+    opacity: 0;
+    transition: 0.5s;
+}
+
+.streak-card:hover .streak-info {
+    opacity: 1;
+}
+
+/* Make each box take equal width */
+.streak-container,
+.flip-card,
+.quote-container {
+    width: 30%;
+    min-height: 180px;
+    background: transparent;
+    box-shadow: none; /* Remove unwanted shadow */
+    border: none;
+}
+
+/* Ensure all boxes expand to the same height */
+.stats-container > div {
+    flex: 1;
+}
+
+/* Dark mode adjustments */
+.dark-mode .streak-container,
+.dark-mode .flip-card,
+.dark-mode .quote-container {
+    background: none;
+    box-shadow: none;
+}
+

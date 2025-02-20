@@ -76,7 +76,7 @@ function toggleCompletion(topic) {
         localStorage.setItem(`${topic}_completed`, "true");
         button.innerText = "🎉 Completed!";
         button.classList.add("completed"); // Apply completed style
-        if (statusText) statusText.innerText = "✔ Completed";
+        if (statusText) statusText.innerText = "Completed";
     }
 }
 
@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function checkProgress() {
     ["html", "css", "js"].forEach(topic => {
         if (localStorage.getItem(topic + "_completed")) {
-            document.getElementById(topic + "-status").innerText = "✔ Completed";
+            document.getElementById(topic + "-status").innerText = "Completed";
         }
     });
 }
@@ -249,7 +249,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // Function to update progress in the dashboard
 function updateDashboard() {
     ["html", "css", "js"].forEach(topic => {
-        let status = localStorage.getItem(topic + "_completed") ? "✔ Completed" : "Not started";
+        let status = localStorage.getItem(topic + "_completed") ? "Completed" : "Not started";
         document.getElementById(topic + "-status").innerText = status;
     });
 }
@@ -374,16 +374,17 @@ document.addEventListener("DOMContentLoaded", updateProgress);
 
 
 const quotes = [
-    "The best way to learn is to do. - Paul Halmos",
-    "Every master was once a beginner. - Anonymous",
-    "Code is like humor. When you have to explain it, it’s bad. - Cory House",
-    "The only way to go fast is to go well. - Robert C. Martin",
-    "First, solve the problem. Then, write the code. - John Johnson"
+    { text: "The best way to learn is to do.", author: "Paul Halmos" },
+    { text: "Every master was once a beginner.", author: "Anonymous" },
+    { text: "Code is like humor. When you have to explain it, it’s bad.", author: "Cory House" },
+    { text: "The only way to go fast is to go well.", author: "Robert C. Martin" },
+    { text: "First, solve the problem. Then, write the code.", author: "John Johnson" }
 ];
 
 function displayQuote() {
     let randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-    document.getElementById("quote-text").innerText = randomQuote;
+    document.getElementById("quote-text").innerText = `"${randomQuote.text}"`;
+    document.getElementById("quote-author").innerText = `- ${randomQuote.author}`;
 }
 
 // Show a random quote when the page loads
