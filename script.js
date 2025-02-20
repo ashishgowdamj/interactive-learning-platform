@@ -413,36 +413,36 @@ function checkJSChallenge() {
     // Normalize spaces, remove extra quotes for comparison
     let cleanedCode = jsCode.replace(/\s+/g, '').replace(/"/g, "'").toLowerCase();
 
-    if (cleanedCode.includes("return'hello,world!'") || cleanedCode.includes("alert('hello,world!')")) {
+    // Check for both return and alert versions
+    let isCorrect = cleanedCode.includes("return'hello,world!'") || cleanedCode.includes("alert('hello,world!')");
+
+    if (isCorrect) {
         feedbackDiv.innerHTML = "✅ Correct!";
-        localStorage.setItem("jsChallengeCompleted", "true"); // Only save if correct
+        localStorage.setItem("jsChallengeCompleted", "true"); // Save completion
     } else {
         feedbackDiv.innerHTML = "❌ Try Again!";
-        localStorage.removeItem("jsChallengeCompleted"); // Remove if incorrect
+        localStorage.removeItem("jsChallengeCompleted"); // Reset if incorrect
     }
 }
+
 
 // Check progress on page load
 document.addEventListener("DOMContentLoaded", () => {
     let challengeStatus = localStorage.getItem("jsChallengeCompleted");
     let feedbackDiv = document.getElementById("challenge-feedback");
+    let jsCode = document.getElementById("js-code").value.trim();
+    let cleanedCode = jsCode.replace(/\s+/g, '').replace(/"/g, "'").toLowerCase();
 
-    // Reset the message if there's no valid completion
-    if (challengeStatus === "true") {
-        let jsCode = document.getElementById("js-code").value.trim();
-        let cleanedCode = jsCode.replace(/\s+/g, '').replace(/"/g, "'").toLowerCase();
+    let isCorrect = cleanedCode.includes("return'hello,world!'") || cleanedCode.includes("alert('hello,world!')");
 
-        // Ensure the user input is actually correct before marking as completed
-        if (cleanedCode.includes("return'hello,world!'") || cleanedCode.includes("alert('hello,world!')")) {
-            feedbackDiv.innerHTML = "🎉 Challenge Completed!";
-        } else {
-            feedbackDiv.innerHTML = ""; // Reset the message if the input is wrong
-            localStorage.removeItem("jsChallengeCompleted"); // Clear incorrect completion
-        }
+    if (challengeStatus === "true" && isCorrect) {
+        feedbackDiv.innerHTML = "🎉 Challenge Completed!";
     } else {
-        feedbackDiv.innerHTML = ""; // Reset message if the challenge was never completed
+        feedbackDiv.innerHTML = ""; // Reset the message if incorrect
+        localStorage.removeItem("jsChallengeCompleted"); // Clear incorrect completion
     }
 });
+
 
 //adjust height atomatically
 function autoResize(textarea) {
@@ -450,3 +450,34 @@ function autoResize(textarea) {
     textarea.style.height = textarea.scrollHeight + "px"; // Set new height
 }
 
+function updateCircularProgress() {
+    let completed = 0;
+    let total = 3; // Total number of topics (HTML, CSS, JS)
+
+    // Check how many topics are completed
+    ["html", "css", "js"].forEach(topic => {
+        if (localStorage.getItem(topic + "_completed") === "true") {
+            completed++;
+        }
+    });
+
+    let progressPercent = (completed / total) * 100; // Calculate percentage
+    let circle = document.getElementById("progress-circle");
+    let percentageText = document.getElementById("progress-percentage");
+
+    if (circle && percentageText) {  
+        let dashOffset = 283 - (progressPercent / 100) * 283; // Convert percent to stroke offset
+
+        circle.style.strokeDashoffset = dashOffset; // Animate circle fill
+        percentageText.innerText = `${progressPercent.toFixed(0)}%`; // Update percentage text
+    }
+
+    // Update the progress text
+    let progressText = document.getElementById("progress-text");
+    if (progressText) {
+        progressText.innerText = `${progressPercent.toFixed(0)}% Completed`;
+    }
+}
+
+// Run updateProgress on page load
+document.addEventListener("DOMContentLoaded", updateCircularProgress);
