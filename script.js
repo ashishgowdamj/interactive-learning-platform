@@ -508,3 +508,39 @@ function updateCircularProgress() {
 
 // Run updateProgress on page load
 document.addEventListener("DOMContentLoaded", updateCircularProgress);
+
+//pressin Enter, it will trigger the "Save" button's function
+document.getElementById("username-input").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault(); // Prevents form submission (if inside a form)
+        saveUsername(); // Calls the save function
+    }
+});
+
+function saveUsername() {
+    let usernameInput = document.getElementById("username-input").value.trim();
+    
+    if (usernameInput) {
+        localStorage.setItem("username", usernameInput);
+        document.getElementById("username-display").innerText = usernameInput;
+        
+        // Hide input and button after saving
+        document.getElementById("welcome-container").innerHTML = `<h2>Welcome, ${usernameInput}!</h2>`;
+    }
+}
+
+// Trigger save on pressing "Enter"
+function handleEnter(event) {
+    if (event.key === "Enter") {
+        saveUsername();
+    }
+}
+
+// Load saved username on page load
+document.addEventListener("DOMContentLoaded", function() {
+    let savedUsername = localStorage.getItem("username");
+    if (savedUsername) {
+        document.getElementById("username-display").innerText = savedUsername;
+        document.getElementById("welcome-container").innerHTML = `<h2>Welcome, ${savedUsername}!</h2>`;
+    }
+});

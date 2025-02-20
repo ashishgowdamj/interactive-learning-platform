@@ -8,11 +8,18 @@
 <body>
     <header>
         <h1 class = "styled-heading">Interactive Learning Platform</h1>
-        <div class="welcome-container">
+        <div class="welcome-container" id="welcome-container">
             <h2>Welcome, <span id="username-display">Guest</span>!</h2>
-            <input type="text" id="username-input" placeholder="Enter your name"/>
-            <button onclick="saveUsername()">Save</button>
+            <div class="inputContainer">
+                <input required="required" id="username-input" placeholder="Enter You Name" type="text">
+                <label class="usernameLabel" for="username-input">Name</label>
+                <svg viewBox="0 0 448 512" class="userIcon">
+                    <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"></path>
+                </svg>
+                <button class="save-btn" onclick="saveUsername()">Save</button>
+            </div>
         </div>
+        
         
 
 <!-------------       <div class="btn-container">
