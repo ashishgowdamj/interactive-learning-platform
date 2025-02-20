@@ -72,10 +72,37 @@
     <main>
         <h2>Choose a topic to start learning:</h2>
         <div class="btn-group">
-            <button class="btn left" onclick="saveRecentActivity('HTML'); setTimeout(() => location.href='lessons/html.html', 100);">HTML</button>
-            <button class="btn middle" onclick="saveRecentActivity('CSS'); setTimeout(() => location.href='lessons/css.html', 100);">CSS</button>
-            <button class="btn right" onclick="saveRecentActivity('JavaScript'); setTimeout(() => location.href='lessons/js.html', 100);">JavaScript</button>
+            <button class="btn html-btn" onclick="saveRecentActivity('HTML'); setTimeout(() => location.href='lessons/html.html', 100);">
+                <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+                    <path fill="#E44D26" d="M20.2 114.3L9.3 0h109.3l-11 114.3-43.7 12.2z"/>
+                    <path fill="#F16529" d="M64 117.1l35.3-9.8 9.4-104H64z"/>
+                    <path fill="#EBEBEB" d="M64 50.1H31.2l-2.1-11h34.9V28H20.1l.3 3.4 5.8 65.3H64v-11H35.3l-2-22.2H64z"/>
+                    <path fill="#FFF" d="M63.9 79.4h16.5l-1.6 18.2-14.9 4.1v11l27.3-7.6 1.9-20.8.3-3.4 5.3-59.3H63.9v11h21.7l-2 22.2H63.9z"/>
+                </svg>
+                HTML
+            </button>
+        
+            <button class="btn css-btn" onclick="saveRecentActivity('CSS'); setTimeout(() => location.href='lessons/css.html', 100);">
+                <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+                    <path fill="#264DE4" d="M20.2 114.3L9.3 0h109.3l-11 114.3-43.7 12.2z"/>
+                    <path fill="#2965F1" d="M64 117.1l35.3-9.8 9.4-104H64z"/>
+                    <path fill="#EBEBEB" d="M64 50.1H31.2l-2.1-11h34.9V28H20.1l.3 3.4 5.8 65.3H64v-11H35.3l-2-22.2H64z"/>
+                    <path fill="#FFF" d="M63.9 79.4h16.5l-1.6 18.2-14.9 4.1v11l27.3-7.6 1.9-20.8.3-3.4 5.3-59.3H63.9v11h21.7l-2 22.2H63.9z"/>
+                </svg>
+                CSS
+            </button>
+        
+            <button class="btn js-btn" onclick="saveRecentActivity('JavaScript'); setTimeout(() => location.href='lessons/js.html', 100);">
+                <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+                    <path fill="#F7DF1E" d="M2.1 2.1h123.7v123.7H2.1z"/>
+                    <path d="M99.3 98c-3.4 6.7-9.6 11.1-19.4 11.1-13.2 0-20.8-7.2-20.8-20.4V38h13.6v50.3c0 7.4 3.5 10.7 9 10.7 5.3 0 8.7-2.9 10.4-6.2l7.2 4.2zm-51.5 1.1c-4 0-6.4-1.5-8.2-5.5l-7.2 4.1c2.6 5.6 8.3 9.2 15.4 9.2 10.2 0 16.6-5.7 16.6-14.1 0-7.1-4.2-11.1-11.5-13.7l-2.7-1c-4.3-1.6-6.1-2.6-6.1-5.7 0-2.3 1.8-4 4.6-4 3 0 4.9 1.5 5.6 4.7l7.5-3.2c-2.3-6.7-7.5-9.8-13.4-9.8-8.3 0-14 5.3-14 12.8 0 7.9 4.8 11.6 11.3 14l2.7 1.1c4.4 1.8 6.2 3 6.2 6 0 2.7-2.1 4.7-5.4 4.7z"/>
+                </svg>
+                JavaScript
+            </button>
         </div>
+        
+        
+        
         
         
     <!--    <button onclick="resetProgress()">Reset Progress</button> -->

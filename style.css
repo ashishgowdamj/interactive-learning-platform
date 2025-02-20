@@ -1,6 +1,5 @@
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
+    font-family: "SF Pro Display", "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", sans-serif;    text-align: center;
     margin: 0;
     padding: 0;
     background-color: #ffffff;
@@ -373,7 +372,7 @@ h1:active {
     display: inline;
 }
 
-/* New Button Style for Navigation Links */
+/* New Button Style for Navigation Links 
 .btn {
     position: relative;
     font-size: 17px;
@@ -452,7 +451,7 @@ h1:active {
     cursor: pointer;
     background: #444;
 }
-
+*/
 
 /* 3rd dark mode toggle button */
 
@@ -1268,3 +1267,52 @@ textarea, iframe {
         align-items: center;
     }
 }
+
+.btn-group {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    font-family: inherit;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 17px;
+    padding: 0.8em 1.3em;
+    color: white;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+}
+
+.html-btn {
+    background: linear-gradient(to right, #f16529, #e34c26);
+}
+
+.css-btn {
+    background: linear-gradient(to right, #2965f1, #264de4);
+}
+
+.js-btn {
+    background: linear-gradient(to right, #f7df1e, #ffcc00);
+    color: black;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    opacity: 0.9;
+}
+
