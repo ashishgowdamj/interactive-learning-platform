@@ -763,7 +763,7 @@ h1:active {
 }
 
 textarea {
-    width: 40%;
+    width: 50%;
     height: 100px;
     font-family: 'Courier New', monospace;
     font-size: 16px;
@@ -792,4 +792,53 @@ body:not(.dark-mode) textarea {
     background-color: #f4f4f4;
     color: #333;
     border-color: #333;
+}
+
+.main-container {
+    display: flex;
+    flex-wrap: wrap;  /* Ensures responsiveness */
+    gap: 20px;  /* Space between sections */
+    justify-content: space-between;
+}
+
+.quiz-section, .learning-section {
+    flex: 1;
+    width: 50%; /* Makes both sections take equal space */
+    min-width: 300px; /* Ensures responsiveness on smaller screens */
+    padding: 20px;
+    box-sizing: border-box; /* Ensures padding does not add extra width */
+}
+
+/* Style for code editor and output to have equal size */
+.code-container, .output-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+iframe {
+    width: 50%;
+    height: 100px;
+    resize: none; /* Prevent manual resizing */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #ffffff;
+}
+
+/* Ensure iframe matches the textarea dynamically */
+iframe {
+    display: block;
+}
+
+textarea, iframe {
+    width: 50%;  /* Adjust width to match both */
+    height: 100px; /* Ensure equal height */
+    border: 2px solid #4ca3af;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #ffffff;
 }

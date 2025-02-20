@@ -42,12 +42,23 @@
     </header>
     
     <main>
-        <h2>Introduction to JavaScript</h2>
-        <p>JavaScript is a programming language that adds interactivity to web pages.</p>
+        <div class = "main-container">
+            <!---- Quiz Section (Left Side)-->
+            <section class = "quiz-section">
+                <h3>JavaScript Quiz</h3>
+                <button onclick="loadQuiz('js')">Start Quiz</button>
+                <div id="js-quiz-container"></div>
+                <button onclick="markCompleted('js')">Mark JavaScript as Completed</button>
+            </section>
 
-        <h3>Basic JavaScript Example:</h3>
-        <pre>
-            <code>
+            <!-- Learning Section (Right Side) -->
+            <section class="learning-section">
+                <h2>Introduction to JavaScript</h2>
+                <p>JavaScript is a programming language that adds interactivity to web pages.</p>
+
+                <h3>Basic JavaScript Example:</h3>
+                <pre>
+                    <code>
 function greet() {
     alert("Hello, World!");
 }
@@ -55,23 +66,21 @@ function greet() {
         </pre>
 
         <h3>Try It Yourself</h3>
-        <textarea id="js-code" rows="5" cols="50">alert("Hello, World!");</textarea>
-        <br>
-        <button onclick="runJS()">Run JavaScript</button>
+                <div class="code-container">
+                    <textarea id="js-code" oninput="autoResize(this)" spellcheck="false" rows="5">alert("Hello, World!");</textarea>
+                    <button onclick="applyCSS()">Run JavaScript</button>
+                </div>
 
-        <h3>Code Challenge</h3>
-        <p id="challenge-text">Write a function that returns "Hello, World!".</p>
-        <button onclick="checkJSChallenge()">Submit Challenge</button>
-        <p id="challenge-feedback"></p>
+                <h3>Output:</h3>
+                <div class="output-container">
+                    <iframe id="js-output"></iframe>
+                </div>
 
-        <h3>Console Output:</h3>
-        <iframe id="js-output"></iframe>
-
-        <h3>JavaScript Quiz</h3>
-        <button onclick="loadQuiz('js')">Start Quiz</button>
-        <div id="js-quiz-container"></div>
-
-        <button onclick="markCompleted('js')">Mark JavaScript as Completed</button>
+                <h3>Code Challenge</h3>
+                <p id="challenge-text">Make the text color red using JavaScript.</p>
+                <button onclick="checkJSChallenge()">Submit Challenge</button>    
+                <p id="challenge-feedback"></p>
+            </section>
 
         <audio id="correct-sound" src="correct.mp3"></audio>
         <audio id="wrong-sound" src="wrong.mp3"></audio>

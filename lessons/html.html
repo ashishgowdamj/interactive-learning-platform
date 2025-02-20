@@ -38,11 +38,22 @@
             </label>
         </div>
     </header>
-
     <main>
-        <h2>Introduction to HTML</h2>
-        <pre>
-            <code>
+    <div class="main-container">
+        <!-- Quiz Section (Left - 50%) -->
+        <section class="quiz-section">
+            <h3>HTML Quiz</h3>
+            <button onclick="loadQuiz('html')">Start Quiz</button>
+            <div id="html-quiz-container"></div>
+            <button onclick="markCompleted('html')">Mark HTML as Completed</button>
+        </section>
+
+        <!-- Learning Section (Right - 50%) -->
+        <section class="learning-section">
+            <h2>Introduction to HTML</h2>
+            <pre>
+                <code>
+
 &lt;!DOCTYPE html&gt;
 &lt;html&gt;
     &lt;head&gt;
@@ -56,29 +67,26 @@
         </pre>
 
         <h3>Try It Yourself</h3>
-        <textarea id="html-code" id="code-editor" oninput="autoResize(this)" spellcheck="false" rows="5" cols="50"><h1>Hello World!</h1></textarea>
-
-
-        <br>
-        <button onclick="runCode()">Run Code</button>
+        <div class="code-container">
+            <textarea id="html-code" oninput="autoResize(this)" spellcheck="false" rows="5"><h1>Hello World!</h1></textarea>
+            <button onclick="runCode()">Run Code</button>
+        </div>
+        
+        <h3>Output:</h3>
+        <div class="code-container">
+            <iframe id="output"></iframe>
+        </div>
 
         <h3>Code Challenge</h3>
         <p id="challenge-text">Create an H1 tag with the text "Hello, World!"</p>
         <button onclick="checkHTMLChallenge()">Submit Challenge</button>    
         <p id="challenge-feedback"></p>
 
-        <h3>Output:</h3>
-        <iframe id="output"></iframe>
-
-        <h3>HTML Quiz</h3>
-        <button onclick="loadQuiz('html')">Start Quiz</button>
-        <div id="html-quiz-container"></div>
-       
-        <button onclick="markCompleted('html')">Mark HTML as Completed</button>
-
         <audio id="correct-sound" src="correct.mp3"></audio>
         <audio id="wrong-sound" src="wrong.mp3"></audio>
 
+        </section>
+        </div>
     </main>
     <script src="../quiz.js"></script>
     <script src="../script.js"></script>

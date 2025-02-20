@@ -43,12 +43,22 @@
     </header>
     
     <main>
-        <h2>Introduction to CSS</h2>
-        <p>CSS (Cascading Style Sheets) is used to style HTML elements.</p>
+        <div class="main-container">
+            <!-- Quiz Section (Left Side) -->
+            <section class="quiz-section">
+                <h3>CSS Quiz</h3>
+                <button onclick="loadQuiz('css')">Start Quiz</button>
+                <div id="css-quiz-container"></div>
+                <button onclick="markCompleted('css')">Mark CSS as Completed</button>
+            </section>
 
-        <h3>Basic CSS Syntax:</h3>
-        <pre>
-            <code>
+            <!-- Learning Section (Right Side) -->
+            <section class="learning-section">
+                <h2>Introduction to CSS</h2>
+                <p>CSS (Cascading Style Sheets) is used to style HTML elements.</p>
+                <h3>Basic CSS Syntax:</h3>
+                <pre>
+                    <code>
 body {
     background-color: lightblue;
     font-family: Arial, sans-serif;
@@ -57,23 +67,21 @@ body {
         </pre>
 
         <h3>Try It Yourself</h3>
-        <textarea id="css-code" rows="5" cols="50">body { background-color: lightblue; }</textarea>
-        <br>
-        <button onclick="applyCSS()">Apply CSS</button>
+        <div class="code-container">
+            <textarea id="css-code" oninput="autoResize(this)" spellcheck="false" rows="5">body { background-color: lightblue; }</textarea>
+            <button onclick="applyCSS()">Apply CSS</button>
+        </div>
+
+        <h3>Output:</h3>
+                <div class="output-container">
+                    <iframe id="css-output"></iframe>
+                </div>
 
         <h3>Code Challenge</h3>
         <p id="challenge-text">Make the text color red using CSS.</p>
-        <button onclick="checkCSSChallenge()">Submit Challenge</button>
+        <button onclick="checkCSSChallenge()">Submit Challenge</button>    
         <p id="challenge-feedback"></p>
-
-        <h3>Output:</h3>
-        <iframe id="css-output"></iframe>
-
-        <h3>CSS Quiz</h3>
-        <button onclick="loadQuiz('css')">Start Quiz</button>
-        <div id="css-quiz-container"></div>
-
-        <button onclick="markCompleted('css')">Mark CSS as Completed</button>
+    </section>
 
         <audio id="correct-sound" src="correct.mp3"></audio>
         <audio id="wrong-sound" src="wrong.mp3"></audio>
