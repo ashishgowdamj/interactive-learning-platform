@@ -127,7 +127,7 @@ function loadQuiz(topic) {
         quizContainer.appendChild(messageDiv);
         
         // ✅ Scroll to the quiz container smoothly
-    quizContainer.scrollIntoView({ behavior: "smooth", block: "start" });
+    //quizContainer.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
     function checkAnswer(answer) {
