@@ -68,16 +68,17 @@ function greet() {
         <h3>Try It Yourself</h3>
                 <div class="code-container">
                     <textarea id="js-code" oninput="autoResize(this)" spellcheck="false" rows="5">alert("Hello, World!");</textarea>
-                    <button onclick="applyCSS()">Run JavaScript</button>
+                    <button onclick="runJS()">Run JavaScript</button>
                 </div>
 
                 <h3>Output:</h3>
-                <div class="output-container">
+                <div class="output-container"><p id="challenge-text">Write a function to return "Hello, World!".</p>
+
                     <iframe id="js-output"></iframe>
                 </div>
 
                 <h3>Code Challenge</h3>
-                <p id="challenge-text">Make the text color red using JavaScript.</p>
+                <p id="challenge-text">Write a function to return "Hello, World!".</p>
                 <button onclick="checkJSChallenge()">Submit Challenge</button>    
                 <p id="challenge-feedback"></p>
             </section>

@@ -27,20 +27,13 @@ function applyCSS() {
 // Function to execute JavaScript separately
 function runJS() {
     let jsCode = document.getElementById("js-code").value;
-    let outputFrame = document.getElementById("output").contentWindow.document;
-
-    let scriptElement = outputFrame.createElement("script");
-    scriptElement.textContent = jsCode;
-    outputFrame.body.appendChild(scriptElement);
-}
-
-function runJS() {
-    let jsCode = document.getElementById("js-code").value;
     let outputFrame = document.getElementById("js-output").contentWindow.document;
+
     outputFrame.open();
-    outputFrame.write("<script>" + jsCode + "</script>");
+    outputFrame.write("<script>" + jsCode + "<\/script>");
     outputFrame.close();
 }
+
 
 function markCompleted(topic) {
     localStorage.setItem(topic + "_completed", "true");
