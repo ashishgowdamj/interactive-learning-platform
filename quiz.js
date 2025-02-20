@@ -54,12 +54,15 @@ function loadQuiz(topic) {
         questionEl.innerText = currentQuiz[currentQuestion].question;
         quizContainer.appendChild(questionEl);
 
+        //function for quiz appearing vertical
         currentQuiz[currentQuestion].options.forEach(option => {
             let button = document.createElement("button");
             button.innerText = option;
-            button.onclick = () => checkAnswer(option);
+            button.classList.add("quiz-option"); // Add class for styling
+            button.onclick = () => checkAnswer(option, button);
             quizContainer.appendChild(button);
         });
+        
     }
 
     function checkAnswer(answer) {
