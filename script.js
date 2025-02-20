@@ -30,9 +30,35 @@ function runJS() {
     let outputFrame = document.getElementById("js-output").contentWindow.document;
 
     outputFrame.open();
-    outputFrame.write("<script>" + jsCode + "<\/script>");
+    outputFrame.write(`
+        <html>
+        <head><script>
+        try {
+            console.log = function(message) {
+                let outputDiv = document.getElementById('console');
+                if (outputDiv) {
+                    outputDiv.innerHTML = "✅ Check Console"; // Show "Check Console"
+                }
+                console.defaultLog(message); // Still log to browser console
+            };
+            console.defaultLog = console.log.bind(console); // Keep default console.log
+            ${jsCode} // Run user JS
+        } catch (error) {
+            document.getElementById('console').innerHTML = "❌ Error: " + error.message;
+        }
+        </script>
+        </head>
+        <body>
+            <div id="console" style="background:white; color:red; padding:10px; height:30px; overflow-y:auto; font-family:monospace; border-radius:5px; text-align:center; font-size:20px;">
+                Console Output ⬆️
+            </div>
+        </body>
+        </html>
+    `);
     outputFrame.close();
 }
+
+
 
 
 function markCompleted(topic) {
