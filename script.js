@@ -362,7 +362,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function checkCSSChallenge() {
     let userCode = document.getElementById("css-code").value.trim();
-    let expectedCode = "h1 { color: red; }";
+    let expectedCode = "body { background-color: red; }";
 
     if (userCode === expectedCode) {
         document.getElementById("challenge-feedback").innerHTML = "✅ Correct!";
@@ -384,7 +384,11 @@ document.addEventListener("DOMContentLoaded", () => {
 function checkJSChallenge() {
     let jsCode = document.getElementById("js-code").value.trim();
 
-    if (jsCode.includes("return 'Hello, World!'")) {
+    // Normalize spaces and quotes for better matching
+    let cleanedCode = jsCode.replace(/\s+/g, '').replace(/"/g, "'").toLowerCase();
+
+    // Allow both return and alert solutions
+    if (cleanedCode.includes("return'hello,world!'") || cleanedCode.includes("alert('hello,world!')")) {
         document.getElementById("challenge-feedback").innerHTML = "✅ Correct!";
         localStorage.setItem("jsChallengeCompleted", "true");
     } else {
