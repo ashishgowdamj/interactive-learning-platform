@@ -45,7 +45,10 @@
             <h3>HTML Quiz</h3>
             <button onclick="loadQuiz('html')">Start Quiz</button>
             <div id="html-quiz-container"></div>
-            <button onclick="markCompleted('html')">Mark HTML as Completed</button>
+            <button id="mark-completed-html" class="completed-btn" onclick="toggleCompletion('html')">
+                ✅ Mark as Completed
+            </button>
+            
         </section>
 
         <!-- Learning Section (Right - 50%) -->

@@ -61,10 +61,36 @@ function runJS() {
 
 
 
-function markCompleted(topic) {
-    localStorage.setItem(topic + "_completed", "true");
-    document.getElementById(topic + "-status").innerText = "✔ Completed";
+function toggleCompletion(topic) {
+    let button = document.getElementById(`mark-completed-${topic}`);
+    let statusText = document.getElementById(`${topic}-status`);
+
+    if (localStorage.getItem(`${topic}_completed`) === "true") {
+        // Unmark as completed
+        localStorage.removeItem(`${topic}_completed`);
+        button.innerText = "✅ Mark as Completed";
+        button.classList.remove("completed"); // Remove completed style
+        if (statusText) statusText.innerText = "Not started";
+    } else {
+        // Mark as completed
+        localStorage.setItem(`${topic}_completed`, "true");
+        button.innerText = "🎉 Completed!";
+        button.classList.add("completed"); // Apply completed style
+        if (statusText) statusText.innerText = "✔ Completed";
+    }
 }
+
+// Ensure the button reflects completion state on page load
+document.addEventListener("DOMContentLoaded", () => {
+    ["html", "css", "js"].forEach(topic => {
+        let button = document.getElementById(`mark-completed-${topic}`);
+        if (localStorage.getItem(`${topic}_completed`) === "true" && button) {
+            button.innerText = "🎉 Completed!";
+            button.classList.add("completed");
+        }
+    });
+});
+
 
 function checkProgress() {
     ["html", "css", "js"].forEach(topic => {
