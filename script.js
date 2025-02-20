@@ -380,7 +380,7 @@ function checkHTMLChallenge() {
 // Check if challenge was completed before
 document.addEventListener("DOMContentLoaded", () => {
     if (localStorage.getItem("htmlChallengeCompleted") === "true") {
-        document.getElementById("challenge-feedback").innerHTML = "🎉 Challenge Completed!";
+        document.getElementById("challenge-feedback").innerHTML = " ";
     }
 });
 
@@ -401,31 +401,46 @@ function checkCSSChallenge() {
 // Check if challenge was completed before
 document.addEventListener("DOMContentLoaded", () => {
     if (localStorage.getItem("cssChallengeCompleted") === "true") {
-        document.getElementById("challenge-feedback").innerHTML = "🎉 Challenge Completed!";
+        document.getElementById("challenge-feedback").innerHTML = "";
     }
 });
 
 //vaalidatee js challenge
-
 function checkJSChallenge() {
     let jsCode = document.getElementById("js-code").value.trim();
+    let feedbackDiv = document.getElementById("challenge-feedback");
 
-    // Normalize spaces and quotes for better matching
+    // Normalize spaces, remove extra quotes for comparison
     let cleanedCode = jsCode.replace(/\s+/g, '').replace(/"/g, "'").toLowerCase();
 
-    // Allow both return and alert solutions
     if (cleanedCode.includes("return'hello,world!'") || cleanedCode.includes("alert('hello,world!')")) {
-        document.getElementById("challenge-feedback").innerHTML = "✅ Correct!";
-        localStorage.setItem("jsChallengeCompleted", "true");
+        feedbackDiv.innerHTML = "✅ Correct!";
+        localStorage.setItem("jsChallengeCompleted", "true"); // Only save if correct
     } else {
-        document.getElementById("challenge-feedback").innerHTML = "❌ Try Again!";
+        feedbackDiv.innerHTML = "❌ Try Again!";
+        localStorage.removeItem("jsChallengeCompleted"); // Remove if incorrect
     }
 }
 
 // Check progress on page load
 document.addEventListener("DOMContentLoaded", () => {
-    if (localStorage.getItem("jsChallengeCompleted") === "true") {
-        document.getElementById("challenge-feedback").innerHTML = "🎉 Challenge Completed!";
+    let challengeStatus = localStorage.getItem("jsChallengeCompleted");
+    let feedbackDiv = document.getElementById("challenge-feedback");
+
+    // Reset the message if there's no valid completion
+    if (challengeStatus === "true") {
+        let jsCode = document.getElementById("js-code").value.trim();
+        let cleanedCode = jsCode.replace(/\s+/g, '').replace(/"/g, "'").toLowerCase();
+
+        // Ensure the user input is actually correct before marking as completed
+        if (cleanedCode.includes("return'hello,world!'") || cleanedCode.includes("alert('hello,world!')")) {
+            feedbackDiv.innerHTML = "🎉 Challenge Completed!";
+        } else {
+            feedbackDiv.innerHTML = ""; // Reset the message if the input is wrong
+            localStorage.removeItem("jsChallengeCompleted"); // Clear incorrect completion
+        }
+    } else {
+        feedbackDiv.innerHTML = ""; // Reset message if the challenge was never completed
     }
 });
 
