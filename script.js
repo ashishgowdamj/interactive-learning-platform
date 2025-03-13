@@ -544,3 +544,72 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("welcome-container").innerHTML = `<h2>Welcome, ${savedUsername}!</h2>`;
     }
 });
+
+// Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyD3aID5tKRDGqCMDTdnc0QgCBk1Y0l3vlM",
+    authDomain: "interactive-learning-pla-8c6ae.firebaseapp.com",
+    projectId: "interactive-learning-pla-8c6ae",
+    storageBucket: "interactive-learning-pla-8c6ae.appspot.com",
+    messagingSenderId: "396467298850",
+    appId: "1:396467298850:web:ee69b8272964fc5045607b"
+  };
+  
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const auth = firebase.auth();
+  
+  // Function to save user progress to Firestore
+  function saveUserProgress(userId, userProgress) {
+      db.collection("users").doc(userId).set(userProgress, { merge: true })
+      .then(() => {
+          console.log("✅ User progress saved successfully!");
+      })
+      .catch((error) => {
+          console.error("❌ Error saving user progress: ", error);
+      });
+  }
+  
+  // Function to load user progress from Firestore
+  function loadUserProgress(userId) {
+      db.collection("users").doc(userId).get()
+      .then((doc) => {
+          if (doc.exists) {
+              const data = doc.data();
+              console.log("✅ Loaded user progress:", data);
+  
+              // Update UI with user-specific progress
+              document.getElementById("score-display").innerText = data.score || 0;
+              document.getElementById("recent-topic").innerText = `Last Activity: ${data.lastPage || "None"}`;
+          } else {
+              console.log("⚠ No user progress found, starting fresh.");
+          }
+      })
+      .catch((error) => {
+          console.error("❌ Error loading user progress: ", error);
+      });
+  }
+  
+  // Auto-save progress when user leaves or navigates
+  auth.onAuthStateChanged((user) => {
+      if (user) {
+          const userId = user.uid; // Get the unique Firebase Auth user ID
+  
+          // Load user progress from Firestore
+          loadUserProgress(userId);
+  
+          // Save progress when the user leaves the page
+          window.addEventListener("beforeunload", () => {
+              const userProgress = {
+                  lastPage: window.location.pathname, // Save last visited page
+                  lastActionTime: new Date().toISOString(), // Timestamp of last action
+                  score: parseInt(document.getElementById("score-display").innerText) || 0 // Save score dynamically
+              };
+              saveUserProgress(userId, userProgress);
+          });
+      } else {
+          console.log("❌ No user logged in. Progress will not be saved.");
+      }
+  });
+  

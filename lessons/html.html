@@ -43,7 +43,12 @@
         <!-- Quiz Section (Left - 50%) -->
         <section class="quiz-section">
             <h3>HTML Quiz</h3>
-            <button onclick="loadQuiz('html')">Start Quiz</button>
+            <button class="btn html-btn" onclick="loadQuiz('html')">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg" class="btn-icon" alt="HTML Logo">
+                Start Quiz
+            </button>
+            
+            
             <div id="html-quiz-container"></div>
             <button id="mark-completed-html" class="completed-btn" onclick="toggleCompletion('html')">
                 ✅ Mark as Completed
