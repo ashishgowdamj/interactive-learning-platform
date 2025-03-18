@@ -1,6 +1,8 @@
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { app } from "./firebase-config.js";
+import { updateDashboard, loadDailyChallenge, updateScores, updateProgress, updateStreak, displayQuote } from "./script.js";
+
 
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -30,13 +32,28 @@ async function loadUserProgress(userId) {
         const userData = userSnap.data();
         console.log("✅ Loaded user progress:", userData);
 
-        // Update UI with user-specific progress
-        document.getElementById("score-display").innerText = userData.score || 0;
-        document.getElementById("recent-topic").innerText = `Last Activity: ${userData.lastPage || "None"}`;
+        // ✅ Check if elements exist before updating them
+        if (document.getElementById("html-score-display")) {
+            document.getElementById("html-score-display").innerText = userData.htmlScore || 0;
+        }
+        if (document.getElementById("css-score-display")) {
+            document.getElementById("css-score-display").innerText = userData.cssScore || 0;
+        }
+        if (document.getElementById("js-score-display")) {
+            document.getElementById("js-score-display").innerText = userData.jsScore || 0;
+        }
+        if (document.getElementById("score-display")) {
+            document.getElementById("score-display").innerText = 
+                (userData.htmlScore || 0) + (userData.cssScore || 0) + (userData.jsScore || 0);
+        }
+        if (document.getElementById("recent-topic")) {
+            document.getElementById("recent-topic").innerText = `Last Activity: ${userData.lastPage || "None"}`;
+        }
     } else {
         console.log("⚠ No previous progress found, starting fresh.");
     }
 }
+
 
 // Logout function
 function logout() {

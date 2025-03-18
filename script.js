@@ -206,7 +206,12 @@ function loadQuiz(topic) {
         if (answer === currentQuiz[currentQuestion].answer) {
             messageDiv.innerHTML = `<p class="correct">✅ Correct!</p>`;
             let currentScore = parseInt(localStorage.getItem(topic + "Score") || 0);
-            localStorage.setItem(topic + "Score", currentScore + 10);
+            currentScore += 10;
+            localStorage.setItem(topic + "Score", currentScore);
+
+            // ✅ Update Firestore
+            updateUserScore(topic, currentScore);
+
         } else {
             messageDiv.innerHTML = `<p class="incorrect">❌ Incorrect! Try again.</p>`;
         }
@@ -544,21 +549,6 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("welcome-container").innerHTML = `<h2>Welcome, ${savedUsername}!</h2>`;
     }
 });
-
-// Firebase configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyD3aID5tKRDGqCMDTdnc0QgCBk1Y0l3vlM",
-    authDomain: "interactive-learning-pla-8c6ae.firebaseapp.com",
-    projectId: "interactive-learning-pla-8c6ae",
-    storageBucket: "interactive-learning-pla-8c6ae.appspot.com",
-    messagingSenderId: "396467298850",
-    appId: "1:396467298850:web:ee69b8272964fc5045607b"
-  };
-  
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-  const auth = firebase.auth();
   
   // Function to save user progress to Firestore
   function saveUserProgress(userId, userProgress) {
@@ -613,3 +603,106 @@ const firebaseConfig = {
       }
   });
   
+// ✅ Updated script.js with Firestore integration
+
+import { getFirestore, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { app } from "./firebase-config.js";
+
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+// ✅ Function to update user quiz scores in Firestore
+async function updateUserScore(topic, score) {
+    const user = auth.currentUser;
+    if (!user) {
+        console.error("❌ User not logged in");
+        return;
+    }
+
+    const userRef = doc(db, "users", user.uid);
+    try {
+        await updateDoc(userRef, { [`${topic}Score`]: score }, { merge: true });
+        console.log(`✅ ${topic} score updated in Firestore:`, score);
+    } catch (error) {
+        console.error("❌ Error updating user score:", error);
+    }
+}
+
+// ✅ Function to load user quiz scores from Firestore
+async function loadUserScores() {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    const userRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(userRef);
+
+    if (docSnap.exists()) {
+        const userData = docSnap.data();
+        console.log("✅ Loaded user scores:", userData);
+
+        document.getElementById("html-score-display").innerText = userData.htmlScore || 0;
+        document.getElementById("css-score-display").innerText = userData.cssScore || 0;
+        document.getElementById("js-score-display").innerText = userData.jsScore || 0;
+        document.getElementById("score-display").innerText = 
+            (userData.htmlScore || 0) + (userData.cssScore || 0) + (userData.jsScore || 0);
+    } else {
+        console.log("⚠ No previous scores found, setting default.");
+        await setDoc(userRef, { htmlScore: 0, cssScore: 0, jsScore: 0 }, { merge: true });
+    }
+}
+
+// ✅ Modify quiz score update logic to store in Firestore
+async function updateQuizScore(topic) {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    const userRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(userRef);
+
+    let currentScore = docSnap.exists() ? (docSnap.data()[`${topic}Score`] || 0) : 0;
+    currentScore += 10; // Increase score
+
+    await updateUserScore(topic, currentScore); // Save to Firestore
+}
+
+// ✅ Load user data after login
+auth.onAuthStateChanged((user) => {
+    if (user) {
+        loadUserScores(); // Load scores after login
+    }
+});
+
+// ✅ Attach event listeners to quiz options
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".quiz-option").forEach(option => {
+        option.addEventListener("click", function () {
+            const topic = this.dataset.topic;
+            updateQuizScore(topic);
+        });
+    });
+});
+
+export function updateDashboard() {
+    console.log("Dashboard updated!");
+}
+
+export function loadDailyChallenge() {
+    console.log("Daily challenge loaded!");
+}
+
+export function updateScores() {
+    console.log("Scores updated!");
+}
+
+export function updateProgress() {
+    console.log("Progress updated!");
+}
+
+export function updateStreak() {
+    console.log("Streak updated!");
+}
+
+export function displayQuote() {
+    console.log("Motivational quote displayed!");
+}
