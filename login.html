@@ -32,7 +32,7 @@
 
     <div class="login-container">
         <div class="login-header">
-            <h2>Welcome Back!</h2>
+            <h1>Welcome Back!</h1>
             <p>Sign in to continue your learning journey</p>
         </div>
         
@@ -80,6 +80,17 @@
     </div>
 
     <script>
+        // Check if user is already logged in
+        function checkAuth() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            if (isLoggedIn) {
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Run auth check when page loads
+        checkAuth();
+
         // Toggle password visibility
         document.querySelector('.password-toggle').addEventListener('click', function() {
             const passwordInput = document.querySelector('#password');
@@ -96,12 +107,36 @@
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const button = document.getElementById('loginButton');
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const remember = document.getElementById('remember').checked;
+
+            // Add loading state
             button.classList.add('loading');
             
-            // Simulate API call
+            // Simulate API call with validation
             setTimeout(() => {
-                button.classList.remove('loading');
-                window.location.href = 'index.html';
+                // For demo purposes, accept any email/password
+                // In a real app, you would validate against a backend
+                if (email && password) {
+                    // Set login state
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('userEmail', email);
+                    
+                    // Set remember me
+                    if (remember) {
+                        localStorage.setItem('rememberMe', 'true');
+                    } else {
+                        localStorage.removeItem('rememberMe');
+                    }
+
+                    // Redirect to home page
+                    window.location.href = 'index.html';
+                } else {
+                    // Show error state
+                    button.classList.remove('loading');
+                    alert('Please enter both email and password');
+                }
             }, 1500);
         });
     </script>

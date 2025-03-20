@@ -46,7 +46,10 @@
             <!---- Quiz Section (Left Side)-->
             <section class = "quiz-section">
                 <h3>JavaScript Quiz</h3>
-                <button onclick="loadQuiz('js')">Start Quiz</button>
+                <button class="btn js-btn" onclick="loadQuiz('js')">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg" class="btn-icon" alt="JavaScript Logo">
+                    Start Quiz
+                </button>
                 <div id="js-quiz-container"></div>
                 <button id="mark-completed-js" class="completed-btn" onclick="toggleCompletion('js')">
                     ✅ Mark as Completed

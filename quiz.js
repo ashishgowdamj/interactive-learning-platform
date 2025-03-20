@@ -41,82 +41,185 @@ const quizData = {
 };
 
 function loadQuiz(topic) {
+    console.log(`Loading quiz for topic: ${topic}`);
     const quizContainer = document.getElementById(`${topic}-quiz-container`);
-    if (!quizContainer) return;
+    if (!quizContainer) {
+        console.error(`Quiz container not found for topic: ${topic}`);
+        return;
+    }
+    console.log(`Found quiz container for ${topic}`);
     quizContainer.innerHTML = ""; // Clear previous quiz
 
     const currentQuiz = quizData[topic];
+    if (!currentQuiz) {
+        console.error(`No quiz data found for topic: ${topic}`);
+        return;
+    }
+    console.log(`Loaded quiz data for ${topic}: ${currentQuiz.length} questions`);
     let currentQuestion = 0;
+    let score = 0;
 
     function displayQuestion() {
+        console.log(`Displaying question ${currentQuestion + 1} of ${currentQuiz.length}`);
         quizContainer.innerHTML = "";
         const questionEl = document.createElement("h3");
         questionEl.innerText = currentQuiz[currentQuestion].question;
         quizContainer.appendChild(questionEl);
 
-        //function for quiz appearing vertical
-        currentQuiz[currentQuestion].options.forEach(option => {
+        const optionsContainer = document.createElement("div");
+        optionsContainer.className = "quiz-options-container";
+
+        currentQuiz[currentQuestion].options.forEach((option, index) => {
             let button = document.createElement("button");
             button.innerText = option;
-            button.classList.add("quiz-option"); // Add class for styling
-            button.onclick = () => checkAnswer(option, button);
-            quizContainer.appendChild(button);
+            button.classList.add("quiz-option");
+            button.onclick = () => checkAnswer(option);
+            optionsContainer.appendChild(button);
         });
-        
+
+        quizContainer.appendChild(optionsContainer);
+
+        // Add message div
+        let messageDiv = document.createElement("div");
+        messageDiv.id = "quiz-message";
+        quizContainer.appendChild(messageDiv);
     }
 
     function checkAnswer(answer) {
-        const quizContainer = document.getElementById(`${topic}-quiz-container`);
-    
-        // Remove old feedback if it exists
-        let existingMessage = document.getElementById("quiz-message");
-        if (existingMessage) existingMessage.remove();
-    
-        // Create a new message element
-        let messageDiv = document.createElement("div");
-        messageDiv.id = "quiz-message";
-    
-        if (answer === quizData[topic][currentQuestion].answer) {
-            messageDiv.innerHTML = `<p class="correct">✅ Correct!</p>`;
-    
-            // Increase score based on topic
-            let currentScore = parseInt(localStorage.getItem(topic + "Score") || 0);
-            localStorage.setItem(topic + "Score", currentScore + 10); // Add 10 points per correct answer
-        } else {
-            messageDiv.innerHTML = `<p class="incorrect">❌ Incorrect! Try again.</p>`;
-        }
-    
-        // Append the message below the question
-        quizContainer.appendChild(messageDiv);
-    
-        // Move to next question after a delay
-        setTimeout(() => {
-            messageDiv.remove(); // Remove feedback message
-    
-            currentQuestion++; // Move to next question
-            if (currentQuestion < quizData[topic].length) {
-                displayQuestion(); // Show next question
-            } else {
-                quizContainer.innerHTML = "<h3>🎉 Quiz Completed!</h3>";
+        console.log(`Checking answer: ${answer}`);
+        let correctSound = document.getElementById("correct-sound");
+        let wrongSound = document.getElementById("wrong-sound");
+        let messageDiv = document.getElementById("quiz-message");
+
+        if (answer === currentQuiz[currentQuestion].answer) {
+            console.log('Correct answer!');
+            // Play correct sound
+            if (correctSound) {
+                correctSound.currentTime = 0;
+                correctSound.play().catch(err => console.error("Error playing sound:", err));
             }
-        }, 1500);
+
+            // Update score
+            score += 10;
+            console.log(`New score: ${score}`);
+
+            // Update user data
+            try {
+                const userData = getUserData() || {
+                    scores: {},
+                    recentActivity: [],
+                    learningStatus: {}
+                };
+                
+                // Update the score if it's higher than the current score
+                const currentTopicScore = userData.scores[topic.toLowerCase()] || 0;
+                if (score > currentTopicScore) {
+                    userData.scores[topic.toLowerCase()] = score;
+                }
+                
+                // Add activity
+                userData.recentActivity.unshift({
+                    topic: topic,
+                    action: 'Completed question',
+                    timestamp: new Date().toISOString()
+                });
+                userData.recentActivity = userData.recentActivity.slice(0, 5); // Keep only last 5
+
+                saveUserData(userData);
+                
+                // Update all displays
+                if (typeof updateDashboard === 'function') {
+                    updateDashboard();
+                } else {
+                    // Fallback to individual updates
+                    updateScoreDisplay();
+                    updateRecentActivityDisplay();
+                }
+                
+                console.log(`Updated user data with new score: ${score}`);
+            } catch (error) {
+                console.error('Error updating user data:', error);
+            }
+
+            messageDiv.innerHTML = `<p class="correct">✅ Correct! Score: ${score}</p>`;
+
+            // Move to next question after delay
+            setTimeout(() => {
+                currentQuestion++;
+                console.log(`Moving to next question: ${currentQuestion + 1}`);
+                if (currentQuestion < currentQuiz.length) {
+                    displayQuestion();
+                } else {
+                    console.log('Quiz completed!');
+                    quizContainer.innerHTML = `
+                        <div class="quiz-completion">
+                            <h3>🎉 Quiz Completed!</h3>
+                            <p>Final Score: ${score}</p>
+                            <button class="btn" onclick="loadQuiz('${topic}')">Try Again</button>
+                        </div>
+                    `;
+                    
+                    try {
+                        const userData = getUserData() || {
+                            scores: {},
+                            recentActivity: [],
+                            learningStatus: {}
+                        };
+                        userData.learningStatus[topic.toLowerCase()] = 'Completed';
+                        saveUserData(userData);
+                        
+                        // Update all displays
+                        if (typeof updateDashboard === 'function') {
+                            updateDashboard();
+                        } else {
+                            updateLearningStatusDisplay();
+                            updateScoreDisplay();
+                        }
+                        
+                        console.log(`Updated learning status to completed for ${topic}`);
+                    } catch (error) {
+                        console.error('Error updating learning status:', error);
+                    }
+                }
+            }, 1500);
+        } else {
+            console.log('Incorrect answer');
+            // Play wrong sound
+            if (wrongSound) {
+                wrongSound.currentTime = 0;
+                wrongSound.play().catch(err => console.error("Error playing sound:", err));
+            }
+            messageDiv.innerHTML = `<p class="incorrect">❌ Incorrect! Try again.</p>`;
+
+            // Clear message after delay
+            setTimeout(() => {
+                messageDiv.innerHTML = "";
+            }, 1500);
+        }
     }
-    
 
     displayQuestion();
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    const options = document.querySelectorAll(".option"); // Select all answer options
+// Initialize displays when the quiz page loads
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Quiz page loaded, initializing displays...');
+    if (typeof updateDashboard === 'function') {
+        updateDashboard();
+    } else {
+        // Fallback to individual updates
+        updateScoreDisplay();
+        updateRecentActivityDisplay();
+        updateLearningStatusDisplay();
+        loadDailyChallenge();
+    }
+});
 
+// Remove the event listener for options since we're handling it in the quiz
+document.removeEventListener("DOMContentLoaded", function () {
+    const options = document.querySelectorAll(".option");
     options.forEach(option => {
-        option.addEventListener("click", function () {
-            const isCorrect = this.getAttribute("data-correct") === "true"; // Check correct answer
-
-            if (!isCorrect) {
-                showPopup("Wrong Answer! Try again."); // Show popup for incorrect answers
-            }
-        });
+        option.removeEventListener("click", function () {});
     });
 });
 

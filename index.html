@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,7 +8,7 @@
 </head>
 <body>
     <header>
-        <h1 class = "styled-heading">Interactive Learning Platform</h1>
+        <h1 class="styled-heading">Interactive Learning Platform</h1>
         <div class="welcome-container" id="welcome-container">
             <h2>Welcome, <span id="username-display">Guest</span>!</h2>
             <div class="inputContainer">
@@ -19,45 +20,7 @@
                 <button class="save-btn" onclick="saveUsername()">Save</button>
             </div>
         </div>
-        
-        
 
-<!-------------       <div class="btn-container">
-            <svg viewBox="0 0 16 16" class="bi bi-sun-fill" fill="currentColor" width="23">
-                <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"></path>
-            </svg>
-        
-            <label class="switch btn-color-mode-switch">
-                <input value="1" id="color_mode" name="color_mode" type="checkbox">
-                <label class="btn-color-mode-switch-inner" data-off="Light" data-on="Dark" for="color_mode"></label>
-            </label>
-        
-            <svg viewBox="0 0 16 16" class="bi bi-moon-stars-fill" fill="currentColor" width="23">
-                <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"></path>
-                <path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162z"></path>
-            </svg>
-        </div> -------->
-
-<!---- The below code is for the large dark moe toggle button ---->
-        <!-- <div class="container">
-            <input type="checkbox" name="checkbox" id="checkbox" />
-            <label for="checkbox" class="label"> </label>
-          </div> -->
-
-
-          <!---
-          <nav class="styled-nav">
-            <ul>
-                <li><a href="lessons/html.html" class="btn">HTML</a></li>
-                <li><a href="lessons/css.html" class="btn">CSS</a></li>
-                <li><a href="lessons/js.html" class="btn">JavaScript</a></li>
-            </ul>
-        </nav>
-
-    -->
-        
-        <!-- <button id="dark-mode-toggle">🌙 Dark Mode</button> -->
-        
         <div class="btn-container">
             <label class="switch">
                 <span class="sun"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="#ffd43b"><circle r="5" cy="12" cx="12"></circle><path d="m21 13h-1a1 1 0 0 1 0-2h1a1 1 0 0 1 0 2zm-17 0h-1a1 1 0 0 1 0-2h1a1 1 0 0 1 0 2zm13.66-5.66a1 1 0 0 1 -.66-.29 1 1 0 0 1 0-1.41l.71-.71a1 1 0 1 1 1.41 1.41l-.71.71a1 1 0 0 1 -.75.29zm-12.02 12.02a1 1 0 0 1 -.71-.29 1 1 0 0 1 0-1.41l.71-.66a1 1 0 0 1 1.41 1.41l-.71.71a1 1 0 0 1 -.7.24zm6.36-14.36a1 1 0 0 1 -1-1v-1a1 1 0 0 1 2 0v1a1 1 0 0 1 -1 1zm0 17a1 1 0 0 1 -1-1v-1a1 1 0 0 1 2 0v1a1 1 0 0 1 -1 1zm-5.66-14.66a1 1 0 0 1 -.7-.29l-.71-.71a1 1 0 0 1 1.41-1.41l.71.71a1 1 0 0 1 0 1.41 1 1 0 0 1 -.71.29zm12.02 12.02a1 1 0 0 1 -.7-.29l-.66-.71a1 1 0 0 1 1.36-1.36l.71.71a1 1 0 0 1 0 1.41 1 1 0 0 1 -.71.24z"></path></g></svg></span>
@@ -66,7 +29,6 @@
                 <span class="slider"></span>
             </label>
         </div>
-
     </header>
 
     <main>
@@ -100,103 +62,122 @@
                 JavaScript
             </button>
         </div>
-        
-        
-        
-        
-        
-    <!--    <button onclick="resetProgress()">Reset Progress</button> -->
-    
 
-
-    <div class="dashboard-container">
-        <!-- Your Scores Card -->
-        <div class="card score-card">
-            <div>
-                <p class="heading">Your Scores</p>
-                <p>HTML Score: <span id="html-score-display">0</span></p>
-                <p>CSS Score: <span id="css-score-display">0</span></p>
-                <p>JavaScript Score: <span id="js-score-display">0</span></p>
-                <h2 id="score-display">Total Score: 0</h2>
-                <button onclick="resetScores()">Reset Scores</button>
+        <div class="dashboard-container">
+            <div class="card score-card">
+                <div>
+                    <p class="heading">Your Scores</p>
+                    <p>HTML Score: <span id="html-score-display">0</span></p>
+                    <p>CSS Score: <span id="css-score-display">0</span></p>
+                    <p>JavaScript Score: <span id="js-score-display">0</span></p>
+                    <h2 id="score-display">Total Score: 0</h2>
+                    <button onclick="resetScores()">Reset Scores</button>
+                </div>
+            </div>
+        
+            <div class="card dashboard-card">
+                <div>
+                    <p class="heading">Your Learning Dashboard</p>
+                    <p>HTML: <span id="html-status">Not started</span></p>
+                    <p>CSS: <span id="css-status">Not started</span></p>
+                    <p>JavaScript: <span id="js-status">Not started</span></p>
+                    <h3>Daily Challenge</h3>
+                    <p id="daily-challenge">Loading...</p>
+                </div>
             </div>
         </div>
 
-    
-      <!---  <h2 id="score-display">Total Score: 0</h2>-->
-      <!--  <button onclick="resetScore()">Reset Score</button>  --->
+        <section id="recent-activity">
+            <h2>Recent Activity</h2>
+            <p id="recent-topic">No recent activity.</p>
+        </section>
         
-      <div class="card dashboard-card">
-        <div>
-            <p class="heading">Your Learning Dashboard</p>
-            <p>HTML: <span id="html-status">Not started</span></p>
-            <p>CSS: <span id="css-status">Not started</span></p>
-            <p>JavaScript: <span id="js-status">Not started</span></p>
-            <h3>Daily Challenge</h3>
-            <p id="daily-challenge">Loading...</p>
-        </div>
-    </div>
-</div>
-
-    <section id="recent-activity">
-        <h2>Recent Activity</h2>
-        <p id="recent-topic">No recent activity.</p>
-    </section>
-    
-    <div class="stats-container">
-        <!-- Learning Streak -->
-        <div class="streak-container">
-            <div class="streak-card">
-                <div class="card-name">Your Learning Streak 🔥</div>
-                <div class="streak-count">
-                    <h2 id="streak-count">Streak: 0 days</h2>
-                </div>
-                <div class="streak-info">
-                    Keep up the streak! Learning daily improves skills.
+        <div class="stats-container">
+            <div class="streak-container">
+                <div class="streak-card">
+                    <div class="card-name">Your Learning Streak 🔥</div>
+                    <div class="streak-count">
+                        <h2 id="streak-count">Streak: 0 days</h2>
+                    </div>
+                    <div class="streak-info">
+                        Keep up the streak! Learning daily improves skills.
+                    </div>
                 </div>
             </div>
-        </div>
-    
-        <!-- Course Progress -->
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <p class="title">Course Progress</p>
-                    <p>Hover to View Progress</p>
+        
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <p class="title">Course Progress</p>
+                        <p>Hover to View Progress</p>
+                    </div>
+                    <div class="flip-card-back">
+                        <p class="title">Your Progress</p>
+                        <div class="circular-progress">
+                            <span id="progress-percentage">0%</span>
+                            <svg>
+                                <circle cx="50" cy="50" r="45"></circle>
+                                <circle id="progress-circle" cx="50" cy="50" r="45"></circle>
+                            </svg>
+                        </div>
+                        <p id="progress-text">Loading...</p>
+                    </div>
                 </div>
-                <div class="flip-card-back">
-                    <p class="title">Your Progress</p>
-                    <div class="circular-progress">
-                        <span id="progress-percentage">0%</span>
-                        <svg>
-                            <circle cx="50" cy="50" r="45"></circle>
-                            <circle id="progress-circle" cx="50" cy="50" r="45"></circle>
+            </div>
+        
+            <div class="quote-container">
+                <div class="quote-card">
+                    <div class="card-name">Motivational Quote</div>
+                    <div class="quote">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 330 307" height="50" width="50">
+                            <path fill="currentColor" d="M302.258 176.221C320.678 176.221 329.889 185.432 329.889 203.853V278.764C329.889 297.185 320.678 306.395 302.258 306.395H231.031C212.61 306.395 203.399 297.185 203.399 278.764V203.853C203.399 160.871 207.902 123.415 216.908 91.4858C226.323 59.1472 244.539 30.902 271.556 6.75027C280.562 -1.02739 288.135 -2.05076 294.275 3.68014L321.906 29.4692C328.047 35.2001 326.614 42.1591 317.608 50.3461C303.69 62.6266 292.228 80.4334 283.223 103.766C274.626 126.69 270.328 150.842 270.328 176.221H302.258ZM99.629 176.221C118.05 176.221 127.26 185.432 127.26 203.853V278.764C127.26 297.185 118.05 306.395 99.629 306.395H28.402C9.98126 306.395 0.770874 297.185 0.770874 278.764V203.853C0.770874 160.871 5.27373 123.415 14.2794 91.4858C23.6945 59.1472 41.9106 30.902 68.9277 6.75027C77.9335 -1.02739 85.5064 -2.05076 91.6467 3.68014L119.278 29.4692C125.418 35.2001 123.985 42.1591 114.98 50.3461C101.062 62.6266 89.6 80.4334 80.5942 103.766C71.9979 126.69 67.6997 150.842 67.6997 176.221H99.629Z"></path>
                         </svg>
                     </div>
-                    <p id="progress-text">Loading...</p>
+                    <div class="quote-text" id="quote-text">Loading...</div>
+                    <div class="quote-author" id="quote-author">- Unknown</div>
                 </div>
             </div>
         </div>
-    
-        <!-- Motivational Quote -->
-        <div class="quote-container">
-            <div class="quote-card">
-                <div class="card-name">Motivational Quote</div>
-                <div class="quote">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 330 307" height="50" width="50">
-                        <path fill="currentColor" d="M302.258 176.221C320.678 176.221 329.889 185.432 329.889 203.853V278.764C329.889 297.185 320.678 306.395 302.258 306.395H231.031C212.61 306.395 203.399 297.185 203.399 278.764V203.853C203.399 160.871 207.902 123.415 216.908 91.4858C226.323 59.1472 244.539 30.902 271.556 6.75027C280.562 -1.02739 288.135 -2.05076 294.275 3.68014L321.906 29.4692C328.047 35.2001 326.614 42.1591 317.608 50.3461C303.69 62.6266 292.228 80.4334 283.223 103.766C274.626 126.69 270.328 150.842 270.328 176.221H302.258ZM99.629 176.221C118.05 176.221 127.26 185.432 127.26 203.853V278.764C127.26 297.185 118.05 306.395 99.629 306.395H28.402C9.98126 306.395 0.770874 297.185 0.770874 278.764V203.853C0.770874 160.871 5.27373 123.415 14.2794 91.4858C23.6945 59.1472 41.9106 30.902 68.9277 6.75027C77.9335 -1.02739 85.5064 -2.05076 91.6467 3.68014L119.278 29.4692C125.418 35.2001 123.985 42.1591 114.98 50.3461C101.062 62.6266 89.6 80.4334 80.5942 103.766C71.9979 126.69 67.6997 150.842 67.6997 176.221H99.629Z"></path>
-                    </svg>
-                </div>
-                <div class="quote-text" id="quote-text">Loading...</div>
-                <div class="quote-author" id="quote-author">- Unknown</div>
-            </div>
-        </div>
-    </div>
-    
-       
-    </div>       
-
     </main>
+
+    <script>
+        // Check authentication
+        function checkAuth() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            if (!isLoggedIn) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Update username display if available
+            const userEmail = localStorage.getItem('userEmail');
+            if (userEmail) {
+                document.getElementById('username-display').textContent = userEmail.split('@')[0];
+            }
+        }
+
+        // Run auth check when page loads
+        checkAuth();
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('rememberMe');
+            window.location.href = 'login.html';
+        }
+
+        // Add logout button to header
+        const header = document.querySelector('header');
+        const logoutBtn = document.createElement('button');
+        logoutBtn.className = 'save-btn';
+        logoutBtn.style.marginLeft = 'auto';
+        logoutBtn.textContent = 'Logout';
+        logoutBtn.onclick = logout;
+        header.appendChild(logoutBtn);
+
+        // Rest of your existing script.js code...
+    </script>
     <script src="script.js"></script>
 </body>
 </html>

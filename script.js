@@ -151,140 +151,177 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 // ✅ Quiz Functionality with Pop-up Message for Wrong Answers
-function loadQuiz(topic) {
-    const quizContainer = document.getElementById(`${topic}-quiz-container`);
-    if (!quizContainer) return;
-    quizContainer.innerHTML = ""; // Clear previous quiz
+// Remove the entire loadQuiz function since it's already in quiz.js
 
-    const currentQuiz = quizData[topic];
-    let currentQuestion = 0;
-
-    function displayQuestion() {
-        quizContainer.innerHTML = "";
-        const questionEl = document.createElement("h3");
-        questionEl.innerText = currentQuiz[currentQuestion].question;
-        quizContainer.appendChild(questionEl);
-
-        currentQuiz[currentQuestion].options.forEach(option => {
-            let button = document.createElement("button");
-            button.innerText = option;
-            button.classList.add("quiz-option");
-            button.onclick = () => checkAnswer(option, button);
-            quizContainer.appendChild(button);
-        });
-
-        // Add placeholder for incorrect message
-        let messageDiv = document.createElement("div");
-        messageDiv.id = "quiz-message";
-        quizContainer.appendChild(messageDiv);
-        
-        // ✅ Scroll to the quiz container smoothly
-    //quizContainer.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-
-    function checkAnswer(answer) {
-        let correctSound = document.getElementById("correct-sound");
-        let wrongSound = document.getElementById("wrong-sound");
-
-        const quizContainer = document.getElementById(`${topic}-quiz-container`);
-        let messageDiv = document.getElementById("quiz-message");
-        
-        if (!messageDiv) {
-            messageDiv = document.createElement("div");
-            messageDiv.id = "quiz-message";
-            quizContainer.appendChild(messageDiv);
-        }
-
-        if (answer === currentQuiz[currentQuestion].answer) {
-            correctSound.currentTime = 0;
-            correctSound.play().catch(err => console.error("❌ Error playing correct sound:", err));
-        } else {
-            wrongSound.currentTime = 0;
-            wrongSound.play().catch(err => console.error("❌ Error playing wrong sound:", err));
-        }
-
-        if (answer === currentQuiz[currentQuestion].answer) {
-            messageDiv.innerHTML = `<p class="correct">✅ Correct!</p>`;
-            let currentScore = parseInt(localStorage.getItem(topic + "Score") || 0);
-            localStorage.setItem(topic + "Score", currentScore + 10);
-        } else {
-            messageDiv.innerHTML = `<p class="incorrect">❌ Incorrect! Try again.</p>`;
-        }
-
-        setTimeout(() => {
-            messageDiv.innerHTML = "";
-            currentQuestion++;
-            if (currentQuestion < currentQuiz.length) {
-                displayQuestion();
-            } else {
-                quizContainer.innerHTML = "<h3>🎉 Quiz Completed!</h3>";
-            }
-        }, 1500);
-    }
-
-    displayQuestion();
+// Keep the user data management functions
+function getUserData() {
+    const userEmail = localStorage.getItem('userEmail');
+    if (!userEmail) return null;
+    
+    const userData = localStorage.getItem(`userData_${userEmail}`);
+    return userData ? JSON.parse(userData) : {
+        scores: {
+            html: 0,
+            css: 0,
+            js: 0
+        },
+        recentActivity: [],
+        learningStatus: {
+            html: 'Not started',
+            css: 'Not started',
+            js: 'Not started'
+        },
+        streak: 0,
+        lastActivityDate: null
+    };
 }
 
-// Ensure dark mode toggle works
-document.addEventListener("DOMContentLoaded", function () {
-    const toggleSwitch = document.getElementById("dark-mode-toggle");
-    if (!toggleSwitch) return;
+function saveUserData(data) {
+    const userEmail = localStorage.getItem('userEmail');
+    if (!userEmail) return;
     
-    if (localStorage.getItem("dark-mode") === "enabled") {
-        document.body.classList.add("dark-mode");
-        toggleSwitch.checked = true;
+    localStorage.setItem(`userData_${userEmail}`, JSON.stringify(data));
+}
+
+// Update displays
+function updateScoreDisplay() {
+    try {
+        const userData = getUserData();
+        if (!userData) return;
+
+        const htmlScore = document.getElementById('html-score-display');
+        const cssScore = document.getElementById('css-score-display');
+        const jsScore = document.getElementById('js-score-display');
+        const totalScoreDisplay = document.getElementById('score-display');
+
+        if (htmlScore) htmlScore.textContent = userData.scores.html || 0;
+        if (cssScore) cssScore.textContent = userData.scores.css || 0;
+        if (jsScore) jsScore.textContent = userData.scores.js || 0;
+
+        const totalScore = (userData.scores.html || 0) + (userData.scores.css || 0) + (userData.scores.js || 0);
+        if (totalScoreDisplay) totalScoreDisplay.textContent = `Total Score: ${totalScore}`;
+
+        console.log('Scores updated:', userData.scores);
+    } catch (error) {
+        console.error('Error updating score display:', error);
     }
+}
 
-    toggleSwitch.addEventListener("change", () => {
-        if (toggleSwitch.checked) {
-            document.body.classList.add("dark-mode");
-            localStorage.setItem("dark-mode", "enabled");
-        } else {
-            document.body.classList.remove("dark-mode");
-            localStorage.setItem("dark-mode", "disabled");
-        }
-    });
-});
+function updateRecentActivityDisplay() {
+    const userData = getUserData();
+    if (!userData) return;
+    
+    const recentTopic = document.getElementById('recent-topic');
+    if (userData.recentActivity.length > 0) {
+        const latest = userData.recentActivity[0];
+        recentTopic.textContent = `${latest.topic} - ${new Date(latest.timestamp).toLocaleDateString()}`;
+    } else {
+        recentTopic.textContent = 'No recent activity.';
+    }
+}
 
-// Function to update progress in the dashboard
-function updateDashboard() {
-    ["html", "css", "js"].forEach(topic => {
-        let status = localStorage.getItem(topic + "_completed") ? "Completed" : "Not started";
-        document.getElementById(topic + "-status").innerText = status;
-    });
+function updateLearningStatusDisplay() {
+    const userData = getUserData();
+    if (!userData) return;
+    
+    document.getElementById('html-status').textContent = userData.learningStatus.html;
+    document.getElementById('css-status').textContent = userData.learningStatus.css;
+    document.getElementById('js-status').textContent = userData.learningStatus.js;
 }
 
 // Function to generate a random daily challenge
 function loadDailyChallenge() {
+    console.log('Loading daily challenge...');
     const challenges = [
         "Write an HTML page with an image and a link.",
         "Style a button using only CSS.",
         "Write a JavaScript function that reverses a string.",
         "Create an unordered list with three items.",
-        "Change the background color of a div using JavaScript."
+        "Change the background color of a div using JavaScript.",
+        "Create a responsive navigation menu.",
+        "Implement a dark mode toggle.",
+        "Build a simple contact form.",
+        "Create an animated loading spinner.",
+        "Build a countdown timer."
     ];
-    let challenge = challenges[new Date().getDate() % challenges.length]; // Rotate challenges daily
-    document.getElementById("daily-challenge").innerText = challenge;
+    
+    try {
+        const dailyChallengeElement = document.getElementById("daily-challenge");
+        if (!dailyChallengeElement) {
+            console.error('Daily challenge element not found');
+            return;
+        }
+        
+        // Get today's date and use it to select a challenge
+        const today = new Date();
+        const challengeIndex = today.getDate() % challenges.length;
+        const todaysChallenge = challenges[challengeIndex];
+        
+        // Update the challenge text immediately
+        dailyChallengeElement.innerHTML = todaysChallenge;
+        
+        console.log('Daily challenge loaded successfully:', todaysChallenge);
+    } catch (error) {
+        console.error('Error loading daily challenge:', error);
+        const dailyChallengeElement = document.getElementById("daily-challenge");
+        if (dailyChallengeElement) {
+            dailyChallengeElement.innerText = "Could not load challenge. Please refresh.";
+        }
+    }
 }
 
-// Run on page load
-document.addEventListener("DOMContentLoaded", () => {
-    updateDashboard();
-    loadDailyChallenge();
+// Function to update all displays
+function updateDashboard() {
+    console.log('Updating dashboard...');
+    try {
+        // Load daily challenge first
+        loadDailyChallenge();
+        
+        // Then update other displays if user is logged in
+        const userData = getUserData();
+        if (userData) {
+            updateScoreDisplay();
+            updateRecentActivityDisplay();
+            updateLearningStatusDisplay();
+            updateStreak();
+            updateProgress();
+            updateCircularProgress();
+        }
+    } catch (error) {
+        console.error('Error updating dashboard:', error);
+    }
+}
+
+// Remove all existing DOMContentLoaded event listeners and use a single one
+const existingListeners = window.getEventListeners && window.getEventListeners(document)?.DOMContentLoaded || [];
+existingListeners.forEach(listener => {
+    document.removeEventListener('DOMContentLoaded', listener.listener);
 });
 
-function updateScores() {
-    let htmlScore = localStorage.getItem("htmlScore") || 0;
-    let cssScore = localStorage.getItem("cssScore") || 0;
-    let jsScore = localStorage.getItem("jsScore") || 0;
-
-    document.getElementById("html-score-display").innerText = htmlScore;
-    document.getElementById("css-score-display").innerText = cssScore;
-    document.getElementById("js-score-display").innerText = jsScore;
-
-    let totalScore = parseInt(htmlScore) + parseInt(cssScore) + parseInt(jsScore);
-    document.getElementById("score-display").innerText = `Total Score: ${totalScore}`;
-}
+// Single initialization function
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Page loaded, initializing...');
+    
+    // Load daily challenge immediately
+    loadDailyChallenge();
+    
+    // Initialize other components
+    try {
+        const savedUsername = localStorage.getItem("username");
+        if (savedUsername) {
+            const welcomeContainer = document.getElementById("welcome-container");
+            if (welcomeContainer) {
+                welcomeContainer.innerHTML = `<h2>Welcome, ${savedUsername}!</h2>`;
+            }
+        }
+        
+        // Update dashboard (which includes scores, progress, etc.)
+        updateDashboard();
+        
+    } catch (error) {
+        console.error('Error during initialization:', error);
+    }
+});
 
 // Reset Scores
 function resetScores() {
@@ -376,19 +413,73 @@ document.addEventListener("DOMContentLoaded", updateProgress);
 const quotes = [
     { text: "The best way to learn is to do.", author: "Paul Halmos" },
     { text: "Every master was once a beginner.", author: "Anonymous" },
-    { text: "Code is like humor. When you have to explain it, it’s bad.", author: "Cory House" },
+    { text: "Code is like humor. When you have to explain it, it's bad.", author: "Cory House" },
     { text: "The only way to go fast is to go well.", author: "Robert C. Martin" },
     { text: "First, solve the problem. Then, write the code.", author: "John Johnson" }
 ];
 
 function displayQuote() {
-    let randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-    document.getElementById("quote-text").innerText = `"${randomQuote.text}"`;
-    document.getElementById("quote-author").innerText = `- ${randomQuote.author}`;
+    console.log('Displaying motivational quote...');
+    try {
+        const quoteTextElement = document.getElementById("quote-text");
+        const quoteAuthorElement = document.getElementById("quote-author");
+        
+        if (!quoteTextElement || !quoteAuthorElement) {
+            console.error('Quote elements not found');
+            return;
+        }
+        
+        const randomIndex = Math.floor(Math.random() * quotes.length);
+        const selectedQuote = quotes[randomIndex];
+        
+        // Update the quote text immediately
+        quoteTextElement.innerHTML = `"${selectedQuote.text}"`;
+        quoteAuthorElement.innerHTML = `- ${selectedQuote.author}`;
+        
+        console.log('Quote displayed successfully:', selectedQuote);
+    } catch (error) {
+        console.error('Error displaying quote:', error);
+        const quoteTextElement = document.getElementById("quote-text");
+        const quoteAuthorElement = document.getElementById("quote-author");
+        
+        if (quoteTextElement) quoteTextElement.innerHTML = "Error loading quote";
+        if (quoteAuthorElement) quoteAuthorElement.innerHTML = "";
+    }
 }
 
-// Show a random quote when the page loads
-document.addEventListener("DOMContentLoaded", displayQuote);
+// Add some CSS for the quote display
+const quoteStyle = document.createElement('style');
+quoteStyle.textContent = `
+    #quote-text {
+        font-size: 1.2em;
+        font-style: italic;
+        color: #2c3e50;
+        margin-bottom: 10px;
+        line-height: 1.4;
+    }
+    #quote-author {
+        font-size: 1em;
+        color: #7f8c8d;
+        text-align: right;
+    }
+    .quote-container {
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin: 20px 0;
+    }
+`;
+document.head.appendChild(quoteStyle);
+
+// Initialize quote on page load
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Initializing quote display...');
+    displayQuote();
+    
+    // Refresh quote every 30 seconds
+    setInterval(displayQuote, 30000);
+});
 
 //validate user HTML code to check the answer
 
@@ -544,3 +635,179 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("welcome-container").innerHTML = `<h2>Welcome, ${savedUsername}!</h2>`;
     }
 });
+
+// User data management
+function getUserData() {
+    const userEmail = localStorage.getItem('userEmail');
+    if (!userEmail) return null;
+    
+    const userData = localStorage.getItem(`userData_${userEmail}`);
+    return userData ? JSON.parse(userData) : {
+        scores: {
+            html: 0,
+            css: 0,
+            js: 0
+        },
+        recentActivity: [],
+        learningStatus: {
+            html: 'Not started',
+            css: 'Not started',
+            js: 'Not started'
+        },
+        streak: 0,
+        lastActivityDate: null
+    };
+}
+
+function saveUserData(data) {
+    const userEmail = localStorage.getItem('userEmail');
+    if (!userEmail) return;
+    
+    localStorage.setItem(`userData_${userEmail}`, JSON.stringify(data));
+}
+
+// Update scores
+function updateScore(topic, score) {
+    const userData = getUserData();
+    if (!userData) return;
+    
+    userData.scores[topic.toLowerCase()] = score;
+    saveUserData(userData);
+    updateScoreDisplay();
+}
+
+// Save recent activity
+function saveRecentActivity(topic) {
+    const userData = getUserData();
+    if (!userData) return;
+    
+    const activity = {
+        topic: topic,
+        timestamp: new Date().toISOString()
+    };
+    
+    userData.recentActivity.unshift(activity);
+    // Keep only last 5 activities
+    userData.recentActivity = userData.recentActivity.slice(0, 5);
+    
+    // Update learning status
+    userData.learningStatus[topic.toLowerCase()] = 'In Progress';
+    
+    // Update streak
+    updateStreak(userData);
+    
+    saveUserData(userData);
+    updateRecentActivityDisplay();
+    updateLearningStatusDisplay();
+}
+
+// Update streak
+function updateStreak(userData) {
+    const today = new Date().toDateString();
+    const lastActivity = userData.lastActivityDate;
+    
+    if (lastActivity === today) return;
+    
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterdayStr = yesterday.toDateString();
+    
+    if (lastActivity === yesterdayStr) {
+        userData.streak++;
+    } else if (lastActivity !== today) {
+        userData.streak = 1;
+    }
+    
+    userData.lastActivityDate = today;
+}
+
+// Update displays
+function updateScoreDisplay() {
+    const userData = getUserData();
+    if (!userData) return;
+    
+    document.getElementById('html-score-display').textContent = userData.scores.html;
+    document.getElementById('css-score-display').textContent = userData.scores.css;
+    document.getElementById('js-score-display').textContent = userData.scores.js;
+    
+    const totalScore = userData.scores.html + userData.scores.css + userData.scores.js;
+    document.getElementById('score-display').textContent = `Total Score: ${totalScore}`;
+}
+
+function updateRecentActivityDisplay() {
+    const userData = getUserData();
+    if (!userData) return;
+    
+    const recentTopic = document.getElementById('recent-topic');
+    if (userData.recentActivity.length > 0) {
+        const latest = userData.recentActivity[0];
+        recentTopic.textContent = `${latest.topic} - ${new Date(latest.timestamp).toLocaleDateString()}`;
+    } else {
+        recentTopic.textContent = 'No recent activity.';
+    }
+}
+
+function updateLearningStatusDisplay() {
+    const userData = getUserData();
+    if (!userData) return;
+    
+    document.getElementById('html-status').textContent = userData.learningStatus.html;
+    document.getElementById('css-status').textContent = userData.learningStatus.css;
+    document.getElementById('js-status').textContent = userData.learningStatus.js;
+}
+
+function updateStreakDisplay() {
+    const userData = getUserData();
+    if (!userData) return;
+    
+    document.getElementById('streak-count').textContent = `Streak: ${userData.streak} days`;
+}
+
+// Reset scores
+function resetScores() {
+    const userData = getUserData();
+    if (!userData) return;
+    
+    userData.scores = {
+        html: 0,
+        css: 0,
+        js: 0
+    };
+    saveUserData(userData);
+    updateScoreDisplay();
+}
+
+// Initialize displays when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    updateScoreDisplay();
+    updateRecentActivityDisplay();
+    updateLearningStatusDisplay();
+    updateStreakDisplay();
+});
+
+// Add some CSS for the daily challenge
+const style = document.createElement('style');
+style.textContent = `
+    .challenge-content {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        margin-top: 10px;
+    }
+    .challenge-icon {
+        font-size: 24px;
+        animation: bounce 1s infinite;
+    }
+    .challenge-text {
+        color: #2c3e50;
+        font-size: 16px;
+    }
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+    }
+`;
+document.head.appendChild(style);
