@@ -1,0 +1,50 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  padding-top: 70px; /* Add padding to account for the fixed navbar */
+}
+
+/* Dark mode support */
+body.dark-mode .app {
+  background-color: #121212;
+  color: #fff;
+}
+
+body.dark-mode .main-content {
+  background-color: #1e1e1e;
+}
+
+body.dark-mode .lesson-content {
+  color: #ffffff; /* Use white for better visibility in dark mode */
+}
+
+body.dark-mode .lesson-content h2,
+body.dark-mode .lesson-content h3,
+body.dark-mode .lesson-content p,
+body.dark-mode .lesson-content ul,
+body.dark-mode .lesson-content li {
+  color: #ffffff; /* Ensure headings, paragraphs, and lists are white in dark mode */
+}
+
+/* Target elements within lesson-content-detailed for dark mode */
+body.dark-mode .lesson-content-detailed {
+  background-color: #282828; /* Dark background for lesson content in dark mode */
+  color: #ffffff; /* Set text color to white for visibility */
+}
+
+body.dark-mode .lesson-content-detailed h3,
+body.dark-mode .lesson-content-detailed h4,
+body.dark-mode .lesson-content-detailed p,
+body.dark-mode .lesson-content-detailed ul,
+body.dark-mode .lesson-content-detailed li {
+  color: #ffffff; /* Ensure headings, paragraphs, and lists are white in dark mode */
+} 
