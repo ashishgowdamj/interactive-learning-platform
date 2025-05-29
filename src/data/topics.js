@@ -1108,7 +1108,7 @@ export const topics = [
         ],
         duration: '35 minutes',
         difficulty: 'Intermediate',
-        practiceCode: '# Practice with File Handling\n\n# 1. Write some content to a new file named \"my_practice_file.txt\".\nfile_content = \"This is the first line.\nThis is the second line.\"\nwith open(\"my_practice_file.txt\", \"w\") as f:\n    f.write(file_content)\n\n# Print a confirmation message\nprint(\"Content written to my_practice_file.txt\")\n\n# 2. Read the content back from \"my_practice_file.txt\" and print it.\nprint(\"\nReading from my_practice_file.txt:\")\nwith open(\"my_practice_file.txt\", \"r\") as f:\n    read_content = f.read()\n    print(read_content)\n\n# 3. Append a new line to the file and read it again.\nnew_line = \"This line was appended.\"\nwith open(\"my_practice_file.txt\", \"a\") as f:\n    f.write(\"\n\" + new_line)\n\nprint(\"\nContent after appending:\")\nwith open(\"my_practice_file.txt\", \"r\") as f:\n    appended_content = f.read()\n    print(appended_content)'
+        practiceCode: '# Practice with File Handling (Server-side execution)\n# File operations here happen on the server running the code.\n\n# Use a temporary file name.\ntemp_file = \"temp_practice_file.txt\"\n\n# 1. Write some content to the temporary file.\nfile_content = \"This is the first line.\\nThis is the second line.\"\nprint(f\"Writing to {temp_file}...\")\nwith open(temp_file, \"w\") as f:\n    f.write(file_content)\n\n# 2. Read the content back from the file and print it.\nprint(f\"\\nReading from {temp_file}:\")\nwith open(temp_file, \"r\") as f:\n    read_content = f.read()\n    print(read_content)\n\n# 3. Append a new line to the file and read it again.\nnew_line = \"This line was appended.\"\nprint(f\"\\nAppending to {temp_file}...\")\nwith open(temp_file, \"a\") as f:\n    f.write(\"\\n\" + new_line)\n\nprint(f\"\\nReading from {temp_file} after appending:\")\nwith open(temp_file, \"r\") as f:\n    appended_content = f.read()\n    print(appended_content)\n\n# Note: The file created here exists only on the server where the code is executed.\n# You will not see it appear in your local file system.\n'
       }
     ],
     quiz: [
@@ -1164,4 +1164,162 @@ export const topics = [
       }
     ]
   }
-]; 
+  , // Add a comma here if the previous topic's closing brace doesn't have one
+  {
+    id: 'react',
+    title: 'React.js',
+    description: 'Learn the fundamentals of building user interfaces with React.',
+    lessons: [
+            {
+        id: 'react-intro',
+        title: 'Introduction to React',
+        content: [
+          {
+            type: 'paragraph',
+            text: 'React is a JavaScript library for building user interfaces. It allows you to create reusable UI components and manage the state of your application efficiently.'
+          },
+          {
+            type: 'heading',
+            text: 'What is React?'
+          },
+          {
+            type: 'paragraph',
+            text: 'React was developed by Facebook and is widely used for building single-page applications (SPAs) and mobile applications (with React Native).'
+          },
+          {
+            type: 'heading',
+            text: 'Key Concepts'
+          },
+          {
+            type: 'list',
+            items: [
+              'Components: Building blocks of a React application.',
+              'JSX: A syntax extension for JavaScript, used with React to describe UI.',
+              'State: Data that can change over time and affects the rendering of components.',
+              'Props: Data passed from parent to child components.'
+            ]
+          },
+          {
+            type: 'code',
+            language: 'javascript',
+            code: 'import React from \'react\';\nimport ReactDOM from \'react-dom/client\';\n\nfunction App() {\n  return (\n    <div>\n      <h1>Hello, React!</h1>\n      <p>This is a simple React component.</p>\n    </div>\n  );\n}\n\nconst container = document.getElementById(\'root\');\nconst root = ReactDOM.createRoot(container);\nroot.render(<App />);'
+          },
+          {
+            type: 'note',
+            text: 'React uses a virtual DOM for efficient rendering updates.'
+          }
+        ],
+        duration: '30 minutes',
+        difficulty: 'Beginner',
+        practiceCode: '// Try creating a simple React component here\n// (Note: Full React environment might not be available in this basic editor)\n\nfunction WelcomeMessage() {\n  return (\n    <div>\n      <h2>Welcome!</h2>\n      <p>This is a practice component.</p>\n    </div>\n  );\n}\n\n// You would typically render this component in your application\'s entry point\n// For example:\n// const container = document.getElementById(\'app\');\n// const root = ReactDOM.createRoot(container);\n// root.render(<WelcomeMessage />);\n'
+      },
+      {
+        id: 'react-components',
+        title: 'Components',
+        content: [
+          {
+            type: 'paragraph',
+            text: 'Components are the core building blocks of React applications. They are independent and reusable pieces of UI.'
+          },
+          {
+            type: 'heading',
+            text: 'Functional Components'
+          },
+          {
+            type: 'paragraph',
+            text: 'Functional components are JavaScript functions that return JSX. They are the most common way to write React components in modern React.'
+          },
+          {
+            type: 'code',
+            language: 'javascript',
+            code: 'import React from \'react\';\n\nfunction Greeting(props) {\n  return <h1>Hello, {props.name}!</h1>;\n}\n\n// Usage:\n// <Greeting name="Alice" />'
+          },
+          {
+            type: 'heading',
+            text: 'Props'
+          },
+          {
+            type: 'paragraph',
+            text: 'Props (short for properties) are read-only attributes passed down from parent components to child components to customize them.'
+          },
+           {
+            type: 'code',
+            language: 'javascript',
+            code: '// Parent Component\nfunction App() {\n  return (\n    <div>\n      <Greeting name="Bob" />\n      <Greeting name="Charlie" />\n    </div>\n  );\n}\n\n// Child Component (Greeting) uses props.name'
+          }
+        ],
+        duration: '35 minutes',
+        difficulty: 'Beginner',
+        practiceCode: '// Create a functional component that displays a message\n// based on a prop called "message".\n\nfunction DisplayMessage(props) {\n  // Your code here: return a JSX element that uses props.message\n  return (\n    <div>\n      <p>{props.message}</p>\n    </div>\n  );\n}\n\n// Example usage (for your understanding, not runnable in this editor):\n// <DisplayMessage message="Hello from my component!" />\n'
+      },
+      {
+        id: 'react-state',
+        title: 'State Management',
+        content: [
+          {
+            type: 'paragraph',
+            text: 'State in React is a way to store and manage data that can change over time. When state changes, React re-renders the component to reflect those changes.'
+          },
+           {
+            type: 'heading',
+            text: 'Understanding State'
+          },
+          {
+            type: 'paragraph',
+            text: 'State is similar to props, but it is private and fully controlled by the component. State allows React components to change their output over time in response to user actions, network responses, and anything else.'
+          },          
+          {
+            type: 'code',
+            language: 'javascript',
+            code: 'import React, { useState } from \'react\';\n\nfunction Counter() {\n  const [count, setCount] = useState(0);\n\n  return (\n    <div>\n      <p>Count: {count}</p>\n      <button onClick={() => setCount(count + 1)}>\n        Increment\n      </button>\n    </div>\n  );\n}'
+          },
+          {
+            type: 'note',
+            text: 'State updates are asynchronous in React. Multiple state updates may be batched together for better performance.'
+          }
+        ],
+        duration: '40 minutes',
+        difficulty: 'Intermediate',
+        practiceCode: 'function Counter() { const [count, setCount] = useState(0); const increment = () => { setCount(count + 1); }; const decrement = () => { setCount(count - 1); }; return (\"<div><h2>Counter: {count}</h2><button onClick={increment}>+</button><button onClick={decrement}>-</button></div>\"); } // Example usage: <Counter />'
+      },
+      {
+        id: 'react-hooks',
+        title: 'React Hooks',
+        content: [
+          {
+            type: 'paragraph',
+            text: 'Hooks are functions that let you "hook into" React state and lifecycle features from function components. They were introduced in React 16.8 to allow you to use state and other React features without writing a class.'
+          },
+          {
+            type: 'heading',
+            text: 'Common Hooks'
+          },
+          {
+            type: 'list',
+            items: [
+              'useState: Adds state to functional components',
+              'useEffect: Handles side effects in functional components',
+              'useContext: Subscribes to React context',
+              'useReducer: Alternative to useState for complex state logic',
+              'useCallback: Memoizes functions to prevent unnecessary re-renders',
+              'useMemo: Memoizes values to prevent unnecessary calculations'
+            ]
+          },
+          {
+            type: 'code',
+            language: 'javascript',
+            code: 'import React, { useState, useEffect } from \'react\';\n\nfunction Example() {\n  const [data, setData] = useState(null);\n\n  useEffect(() => {\n    // Fetch data when component mounts\n    fetch(\'https://api.example.com/data\')\n      .then(response => response.json())\n      .then(data => setData(data));\n  }, []); // Empty dependency array means this runs once on mount\n\n  return (\n    \'<div\'%3E\n      {data ? \'<p\'%3EData loaded!\'</p\'%3E : \'<p\'%3ELoading...\'</p\'%3E}\'</div\'%3E'
+          }
+        ],
+        duration: '45 minutes',
+        difficulty: 'Intermediate',
+        practiceCode: '// Create a component that uses multiple hooks\\n\\nfunction UserProfile() {\\n  // State for user data\\n  const [user, setUser] = useState(null);\\n  const [loading, setLoading] = useState(true);\\n\\n  // Effect to fetch user data\\n  useEffect(() => {\\n    // Simulate API call\\n    setTimeout(() => {\\n      setUser({ name: \\\'John Doe\\\', email: \\\'john@example.com\\\' });\\n      setLoading(false);\\n    }, 1000);\\n  }, []);\\n\\n  // Memoize formatted name\\n  const formattedName = useMemo(() => {\\n    return user ? user.name.toUpperCase() : \'\';\\n  }, [user]);\\n\\n  if (loading) return <p>Loading...</p>;\\n\\n  return (\\n    <div>\\n      <h2>{formattedName}</h2>\\n      <p>{user.email}</p>\\n    </div>\\n  );\\n}\\n\\n// Example usage:\\\\n// <UserProfile />'
+      },
+      // <-- This closes the Event Handling lesson object
+        
+        ],
+        quiz: [
+      // Quiz will be added here later
+]
+  }
+]; // This is the final closing bracket for the topics array
