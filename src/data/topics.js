@@ -271,6 +271,72 @@ export const topics = [
           '<heading>'
         ],
         correctAnswer: '<h1>'
+      },
+      {
+        id: 'html-quiz-3',
+        question: 'What is the correct HTML element for inserting a line break?',
+        options: [
+          '<break>',
+          '<br>',
+          '<lb>',
+          '<line>'
+        ],
+        correctAnswer: '<br>'
+      },
+      {
+        id: 'html-quiz-4',
+        question: 'Which HTML attribute specifies an alternate text for an image, if the image cannot be displayed?',
+        options: [
+          'title',
+          'src',
+          'alt',
+          'longdesc'
+        ],
+        correctAnswer: 'alt'
+      },
+      {
+        id: 'html-quiz-5',
+        question: 'Which HTML element is used to specify a footer for a document or section?',
+        options: [
+          '<bottom>',
+          '<footer>',
+          '<section>',
+          '<div>'
+        ],
+        correctAnswer: '<footer>'
+      },
+      {
+        id: 'html-quiz-6',
+        question: 'What is the correct HTML element for playing video files?',
+        options: [
+          '<media>',
+          '<video>',
+          '<movie>',
+          '<play>'
+        ],
+        correctAnswer: '<video>'
+      },
+      {
+        id: 'html-quiz-7',
+        question: 'Which HTML element is used to create a hyperlink?',
+        options: [
+          '<link>',
+          '<a>',
+          '<href>',
+          '<hyperlink>'
+        ],
+        correctAnswer: '<a>'
+      },
+      {
+        id: 'html-quiz-8',
+        question: 'Which HTML element is used to create a form?',
+        options: [
+          '<input>',
+          '<form>',
+          '<submit>',
+          '<fieldset>'
+        ],
+        correctAnswer: '<form>'
       }
     ]
   },
@@ -775,6 +841,72 @@ export const topics = [
           'onmouseclick',
         ],
         correctAnswer: 'onclick'
+      },
+      {
+        id: 'js-quiz-3',
+        question: 'How do you write an IF statement in JavaScript?',
+        options: [
+          'if (i == 5)',
+          'if i = 5 then',
+          'if i == 5 then',
+          'if i = 5',
+        ],
+        correctAnswer: 'if (i == 5)'
+      },
+      {
+        id: 'js-quiz-4',
+        question: 'How does a FOR loop start?',
+        options: [
+          'for (i = 0; i <= 5)',
+          'for (i = 0; i <= 5; i++)',
+          'for i = 1 to 5',
+          'for (i <= 5; i++)',
+        ],
+        correctAnswer: 'for (i = 0; i <= 5; i++)'
+      },
+      {
+        id: 'js-quiz-5',
+        question: 'What is the correct way to write a JavaScript array?',
+        options: [
+          'var colors = (1:"red", 2:"green", 3:"blue")',
+          'var colors = "red", "green", "blue"',
+          'var colors = ["red", "green", "blue"]',
+          'var colors = 1 = ("red"), 2 = ("green"), 3 = ("blue")',
+        ],
+        correctAnswer: 'var colors = ["red", "green", "blue"]'
+      },
+      {
+        id: 'js-quiz-6',
+        question: 'How do you round the number 7.25 to the nearest integer?',
+        options: [
+          'Math.round(7.25)',
+          'round(7.25)',
+          'Math.rnd(7.25)',
+          'rnd(7.25)',
+        ],
+        correctAnswer: 'Math.round(7.25)'
+      },
+      {
+        id: 'js-quiz-7',
+        question: 'How do you find the number with the highest value of x and y?',
+        options: [
+          'Math.max(x, y)',
+          'Math.ceil(x, y)',
+          'top(x, y)',
+          'ceil(x, y)',
+        ],
+        correctAnswer: 'Math.max(x, y)'
+      },
+      {
+        id: 'js-quiz-8',
+        question: 'What is the correct way to write a JavaScript object?',
+        options: [
+          'var person = {firstName:"John", lastName:"Doe", age:50};',
+          'var person = {firstName = "John", lastName = "Doe", age = 50};',
+          'var person = (firstName:"John", lastName:"Doe", age:50);',
+          'var person = (firstName = "John", lastName = "Doe", age = 50);',
+        ],
+        correctAnswer: 'var person = {firstName:"John", lastName:"Doe", age:50};'
       }
     ]
   },

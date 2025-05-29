@@ -19,24 +19,61 @@ function Quiz({ topic, onComplete, onClose }) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [showResults, setShowResults] = useState(false);
-  const [userAnswers, setUserAnswers] = useState({}); // To store user's selected answer for each question
+  const [userAnswers, setUserAnswers] = useState({});
+  const [timeLeft, setTimeLeft] = useState(30); // 30 seconds per question
+  const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
+  const [showFeedback, setShowFeedback] = useState(false);
 
-  const questions = topic.quiz; // Use the quiz array from the topic prop
+  const questions = topic.quiz;
   const currentQuestion = questions[currentQuestionIndex];
+
+  // Timer effect
+  useEffect(() => {
+    if (!showResults && !showFeedback) {
+      const timer = setInterval(() => {
+        setTimeLeft((prev) => {
+          if (prev <= 1) {
+            clearInterval(timer);
+            handleNextQuestion();
+            return 30;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(timer);
+    }
+  }, [currentQuestionIndex, showResults, showFeedback]);
 
   const handleAnswerSelect = (answer) => {
     setSelectedAnswer(answer);
-    // Store the user's answer for the current question
     setUserAnswers({ ...userAnswers, [currentQuestion.id]: answer });
+    
+    // Show feedback
+    const isCorrect = answer === currentQuestion.correctAnswer;
+    setIsAnswerCorrect(isCorrect);
+    setShowFeedback(true);
+    
+    // Auto-advance after 1.5 seconds
+    setTimeout(() => {
+      setShowFeedback(false);
+      if (currentQuestionIndex < questions.length - 1) {
+        handleNextQuestion();
+      } else {
+        handleSubmitQuiz();
+      }
+    }, 1500);
   };
 
   const handleNextQuestion = () => {
-    setSelectedAnswer(null); // Reset selected answer for the next question
+    setSelectedAnswer(null);
     setCurrentQuestionIndex(currentQuestionIndex + 1);
+    setTimeLeft(30);
+    setIsAnswerCorrect(null);
+    setShowFeedback(false);
   };
 
   const handleSubmitQuiz = () => {
-    // Calculate score based on userAnswers after submission
     let finalScore = 0;
     questions.forEach(question => {
       if (userAnswers[question.id] === question.correctAnswer) {
@@ -44,19 +81,22 @@ function Quiz({ topic, onComplete, onClose }) {
       }
     });
     
-    // Set showResults to true and pass the final score and topic ID
     setShowResults(true);
-    onComplete(finalScore, topic.id); // Call onComplete prop with final score and topic ID
+    onComplete(finalScore, topic.id);
   };
 
   const handleRestartQuiz = () => {
     setCurrentQuestionIndex(0);
     setSelectedAnswer(null);
-    // Reset userAnswers and showResults
     setUserAnswers({});
     setShowResults(false);
-    // No need to reset score state as it's calculated on submit
+    setTimeLeft(30);
+    setIsAnswerCorrect(null);
+    setShowFeedback(false);
   };
+
+  // Calculate progress percentage
+  const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
 
   return (
     <div className="quiz-container">
@@ -64,34 +104,80 @@ function Quiz({ topic, onComplete, onClose }) {
 
       {showResults ? (
         <div className="quiz-results">
-          <h3>Your Score: {Object.values(userAnswers).filter(answer => questions.find(q => q.id === Object.keys(userAnswers).find(key => userAnswers[key] === answer)).correctAnswer === answer).length} / {questions.length}</h3>
-          {/* Optionally show review of questions/answers here */}
-           <button onClick={handleRestartQuiz}>Restart Quiz</button>
-           <button onClick={onClose}>Close</button>
-      </div>
+          <h3>Quiz Results</h3>
+          <div className="score-circle">
+            <span className="score">
+              {Object.values(userAnswers).filter(answer => 
+                questions.find(q => q.id === Object.keys(userAnswers).find(key => userAnswers[key] === answer)).correctAnswer === answer
+              ).length} / {questions.length}
+            </span>
+          </div>
+          
+          <div className="question-review">
+            {questions.map((question, index) => (
+              <div 
+                key={question.id} 
+                className={`question-review-item ${userAnswers[question.id] === question.correctAnswer ? 'correct' : 'incorrect'}`}
+              >
+                <h4>Question {index + 1}</h4>
+                <p>{question.question}</p>
+                <div className="answer-review">
+                  <p>Your answer: {userAnswers[question.id]}</p>
+                  <p>Correct answer: {question.correctAnswer}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="quiz-actions">
+            <button onClick={handleRestartQuiz}>Restart Quiz</button>
+            <button onClick={onClose}>Close</button>
+          </div>
+        </div>
       ) : (
-      <div className="question-container">
-          <div className="quiz-progress">Question {currentQuestionIndex + 1} of {questions.length}</div>
+        <div className="question-container">
+          <div className="quiz-progress-bar">
+            <div 
+              className="progress-fill" 
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+          
+          <div className="quiz-header">
+            <div className="quiz-progress">
+              Question {currentQuestionIndex + 1} of {questions.length}
+            </div>
+            <div className="quiz-timer">
+              Time Left: {timeLeft}s
+            </div>
+          </div>
+
           <h3>{currentQuestion.question}</h3>
-        <div className="answers-list">
+          
+          <div className={`answers-list ${showFeedback ? 'show-feedback' : ''}`}>
             {currentQuestion.options.map((option, index) => (
               <button
-              key={index}
-                className={`answer-option ${selectedAnswer === option ? 'selected' : ''}`}
+                key={index}
+                className={`answer-option ${
+                  selectedAnswer === option ? 'selected' : ''
+                } ${
+                  showFeedback && option === currentQuestion.correctAnswer ? 'correct' : ''
+                } ${
+                  showFeedback && selectedAnswer === option && option !== currentQuestion.correctAnswer ? 'incorrect' : ''
+                }`}
                 onClick={() => handleAnswerSelect(option)}
-                disabled={selectedAnswer !== null} // Disable other options once one is selected
+                disabled={selectedAnswer !== null}
               >
                 {option}
               </button>
-          ))}
-        </div>
-      <div className="quiz-navigation">
-            {currentQuestionIndex < questions.length - 1 ? (
-              <button onClick={handleNextQuestion} disabled={selectedAnswer === null}>Next</button>
-        ) : (
-              <button onClick={handleSubmitQuiz} disabled={selectedAnswer === null}>Submit</button>
-        )}
-      </div>
+            ))}
+          </div>
+
+          {showFeedback && (
+            <div className={`feedback-message ${isAnswerCorrect ? 'correct' : 'incorrect'}`}>
+              {isAnswerCorrect ? 'Correct!' : 'Incorrect!'}
+            </div>
+          )}
         </div>
       )}
     </div>
