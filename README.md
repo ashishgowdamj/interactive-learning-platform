@@ -1,105 +1,164 @@
 # Interactive Learning Platform
 
-A comprehensive web-based learning platform designed to help users master HTML, CSS, and JavaScript through interactive lessons, live coding, and quizzes.
+An interactive web application for learning web development fundamentals (HTML, CSS, and JavaScript) with hands-on practice and quizzes.
 
-## 🌟 Features
+## Live Demo
+
+Visit the live application: [Interactive Learning Platform](https://interactive-learning-platform-nu.vercel.app/)
+
+## Screenshots
+
+### Home Page
+![Home Page](https://i.imgur.com/your-screenshot-1.png)
+*Welcome page with topic selection and navigation*
+
+### Interactive Code Editor
+![Code Editor](https://i.imgur.com/your-screenshot-2.png)
+*Live code editor with real-time preview*
+
+### Quiz Interface
+![Quiz Interface](https://i.imgur.com/your-screenshot-3.png)
+*Interactive quiz system with immediate feedback*
+
+### Progress Dashboard
+![Progress Dashboard](https://i.imgur.com/your-screenshot-4.png)
+*User progress tracking and achievements*
+
+## Features
 
 ### Learning Experience
-- 📚 Interactive lessons for HTML, CSS, and JavaScript
-- 💻 Live code editor with real-time preview
-- 🎯 Daily coding challenges
-- 📊 Progress tracking and performance analytics
-- 🔄 Streak system to maintain learning momentum
+- 📚 **Comprehensive Lessons**: Structured learning paths for HTML, CSS, and JavaScript
+- 💻 **Interactive Code Editor**: Real-time code execution with separate HTML, CSS, and JavaScript panels
+- ✅ **Quiz System**: Topic-specific quizzes with immediate feedback and score tracking
+- 🔐 **User Authentication**: Secure login/signup system with Firebase
+- 📊 **Progress Tracking**: Visual progress indicators and achievement badges
+- 🎯 **Daily Challenges**: New coding challenges every day
+- 💪 **Motivational Quotes**: Inspirational quotes to keep learners motivated
 
 ### Technical Features
-- ⚡ Live code execution
-- 🎨 Separate HTML, CSS, and JavaScript editors
-- 📱 Fully responsive design
-- 🌓 Dark/Light mode support
-- 🔒 User authentication system
-- 💾 Local storage for progress tracking
+- ⚡ **Live Code Execution**: Instant feedback on code changes
+- 🎨 **Syntax Highlighting**: Code editor with language-specific syntax highlighting
+- 📱 **Responsive Design**: Works seamlessly on desktop and mobile devices
+- 🔒 **Secure Authentication**: Firebase-powered user authentication
+- 💾 **Progress Persistence**: Saves user progress and achievements
+- 🔄 **Auto-save**: Automatically saves code changes
 
-### Interactive Elements
-- ✅ Interactive quizzes with immediate feedback
-- 🎵 Audio feedback for quiz responses
-- 📈 Progress visualization
-- 🏆 Achievement tracking
-- 📅 Daily challenge system
+## Tech Stack
 
-## 🛠️ Technologies Used
-
-- HTML5
+- React.js
+- Vite
+- Firebase (Authentication & Database)
 - CSS3
 - JavaScript (ES6+)
-- LocalStorage for data persistence
-- SVG for visual elements
 
-## 🚀 Getting Started
-
-1. Clone the repository:
-   ```bash
-   git clone [your-repository-url]
-   ```
-
-2. Open `index.html` in your web browser
-
-3. Start learning by:
-   - Creating an account
-   - Choosing your learning path (HTML, CSS, or JavaScript)
-   - Completing interactive lessons
-   - Taking quizzes to test your knowledge
-   - Participating in daily challenges
-
-## 📁 Project Structure
+## Project Structure
 
 ```
 interactive-learning-platform/
-├── index.html          # Main application interface
-├── login.html          # Authentication page
-├── script.js           # Core functionality
-├── style.css           # Main styles
-├── login.css           # Login page styles
-├── quiz.js             # Quiz functionality
-├── assets/            # Images and other assets
-└── lessons/           # Learning content
-    ├── html.html      # HTML lessons
-    ├── css.html       # CSS lessons
-    └── js.html        # JavaScript lessons
+├── src/
+│   ├── components/
+│   │   ├── common/
+│   │   │   ├── LoadingSpinner.jsx
+│   │   │   ├── SearchBar.jsx
+│   │   │   └── SearchResults.jsx
+│   │   ├── layout/
+│   │   │   ├── Navbar.jsx
+│   │   │   └── SecondaryNavbar.jsx
+│   │   └── topics/
+│   │       ├── CodeEditor.jsx
+│   │       ├── LessonContent.jsx
+│   │       ├── Quiz.jsx
+│   │       └── TopicContent.jsx
+│   ├── data/
+│   │   └── topics.js
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── firebase.js
+├── public/
+│   └── assets/
+├── package.json
+└── vite.config.js
 ```
 
-## 🎯 Learning Paths
+## Getting Started
 
-### HTML Path
-- Basic HTML structure
-- Elements and tags
-- Forms and inputs
-- Semantic HTML
-- Best practices
+### Prerequisites
 
-### CSS Path
-- Selectors and specificity
-- Box model
-- Flexbox and Grid
-- Responsive design
-- Animations and transitions
+- Node.js (v14 or higher)
+- npm or yarn
+- Firebase account
 
-### JavaScript Path
-- Variables and data types
-- Functions and scope
-- DOM manipulation
-- Event handling
-- Modern ES6+ features
+### Installation
 
-## 🤝 Contributing
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/interactive-learning-platform.git
+   cd interactive-learning-platform
+   ```
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-## 📝 License
+3. Create a `.env` file in the root directory and add your Firebase configuration:
+   ```
+   VITE_FIREBASE_API_KEY=your_api_key
+   VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
+   VITE_FIREBASE_PROJECT_ID=your_project_id
+   VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
+   VITE_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
+   VITE_FIREBASE_APP_ID=your_app_id
+   ```
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-## 🙏 Acknowledgments
+## Usage
 
-- Icons from [source]
-- Audio feedback from [source]
-- Special thanks to all contributors
+1. **Sign Up/Login**: Create an account or login to track your progress
+2. **Choose a Topic**: Select from HTML, CSS, or JavaScript lessons
+3. **Learn**: Read through the lessons and complete the interactive exercises
+4. **Practice**: Use the code editor to try out what you've learned
+5. **Quiz**: Test your knowledge with topic-specific quizzes
+6. **Track Progress**: Monitor your learning journey through the progress dashboard
+
+## Deployment
+
+This project is deployed on Vercel. The deployment process is automated through GitHub integration:
+
+1. Push your changes to the main branch
+2. Vercel automatically builds and deploys the application
+3. Preview deployments are created for pull requests
+
+To deploy your own version:
+1. Fork this repository
+2. Create a Vercel account
+3. Import your forked repository
+4. Add your environment variables in the Vercel dashboard
+5. Deploy!
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- React.js community
+- Firebase team
+- All contributors and users of this platform
+
+## Contact
+
+Dhanvith Ventures LLP - [@dhanvithventures](https://twitter.com/dhanvithventures)
+Project Link: [https://github.com/dhanvithventures/interactive-learning-platform](https://github.com/dhanvithventures/interactive-learning-platform)
