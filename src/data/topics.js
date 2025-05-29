@@ -947,6 +947,168 @@ export const topics = [
         duration: '35 minutes',
         difficulty: 'Intermediate',
         practiceCode: '# Practice with Object-Oriented Programming\n\n# 1. Create a BankAccount class\nclass BankAccount:\n    def __init__(self, account_number, owner_name, balance=0):\n        self.account_number = account_number\n        self.owner_name = owner_name\n        self.balance = balance\n    \n    def deposit(self, amount):\n        if amount > 0:\n            self.balance += amount\n            return f"Deposited ${amount}. New balance: ${self.balance}"\n        return "Invalid deposit amount"\n    \n    def withdraw(self, amount):\n        if 0 < amount <= self.balance:\n            self.balance -= amount\n            return f"Withdrawn ${amount}. New balance: ${self.balance}"\n        return "Invalid withdrawal amount"\n    \n    def get_balance(self):\n        return f"Current balance: ${self.balance}"\n\n# 2. Create a SavingsAccount class that inherits from BankAccount\nclass SavingsAccount(BankAccount):\n    def __init__(self, account_number, owner_name, balance=0, interest_rate=0.01):\n        super().__init__(account_number, owner_name, balance)\n        self.interest_rate = interest_rate\n    \n    def add_interest(self):\n        interest = self.balance * self.interest_rate\n        self.balance += interest\n        return f"Interest added: ${interest:.2f}. New balance: ${self.balance}"\n\n# Test the classes\naccount = BankAccount("12345", "John Doe", 1000)\nprint(account.deposit(500))\nprint(account.withdraw(200))\nprint(account.get_balance())\n\nsavings = SavingsAccount("67890", "Jane Smith", 2000, 0.02)\nprint(savings.add_interest())\nprint(savings.get_balance())'
+      },
+      {
+        id: 'python-datastructures',
+        title: 'Data Structures (Lists, Tuples, Dictionaries, Sets)',
+        content: [
+          {
+            type: 'paragraph',
+            text: 'Python has several built-in data structures that are used to store collections of data. Understanding these is crucial for efficient programming.'
+          },
+          {
+            type: 'heading',
+            text: 'Lists'
+          },
+          {
+            type: 'paragraph',
+            text: 'Lists are ordered, mutable collections. They can hold items of different data types.'
+          },
+          {
+            type: 'code',
+            language: 'python',
+            code: 'my_list = [1, "hello", 3.14, True]\nprint(my_list[0])      # Accessing elements\nmy_list.append(False)  # Modifying lists\nprint(my_list)'
+          },
+          {
+            type: 'heading',
+            text: 'Tuples'
+          },
+          {
+            type: 'paragraph',
+            text: 'Tuples are ordered, immutable collections. They are often used for fixed collections of items.'
+          },
+          {
+            type: 'code',
+            language: 'python',
+            code: 'my_tuple = (1, "hello", 3.14)\nprint(my_tuple[1])     # Accessing elements\n# my_tuple.append(False) # This would cause an error - tuples are immutable'
+          },
+          {
+            type: 'heading',
+            text: 'Dictionaries'
+          },
+          {
+            type: 'paragraph',
+            text: 'Dictionaries are unordered, mutable collections of key-value pairs. Keys must be unique and immutable.'
+          },
+          {
+            type: 'code',
+            language: 'python',
+            code: 'my_dict = {\"name\": \"Alice\", \"age\": 30}\nprint(my_dict[\"name\"])   # Accessing values\nmy_dict[\"city\"] = \"New York\" # Adding/modifying entries\nprint(my_dict)'
+          },
+           {
+            type: 'heading',
+            text: 'Sets'
+          },
+          {
+            type: 'paragraph',
+            text: 'Sets are unordered, mutable collections of unique elements. They are useful for operations like membership testing, eliminating duplicates, and set math.'
+          },
+          {
+            type: 'code',
+            language: 'python',
+            code: 'my_set = {1, 2, 3, 2, 1} # Duplicates are automatically removed\nprint(my_set)\nmy_set.add(4)\nprint(my_set)'
+          }
+        ],
+        duration: '40 minutes',
+        difficulty: 'Intermediate',
+        practiceCode: '# Practice with Data Structures\n\n# 1. Create a list of your favorite fruits.\nfavorite_fruits = [\"apple\", \"banana\", \"cherry\"]\n\n# 2. Add a new fruit to the list.\nfavorite_fruits.append(\"date\")\n\n# 3. Print the list.\nprint(\"Favorite Fruits:\", favorite_fruits)\n\n# 4. Create a dictionary representing a person (name, age, city).\nperson = {\n    \"name\": \"Bob\",\n    \"age\": 28,\n    \"city\": \"London\"\n}\n\n# 5. Access and print the person\'s age.\nprint(\"Bob\'s Age:\", person[\"age\"])\n\n# 6. Add a new key-value pair to the dictionary (e.g., occupation).\nperson[\"occupation\"] = \"Engineer\"\n\n# 7. Print the updated dictionary.\nprint(\"Updated Person Info:\", person)\n\n# 8. Create a set of unique numbers from a list with duplicates.\nnumbers_with_duplicates = [1, 2, 2, 3, 4, 4, 5]\nunique_numbers = set(numbers_with_duplicates)\n\n# 9. Print the set.\nprint(\"Unique Numbers:\", unique_numbers)'
+      },
+      {
+        id: 'python-errorhandling',
+        title: 'Error Handling (Try-Except)',
+        content: [
+          {
+            type: 'paragraph',
+            text: 'Error handling is crucial for writing robust code that can gracefully handle unexpected situations without crashing.'
+          },
+          {
+            type: 'heading',
+            text: 'Exceptions'
+          },
+          {
+            type: 'paragraph',
+            text: 'Errors detected during execution are called exceptions. Python has many built-in exceptions (e.g., `ValueError`, `TypeError`, `FileNotFoundError`, `ZeroDivisionError`).'
+          },
+          {
+            type: 'heading',
+            text: 'The Try-Except Block'
+          },
+          {
+            type: 'paragraph',
+            text: 'The `try` block lets you test a block of code for errors. The `except` block lets you handle the error.'
+          },
+          {
+            type: 'code',
+            language: 'python',
+            code: 'try:\n    result = 10 / 0\nexcept ZeroDivisionError:\n    print(\"Cannot divide by zero!\")\n\nprint(\"Program continues after error handling.\")\n\ntry:\n    num = int(\"abc\")\nexcept ValueError:\n    print(\"Invalid conversion to integer!\")\n'
+          },
+           {
+            type: 'heading',
+            text: 'Finally Block'
+          },
+          {
+            type: 'paragraph',
+            text: 'The `finally` block, if specified, will be executed regardless of whether the try block raises an error or not.'
+          },
+          {
+            type: 'code',
+            language: 'python',
+            code: 'try:\n    f = open(\"mydemofile.txt\")\n    try:\n        f.write(\"Lorum Ipsum\")\n    except:\n        print(\"Something went wrong when writing to the file\")\n    finally:\n        f.close()\nexcept:\n    print(\"Something went wrong when opening the file\")'
+          }
+        ],
+        duration: '30 minutes',
+        difficulty: 'Intermediate',
+        practiceCode: '# Practice with Error Handling\n\n# 1. Write a function that takes two numbers and returns their division.\n#    Use a try-except block to handle the case where the second number is zero.\ndef safe_division(numerator, denominator):\n    try:\n        result = numerator / denominator\n        return result\n    except ZeroDivisionError:\n        return \"Error: Cannot divide by zero!\"\n\n# Test the function with valid input\nprint(safe_division(10, 2))\n\n# Test the function with zero as denominator\nprint(safe_division(10, 0))\n\n# 2. Write a program that tries to open and read a file named \"non_existent_file.txt\".\n#    Use a try-except block to catch the FileNotFoundError.\ntry:\n    with open(\"non_existent_file.txt\", \"r\") as file:\n        content = file.read()\n        print(content)\nexcept FileNotFoundError:\n    print(\"Error: The file was not found.\")\nexcept Exception as e:\n    print(f\"An unexpected error occurred: {e}\")\n'
+      },
+      {
+        id: 'python-filehandling',
+        title: 'File Handling',
+        content: [
+          {
+            type: 'paragraph',
+            text: 'File handling is an essential part of any programming language, allowing you to interact with files on your computer system. Python provides built-in functions to read from and write to files.'
+          },
+          {
+            type: 'heading',
+            text: 'Opening and Closing Files'
+          },
+          {
+            type: 'paragraph',
+            text: 'You use the `open()` function to open a file. It returns a file object, which has methods for reading and writing. The `close()` method closes the file.'
+          },
+          {
+            type: 'code',
+            language: 'python',
+            code: '# Open a file in read mode (\'r\')\nfile = open(\'myfile.txt\', \'r\')\nprint(file.read()) # Read the entire file\nfile.close() # Close the file\n\n# Open a file in write mode (\'w\')\nfile = open(\'mynewfile.txt\', \'w\')\nfile.write(\'Hello, world!\')\nfile.close()\n\n# Using \'with open()\' (recommended)\nwith open(\'anotherfile.txt\', \'w\') as file:\n    file.write(\'This is a more Pythonic way.\')\n# File is automatically closed outside the block.'
+          },
+           {
+            type: 'heading',
+            text: 'Reading Modes'
+          },
+          {
+            type: 'list',
+            items: [
+              '\'r\': Read mode (default)',
+              '\'w\': Write mode (creates a new file or truncates existing)',
+              '\'a\': Append mode (adds to the end of the file)',
+              '\'x\': Exclusive creation (fails if file exists)',
+              '\'t\': Text mode (default)',
+              '\'b\': Binary mode'
+            ]
+          },
+           {
+            type: 'heading',
+            text: 'Reading and Writing'
+          },
+          {
+            type: 'code',
+            language: 'python',
+            code: 'with open(\'example.txt\', \'w\') as f:\\n    f.write(\'First line.\\n\')\\n    f.write(\'Second line.\\n\')\\n\\nwith open(\'example.txt\', \'r\') as f:\\n    print(\'Reading line by line:\')\\n    for line in f:\\n        print(line.strip())\\n\\nwith open(\'example.txt\', \'r\') as f:\\n    content = f.read() # Read all content\\n    print(\'\\nReading all at once:\')\\n    print(content)'
+          }
+        ],
+        duration: '35 minutes',
+        difficulty: 'Intermediate',
+        practiceCode: '# Practice with File Handling\n\n# 1. Write some content to a new file named \"my_practice_file.txt\".\nfile_content = \"This is the first line.\nThis is the second line.\"\nwith open(\"my_practice_file.txt\", \"w\") as f:\n    f.write(file_content)\n\n# Print a confirmation message\nprint(\"Content written to my_practice_file.txt\")\n\n# 2. Read the content back from \"my_practice_file.txt\" and print it.\nprint(\"\nReading from my_practice_file.txt:\")\nwith open(\"my_practice_file.txt\", \"r\") as f:\n    read_content = f.read()\n    print(read_content)\n\n# 3. Append a new line to the file and read it again.\nnew_line = \"This line was appended.\"\nwith open(\"my_practice_file.txt\", \"a\") as f:\n    f.write(\"\n\" + new_line)\n\nprint(\"\nContent after appending:\")\nwith open(\"my_practice_file.txt\", \"r\") as f:\n    appended_content = f.read()\n    print(appended_content)'
       }
     ],
     quiz: [

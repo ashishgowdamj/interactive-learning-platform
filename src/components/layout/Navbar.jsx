@@ -74,6 +74,7 @@ function Navbar({ userData, onSearch, onToggleDarkMode, isDarkMode }) {
           <li><a href="#" onClick={() => handleTopicClick('html')}>HTML</a></li>
           <li><a href="#" onClick={() => handleTopicClick('css')}>CSS</a></li>
           <li><a href="#" onClick={() => handleTopicClick('js')}>JavaScript</a></li>
+          <li><a href="#" onClick={() => handleTopicClick('python')}>Python</a></li>
           {userData && (
             <li className="profile-dropdown-container">
               <div className="profile-icon" onClick={toggleProfileDropdown} ref={profileIconRef}>
