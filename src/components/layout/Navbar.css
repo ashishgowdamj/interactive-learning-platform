@@ -172,4 +172,97 @@
 
 .dark-mode .mobile-menu-button {
   color: #ffffff;
+}
+
+/* Profile Dropdown */
+.profile-dropdown-container {
+  position: relative;
+  margin-left: 20px; /* Adjust spacing as needed */
+}
+
+.profile-icon {
+  cursor: pointer;
+  font-size: 1.8rem; /* Adjust size as needed */
+  color: #2c3e50; /* Icon color */
+  display: flex;
+  align-items: center;
+}
+
+.profile-dropdown-menu {
+  position: absolute;
+  top: 40px; /* Adjust based on navbar height */
+  right: 0;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 250px; /* Adjust width as needed */
+  z-index: 1001; /* Ensure it's above other content */
+  padding: 10px 0;
+}
+
+.dropdown-header {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  gap: 10px;
+}
+
+.profile-avatar {
+  font-size: 2.5rem;
+  color: #3498db;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+}
+
+.dropdown-header span {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.profile-link {
+  color: #3498db;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  gap: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #f4f4f4;
+}
+
+.dropdown-item i {
+  font-size: 1.1rem;
+  color: #7f8c8d; /* Icon color */
+}
+
+.dropdown-item span {
+  font-size: 1rem;
+  color: #34495e;
+}
+
+.dropdown-item:last-child i {
+    color: #e74c3c; /* Logout icon color */
+}
+
+.dropdown-item:last-child span {
+    color: #e74c3c; /* Logout text color */
+}
+
+/* Style for the horizontal rule */
+hr {
+  border: none;
+  height: 1px;
+  background-color: #ecf0f1;
+  margin: 10px 0;
 } 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from './firebase';
 import { auth, onAuthStateChanged, logout } from './auth';
 import LoginPage from './LoginPage';
@@ -17,7 +17,9 @@ import SearchResults from './components/common/SearchResults';
 import { topics } from './data/topics';
 import './App.css';
 import './index.css'; // Ensure index.css styles are included
-import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useParams } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate, useParams, useLocation } from 'react-router-dom';
+import ProfilePage from './ProfilePage';
+import SearchResultsPage from './SearchResultsPage';
 
 function App() {
   const [userData, setUserData] = useState(null);
@@ -31,10 +33,24 @@ function App() {
   const [showQuiz, setShowQuiz] = useState(false);
   const [quizTopicId, setQuizTopicId] = useState(null);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const toggleShowSignup = () => {
     setShowSignup(prevState => !prevState);
     setUserDataError(null);
   };
+
+  const handleLoginSuccess = () => {
+    setUser(auth.currentUser);
+    navigate('/');
+  };
+
+  useEffect(() => {
+    if (location.pathname !== '/search') {
+      setSearchResults(null);
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -42,7 +58,7 @@ function App() {
       setLoadingAuth(false);
     });
     return () => unsubscribe();
-  }, []); // Depend only on authentication state
+  }, []);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -63,6 +79,8 @@ function App() {
         } else {
           console.log("No user data found, creating initial data.");
           const initialData = {
+            firstName: user.email.split('@')[0], // Fallback to email username if no name
+            email: user.email,
             scores: { html: 0, css: 0, js: 0 },
             recentActivity: [],
             learningStatus: { html: 'Not started', css: 'Not started', js: 'Not started' },
@@ -82,7 +100,7 @@ function App() {
     };
 
     fetchUserData();
-  }, [user]); // Depend on user object
+  }, [user]);
 
   const saveUserData = async (data) => {
     if (!user) return;
@@ -95,7 +113,68 @@ function App() {
     }
   };
 
+  const handleUpdateUserProfile = async (userId, updates) => {
+    if (!userId) return;
+    try {
+      const userDocRef = doc(db, "users", userId);
+      await updateDoc(userDocRef, updates);
+      console.log("User profile updated.", updates);
+
+      setUserData(prevUserData => ({ ...prevUserData, ...updates }));
+
+    } catch (error) {
+      console.error("Error updating user profile:\n", error);
+      throw error;
+    }
+  };
+
   const updateLessonProgressInApp = async (newLessonProgress) => {
+    // Find the lesson that was just updated
+    const updatedLessonId = Object.keys(newLessonProgress).find(
+      lessonId => newLessonProgress[lessonId].status === 'completed' &&
+      (!userData.lessonProgress[lessonId] || userData.lessonProgress[lessonId].status !== 'completed')
+    );
+
+    if (updatedLessonId) {
+      // Find the lesson details
+      let lessonDetails = null;
+      let topicTitle = '';
+      
+      for (const topic of topics) {
+        const lesson = topic.lessons.find(l => l.id === updatedLessonId);
+        if (lesson) {
+          lessonDetails = lesson;
+          topicTitle = topic.title;
+          break;
+        }
+      }
+
+      if (lessonDetails) {
+        // Create activity entry
+        const activity = {
+          type: 'lesson',
+          title: lessonDetails.title,
+          description: `Completed lesson in ${topicTitle}`,
+          timestamp: new Date().toISOString()
+        };
+
+        // Update user data with new activity
+        const updatedUserData = {
+          ...userData,
+          lessonProgress: newLessonProgress,
+          recentActivity: [
+            activity,
+            ...(userData.recentActivity || []).slice(0, 9) // Keep last 10 activities
+          ]
+        };
+
+        setUserData(updatedUserData);
+        await saveUserData(updatedUserData);
+        return;
+      }
+    }
+
+    // If no new completion, just update the progress
     setUserData(prevUserData => ({ ...prevUserData, lessonProgress: newLessonProgress }));
     await saveUserData({ lessonProgress: newLessonProgress });
   };
@@ -119,6 +198,7 @@ function App() {
   const handleSearch = (searchTerm) => {
     if (!searchTerm.trim()) {
       setSearchResults(null);
+      navigate('/');
       return;
     }
 
@@ -129,63 +209,48 @@ function App() {
 
     topics.forEach(topic => {
       if (topic.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          topic.description.toLowerCase().includes(searchTerm.toLowerCase())) {
+          (topic.description && topic.description.toLowerCase().includes(searchTerm.toLowerCase()))) {
         results.topics.push(topic);
       }
 
-      topic.lessons.forEach(lesson => {
-        if (lesson.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            (lesson.description && lesson.description.toLowerCase().includes(searchTerm.toLowerCase()))) {
-          if(!results.lessons.some(l => l.id === lesson.id && l.topicId === topic.id)) {
-          results.lessons.push({
-            ...lesson,
-            topicId: topic.id
-          });
-        }
-        }
-        if (lesson.content) {
-           if (Array.isArray(lesson.content) && lesson.content.every(block => typeof block.text === 'string')) {
-           const contentString = lesson.content.map(block => block.text).join(' ').toLowerCase();
-               if(contentString.includes(searchTerm.toLowerCase())) {
-                  if(!results.lessons.some(l => l.id === lesson.id && l.topicId === topic.id)) {
-                     results.lessons.push({
-                        ...lesson,
-                        topicId: topic.id
-                     });
-                  }
-               }
-           } else if (typeof lesson.content === 'string') {
-               if(lesson.content.toLowerCase().includes(searchTerm.toLowerCase())) {
-                  if(!results.lessons.some(l => l.id === lesson.id && l.topicId === topic.id)) {
-                 results.lessons.push({
-                    ...lesson,
-                    topicId: topic.id
-                 });
-              }
-           }
-        }
-        }
-      });
+      if (topic.lessons) {
+        topic.lessons.forEach(lesson => {
+          const lessonMatch = 
+             lesson.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+             (lesson.description && lesson.description.toLowerCase().includes(searchTerm.toLowerCase())) ||
+             (lesson.content && 
+              (Array.isArray(lesson.content) 
+                 ? lesson.content.some(block => block.type === 'paragraph' && block.text.toLowerCase().includes(searchTerm.toLowerCase()))
+                 : typeof lesson.content === 'string' && lesson.content.toLowerCase().includes(searchTerm.toLowerCase())
+              ));
+
+          if (lessonMatch) {
+             if (!results.lessons.some(l => l.id === lesson.id && l.topicId === topic.id)) {
+              results.lessons.push({
+                ...lesson,
+                topicId: topic.id
+              });
+            }
+          }
+        });
+      }
     });
 
     setSearchResults(results);
+    navigate('/search');
   };
 
   const handleResultClick = (type, id) => {
     console.log('handleResultClick called with type:', type, 'id:', id);
+    // Clear search results before navigating
+    setSearchResults(null);
+    // Navigate to the appropriate route
     if (type === 'topic') {
-      // Navigate to the topic page
+      navigate(`/topics/${id}`);
     } else if (type === 'lesson') {
-      const lesson = searchResults.lessons.find(l => l.id === id);
-      if (lesson) {
-        // This might require navigating to the topic page and then scrolling or highlighting the lesson
-        // For simplicity now, let's just navigate to the topic page
-        // TODO: Implement scrolling or highlighting lesson
-      } else {
-         console.error('Lesson not found in search results with id:', id);
-      }
+      const [topicId, lessonId] = id.split('-');
+      navigate(`/topics/${topicId}#lesson-${lessonId}`);
     }
-    setSearchResults(null); // Clear search results after clicking a result
   };
 
   const onStartQuiz = (topicId) => {
@@ -198,10 +263,27 @@ function App() {
     
     if (user && userData && topicId) {
       const newScores = { ...userData.scores, [topicId]: score };
-      const updatedUserData = { ...userData, scores: newScores };
       
-      setUserData(updatedUserData); // Update state immediately
-      await saveUserData(updatedUserData); // Save to Firebase
+      // Create activity entry for quiz completion
+      const topic = topics.find(t => t.id === topicId);
+      const activity = {
+        type: 'quiz',
+        title: `${topic?.title} Quiz`,
+        description: `Scored ${score}% on the quiz`,
+        timestamp: new Date().toISOString()
+      };
+
+      const updatedUserData = {
+        ...userData,
+        scores: newScores,
+        recentActivity: [
+          activity,
+          ...(userData.recentActivity || []).slice(0, 9) // Keep last 10 activities
+        ]
+      };
+      
+      setUserData(updatedUserData);
+      await saveUserData(updatedUserData);
       console.log('Quiz score saved.');
     }
   };
@@ -214,7 +296,7 @@ function App() {
     return showSignup ? (
       <SignupPage onSignupSuccess={toggleShowSignup} onToggleLogin={toggleShowSignup} />
     ) : (
-      <LoginPage onLoginSuccess={() => setUser(auth.currentUser)} onToggleSignup={toggleShowSignup} />
+      <LoginPage onLoginSuccess={handleLoginSuccess} onToggleSignup={toggleShowSignup} />
     );
   }
 
@@ -227,65 +309,87 @@ function App() {
   }
 
   return (
-    <Router>
-    <div className="app">
+    <div>
       <Navbar
-        userEmail={user.email}
+        userData={userData}
         onSearch={handleSearch}
         onToggleDarkMode={toggleDarkMode}
         isDarkMode={isDarkMode}
       />
-        <Routes>
-          <Route path="/login" element={<LoginPage onLoginSuccess={() => {}} onToggleSignup={toggleShowSignup} />} />
-          <Route path="/signup" element={<SignupPage onSignupSuccess={toggleShowSignup} onToggleLogin={toggleShowSignup} />} />
-          <Route
-            path="/"
-            element={user ? (
-              <MainContent
-                 user={user}
-                 userData={userData}
-                 loadingUserData={loadingUserData}
-                 userDataError={userDataError}
-                 searchResults={searchResults}
-                 onResultClick={handleResultClick}
-                 onUpdateProgress={updateLessonProgressInApp}
-                 onStartQuiz={onStartQuiz}
-              />
-            ) : (
-              <Navigate to="/login" replace />
-            )}
-          />
-          <Route
-             path="/topics/:topicId"
-             element={user ? (
-                 <TopicPage
-                    user={user}
-                    userData={userData}
-                    loadingUserData={loadingUserData}
-                    userDataError={userDataError}
-                    onUpdateProgress={updateLessonProgressInApp}
-                    onStartQuiz={onStartQuiz}
-                 />
-             ) : (
-                 <Navigate to="/login" replace />
-             )}
-          />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+      <Routes>
+        <Route path="/login" element={<LoginPage onLoginSuccess={handleLoginSuccess} onToggleSignup={toggleShowSignup} />} />
+        <Route path="/signup" element={<SignupPage onSignupSuccess={toggleShowSignup} onToggleLogin={toggleShowSignup} />} />
+        <Route 
+          path="/profile" 
+          element={user ? 
+            <ProfilePage 
+              user={user} 
+              userData={userData} 
+              loadingUserData={loadingUserData} 
+              userDataError={userDataError} 
+              onUpdateUserProfile={handleUpdateUserProfile}
+            /> 
+            : <Navigate to="/login" replace />
+          }
+        />
+        <Route
+          path="/search"
+          element={user ? (
+            <SearchResultsPage 
+              results={searchResults} 
+              onResultClick={handleResultClick}
+            />
+          ) : (
+            <Navigate to="/login" replace />
+          )}
+        />
+        <Route
+          path="/"
+          element={user ? (
+            <MainContent
+              user={user}
+              userData={userData}
+              loadingUserData={loadingUserData}
+              userDataError={userDataError}
+              searchResults={searchResults}
+              onResultClick={handleResultClick}
+              onUpdateProgress={updateLessonProgressInApp}
+              onStartQuiz={onStartQuiz}
+            />
+          ) : (
+            <Navigate to="/login" replace />
+          )}
+        />
+        <Route
+           path="/topics/:topicId"
+           element={user ? (
+               <TopicPage
+                  user={user}
+                  userData={userData}
+                  loadingUserData={loadingUserData}
+                  userDataError={userDataError}
+                  onUpdateProgress={updateLessonProgressInApp}
+                  onStartQuiz={onStartQuiz}
+               />
+           ) : (
+               <Navigate to="/login" replace />
+           )}
+        />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
 
-        {showQuiz && quizTopicId && (
-          <div className="quiz-overlay">
-            <div className="quiz-modal">
-              <Quiz
-                topic={topics.find(t => t.id === quizTopicId)}
-                onComplete={handleQuizComplete}
-                onClose={() => setShowQuiz(false)}
-              />
-            </div>
+      {showQuiz && quizTopicId && (
+        <div className="quiz-overlay">
+          <div className="quiz-modal">
+            <Quiz
+              topic={topics.find(t => t.id === quizTopicId)}
+              onComplete={handleQuizComplete}
+              onClose={() => setShowQuiz(false)}
+            />
           </div>
-        )}
-      </div>
-    </Router>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -336,7 +440,7 @@ function MainContent({
                     </div>
 
                    <div className="dashboard-placeholder">
-            <h3>Your Progress ({user.email})</h3>
+            <h3>Your Progress ({userData?.firstName || user?.email})</h3>
             {userData && (
               <div className="dashboard-placeholder">
                 <ScoreDisplay scores={userData.scores} />

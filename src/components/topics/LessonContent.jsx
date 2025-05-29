@@ -56,42 +56,77 @@ function LessonContent({ lesson, onComplete, onUpdateProgress, selectedTopicId }
     });
   };
 
-  const runCode = () => {
+  const runCode = async () => {
     const iframe = outputIframeRef.current;
     if (iframe) {
       const document = iframe.contentDocument || iframe.contentWindow?.document;
       if (document) {
         document.open();
         
-        // Debug logging
-        console.log("Full lesson object:", lesson);
-        console.log("Practice code:", practiceCode);
-        
-        // Determine language based on content
-        let lessonLanguage;
-        if (practiceCode.includes('<!DOCTYPE html>') || practiceCode.includes('<html>')) {
-          lessonLanguage = 'html';
-        } else if (practiceCode.includes('{') && practiceCode.includes('}') && practiceCode.includes(':')) {
-          lessonLanguage = 'css';
-        } else if (practiceCode.includes('function') || practiceCode.includes('const') || practiceCode.includes('let')) {
-          lessonLanguage = 'javascript';
-        }
-        
-        console.log("Determined lesson language from content:", lessonLanguage);
-        let htmlContent = '';
-
-        if (lessonLanguage === 'html') {
-          htmlContent = practiceCode;
-        } else if (lessonLanguage === 'css') {
-          htmlContent = `<!DOCTYPE html>\n<html>\n<head>\n  <title>CSS Practice Output</title>\n  <style>\n    ${practiceCode}\n  </style>\n</head>\n<body>\n  <h1>CSS Practice</h1>\n  <p>This is a paragraph to style.</p>\n  <div>Another element.</div>\n</body>\n</html>`;
-        } else if (lessonLanguage === 'javascript') {
-          htmlContent = `<!DOCTYPE html>\n<html>\n<head>\n  <title>JavaScript Practice Output</title>\n</head>\n<body>\n  <p id="output">Output will appear here or in console.</p>\n  <script>\n    ${practiceCode}\n  </script>\n</body>\n</html>`;
-        }
-
-        console.log("Generated HTML content for iframe:", htmlContent);
-
-        document.write(htmlContent);
+        // Clear previous output
+        document.write('');
         document.close();
+        
+        // Determine language from the lesson's content, fallback to lesson.id if needed
+        const codeContentBlock = Array.isArray(lesson.content) ? lesson.content.find(block => block.type === 'code') : null;
+        const lessonLanguage = codeContentBlock?.language || lesson.id;
+        
+        console.log("Determined lesson language:", lessonLanguage);
+        
+        if (lessonLanguage === 'html') {
+          document.open();
+          document.write(practiceCode);
+          document.close();
+        } else if (lessonLanguage === 'css') {
+          document.open();
+          const htmlContent = `<!DOCTYPE html>\n<html>\n<head>\n  <title>CSS Practice Output</title>\n  <style>\n    ${practiceCode}\n  </style>\n</head>\n<body>\n  <h1>CSS Practice</h1>\n  <p>This is a paragraph to style.</p>\n  <div>Another element.</div>\n</body>\n</html>`;
+          document.write(htmlContent);
+          document.close();
+        } else if (lessonLanguage === 'javascript') {
+          document.open();
+          const htmlContent = `<!DOCTYPE html>\n<html>\n<head>\n  <title>JavaScript Practice Output</title>\n</head>\n<body>\n  <p id="output">Output will appear here or in console.</p>\n  <script>\n    ${practiceCode}\n  </script>\n</body>\n</html>`;
+          document.write(htmlContent);
+          document.close();
+        } else if (lessonLanguage === 'python') {
+          document.open();
+          document.write('<p>Running Python code...</p>');
+          document.close();
+
+          try {
+            const response = await fetch('http://localhost:5001/execute-python', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ code: practiceCode }),
+            });
+
+            const result = await response.json();
+            console.log("Python execution result:", result);
+
+            document.open();
+            if (result.stdout) {
+              document.write(`<pre>${result.stdout}</pre>`);
+            } else if (result.stderr) {
+              document.write(`<pre style="color: red;">${result.stderr}</pre>`);
+            } else {
+              document.write('<p>No output.</p>');
+            }
+            document.close();
+
+          } catch (error) {
+            console.error('Error executing Python code:', error);
+            document.open();
+            document.write(`<p style="color: red;">Error connecting to the execution server.</p>`);
+            document.close();
+          }
+
+        } else {
+          document.open();
+          const htmlContent = `<!DOCTYPE html>\n<html>\n<head>\n  <title>Code Output</title>\n</head>\n<body>\n  <p>Code execution for ${lessonLanguage ? lessonLanguage.toUpperCase() : 'this language'} is not supported in this browser environment yet.</p>\n  <p>Your practice code is displayed in the editor above.</p>\n</body>\n</html>`;
+          document.write(htmlContent);
+          document.close();
+        }
       }
     }
   };

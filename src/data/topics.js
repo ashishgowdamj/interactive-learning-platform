@@ -777,5 +777,229 @@ export const topics = [
         correctAnswer: 'onclick'
       }
     ]
+  },
+  {
+    id: 'python',
+    title: 'Python Programming',
+    description: 'Learn Python programming from basics to advanced concepts.',
+    lessons: [
+      {
+        id: 'python-intro',
+        title: 'Introduction to Python',
+        content: [
+          {
+            type: 'paragraph',
+            text: 'Python is a high-level, interpreted programming language known for its simplicity and readability. It\'s widely used in web development, data science, artificial intelligence, and more.'
+          },
+          {
+            type: 'heading',
+            text: 'Why Python?'
+          },
+          {
+            type: 'list',
+            items: [
+              'Easy to learn and read',
+              'Versatile and powerful',
+              'Large standard library',
+              'Great for beginners',
+              'Wide range of applications'
+            ]
+          },
+          {
+            type: 'code',
+            language: 'python',
+            code: '# Your first Python program\nprint("Hello, World!")\n\n# Variables and basic operations\nname = "Python"\nversion = 3.9\nprint(f"Welcome to {name} {version}!")'
+          },
+          {
+            type: 'note',
+            text: 'Python uses indentation to define code blocks, making it more readable than languages that use braces or keywords.'
+          }
+        ],
+        duration: '20 minutes',
+        difficulty: 'Beginner',
+        practiceCode: '# Write your first Python program\n\n# 1. Print a welcome message\nprint("Welcome to Python!")\n\n# 2. Create variables for your name and age\nname = "Your Name"\nage = 25\n\n# 3. Print a message using your variables\nprint(f"My name is {name} and I am {age} years old.")\n\n# 4. Try some basic math\nx = 10\ny = 5\nprint(f"Sum: {x + y}")\nprint(f"Difference: {x - y}")\nprint(f"Product: {x * y}")\nprint(f"Quotient: {x / y}")'
+      },
+      {
+        id: 'python-variables',
+        title: 'Variables and Data Types',
+        content: [
+          {
+            type: 'paragraph',
+            text: 'Variables in Python are containers for storing data values. Python has several built-in data types that are used to store different types of data.'
+          },
+          {
+            type: 'heading',
+            text: 'Basic Data Types'
+          },
+          {
+            type: 'list',
+            items: [
+              'Numbers (int, float)',
+              'Strings (str)',
+              'Booleans (bool)',
+              'Lists',
+              'Tuples',
+              'Dictionaries'
+            ]
+          },
+          {
+            type: 'code',
+            language: 'python',
+            code: '# Numbers\nage = 25          # integer\nheight = 1.75     # float\n\n# Strings\nname = "Python"   # string\n\n# Boolean\nis_student = True\n\n# List\nfruits = ["apple", "banana", "orange"]\n\n# Tuple\ncoordinates = (10, 20)\n\n# Dictionary\nperson = {\n    "name": "John",\n    "age": 30,\n    "city": "New York"\n}'
+          }
+        ],
+        duration: '25 minutes',
+        difficulty: 'Beginner',
+        practiceCode: '# Practice with variables and data types\n\n# 1. Create variables of different types\nname = "Your Name"\nage = 25\nheight = 1.75\nis_student = True\n\n# 2. Create a list of your favorite movies\nmovies = ["Movie 1", "Movie 2", "Movie 3"]\n\n# 3. Create a tuple with your coordinates\nlocation = (40.7128, -74.0060)\n\n# 4. Create a dictionary with your information\nmy_info = {\n    "name": name,\n    "age": age,\n    "height": height,\n    "is_student": is_student,\n    "favorite_movies": movies,\n    "location": location\n}\n\n# 5. Print all the information\nprint("My Information:")\nfor key, value in my_info.items():\n    print(f"{key}: {value}")'
+      },
+      {
+        id: 'python-control',
+        title: 'Control Flow and Loops',
+        content: [
+          {
+            type: 'paragraph',
+            text: 'Control flow statements and loops allow you to control the execution of your code based on conditions and repeat operations.'
+          },
+          {
+            type: 'heading',
+            text: 'Control Flow Statements'
+          },
+          {
+            type: 'list',
+            items: [
+              'if-elif-else statements',
+              'for loops',
+              'while loops',
+              'break and continue',
+              'try-except blocks'
+            ]
+          },
+          {
+            type: 'code',
+            language: 'python',
+            code: '# If-else statement\nage = 18\nif age >= 18:\n    print("You are an adult")\nelse:\n    print("You are a minor")\n\n# For loop\nfruits = ["apple", "banana", "orange"]\nfor fruit in fruits:\n    print(fruit)\n\n# While loop\ncount = 0\nwhile count < 5:\n    print(count)\n    count += 1'
+          }
+        ],
+        duration: '30 minutes',
+        difficulty: 'Beginner',
+        practiceCode: '# Practice with control flow and loops\n\n# 1. Create a number guessing game\nimport random\n\n# Generate a random number between 1 and 100\nsecret_number = random.randint(1, 100)\nattempts = 0\nmax_attempts = 5\n\nprint("Welcome to the Number Guessing Game!")\nprint(f"I\'m thinking of a number between 1 and 100. You have {max_attempts} attempts.")\n\nwhile attempts < max_attempts:\n    try:\n        # Get user\'s guess\n        guess = int(input("Enter your guess: "))\n        attempts += 1\n        \n        # Check the guess\n        if guess < secret_number:\n            print("Too low!")\n        elif guess > secret_number:\n            print("Too high!")\n        else:\n            print(f"Congratulations! You guessed it in {attempts} attempts!")\n            break\n        \n        # Show remaining attempts\n        if attempts < max_attempts:\n            print(f"Attempts remaining: {max_attempts - attempts}")\n        \n    except ValueError:\n        print("Please enter a valid number!")\n        continue\n\nif attempts == max_attempts and guess != secret_number:\n    print(f"Game over! The number was {secret_number}.")'
+      },
+      {
+        id: 'python-functions',
+        title: 'Functions and Modules',
+        content: [
+          {
+            type: 'paragraph',
+            text: 'Functions are blocks of reusable code that perform specific tasks. Modules are files containing Python code that can be imported and used in other programs.'
+          },
+          {
+            type: 'heading',
+            text: 'Function Basics'
+          },
+          {
+            type: 'list',
+            items: [
+              'Function definition and calling',
+              'Parameters and arguments',
+              'Return values',
+              'Default parameters',
+              'Lambda functions'
+            ]
+          },
+          {
+            type: 'code',
+            language: 'python',
+            code: '# Basic function\ndef greet(name):\n    return f"Hello, {name}!"\n\n# Function with default parameter\ndef calculate_area(length, width=10):\n    return length * width\n\n# Lambda function\nsquare = lambda x: x ** 2\n\n# Using the functions\nprint(greet("Python"))\nprint(calculate_area(5))  # Uses default width\nprint(calculate_area(5, 20))  # Specifies width\nprint(square(4))'
+          }
+        ],
+        duration: '30 minutes',
+        difficulty: 'Intermediate',
+        practiceCode: '# Practice with functions\n\n# 1. Create a function to calculate BMI\ndef calculate_bmi(weight, height):\n    return weight / (height ** 2)\n\n# 2. Create a function to check if a number is prime\ndef is_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, int(n ** 0.5) + 1):\n        if n % i == 0:\n            return False\n    return True\n\n# 3. Create a function to generate Fibonacci sequence\ndef fibonacci(n):\n    sequence = [0, 1]\n    while len(sequence) < n:\n        sequence.append(sequence[-1] + sequence[-2])\n    return sequence\n\n# Test the functions\nweight = 70  # kg\nheight = 1.75  # meters\nprint(f"BMI: {calculate_bmi(weight, height):.2f}")\n\nnumber = 17\nprint(f"Is {number} prime? {is_prime(number)}")\n\nfib_sequence = fibonacci(10)\nprint(f"Fibonacci sequence: {fib_sequence}")'
+      },
+      {
+        id: 'python-oop',
+        title: 'Object-Oriented Programming',
+        content: [
+          {
+            type: 'paragraph',
+            text: 'Object-Oriented Programming (OOP) is a programming paradigm that uses objects to organize code. Python supports OOP through classes and objects.'
+          },
+          {
+            type: 'heading',
+            text: 'OOP Concepts'
+          },
+          {
+            type: 'list',
+            items: [
+              'Classes and Objects',
+              'Inheritance',
+              'Encapsulation',
+              'Polymorphism',
+              'Method overriding'
+            ]
+          },
+          {
+            type: 'code',
+            language: 'python',
+            code: 'class Animal:\n    def __init__(self, name):\n        self.name = name\n    \n    def speak(self):\n        pass\n\nclass Dog(Animal):\n    def speak(self):\n        return f"{self.name} says Woof!"\n\nclass Cat(Animal):\n    def speak(self):\n        return f"{self.name} says Meow!"\n\n# Create objects\ndog = Dog("Buddy")\ncat = Cat("Whiskers")\n\nprint(dog.speak())\nprint(cat.speak())'
+          }
+        ],
+        duration: '35 minutes',
+        difficulty: 'Intermediate',
+        practiceCode: '# Practice with Object-Oriented Programming\n\n# 1. Create a BankAccount class\nclass BankAccount:\n    def __init__(self, account_number, owner_name, balance=0):\n        self.account_number = account_number\n        self.owner_name = owner_name\n        self.balance = balance\n    \n    def deposit(self, amount):\n        if amount > 0:\n            self.balance += amount\n            return f"Deposited ${amount}. New balance: ${self.balance}"\n        return "Invalid deposit amount"\n    \n    def withdraw(self, amount):\n        if 0 < amount <= self.balance:\n            self.balance -= amount\n            return f"Withdrawn ${amount}. New balance: ${self.balance}"\n        return "Invalid withdrawal amount"\n    \n    def get_balance(self):\n        return f"Current balance: ${self.balance}"\n\n# 2. Create a SavingsAccount class that inherits from BankAccount\nclass SavingsAccount(BankAccount):\n    def __init__(self, account_number, owner_name, balance=0, interest_rate=0.01):\n        super().__init__(account_number, owner_name, balance)\n        self.interest_rate = interest_rate\n    \n    def add_interest(self):\n        interest = self.balance * self.interest_rate\n        self.balance += interest\n        return f"Interest added: ${interest:.2f}. New balance: ${self.balance}"\n\n# Test the classes\naccount = BankAccount("12345", "John Doe", 1000)\nprint(account.deposit(500))\nprint(account.withdraw(200))\nprint(account.get_balance())\n\nsavings = SavingsAccount("67890", "Jane Smith", 2000, 0.02)\nprint(savings.add_interest())\nprint(savings.get_balance())'
+      }
+    ],
+    quiz: [
+      {
+        question: 'What is Python?',
+        options: [
+          'A snake species',
+          'A programming language',
+          'A web browser',
+          'An operating system'
+        ],
+        correctAnswer: 1
+      },
+      {
+        question: 'Which of the following is NOT a Python data type?',
+        options: [
+          'List',
+          'Dictionary',
+          'Array',
+          'Tuple'
+        ],
+        correctAnswer: 2
+      },
+      {
+        question: 'What is the correct way to create a function in Python?',
+        options: [
+          'function myFunction():',
+          'def myFunction():',
+          'create myFunction():',
+          'void myFunction():'
+        ],
+        correctAnswer: 1
+      },
+      {
+        question: 'Which symbol is used for comments in Python?',
+        options: [
+          '//',
+          '/* */',
+          '#',
+          '--'
+        ],
+        correctAnswer: 2
+      },
+      {
+        question: 'What is the output of print(type(1/2))?',
+        options: [
+          '<class \'int\'>',
+          '<class \'float\'>',
+          '<class \'number\'>',
+          '<class \'decimal\'>'
+        ],
+        correctAnswer: 1
+      }
+    ]
   }
 ]; 
