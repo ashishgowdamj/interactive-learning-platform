@@ -740,7 +740,7 @@ print("Pages:", book["pages"])
 price = 29.99
 quantity = 3
 total = price * quantity
-print(f"Total cost: ${total:.2f}")`
+print("Total cost: {:.2f}".format(total))`
       },
       {
         id: 'python-functions',
