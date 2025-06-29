@@ -27,10 +27,13 @@ function Navbar({ userData, onSearch, onToggleDarkMode, isDarkMode }) {
           <img src="/assets/icons/ILP.png" alt="ILP Logo" className="logo" />
           <span className="site-title">Interactive Learning Platform</span>
         </div>
+        
         <SearchBar onSearch={onSearch} />
+        
         <button className="mobile-menu-button" onClick={toggleMobileMenu}>
           &#9776;
         </button>
+        
         <ul className={`nav-links ${isMobileMenuOpen ? 'open' : ''}`}>
           <li><a href="#" onClick={() => handleTopicClick('html')}>HTML</a></li>
           <li><a href="#" onClick={() => handleTopicClick('css')}>CSS</a></li>

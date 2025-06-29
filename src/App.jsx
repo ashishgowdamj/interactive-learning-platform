@@ -251,8 +251,6 @@ function App() {
       />
       
       <main className="main-content">
-        <Breadcrumb />
-        
         <Routes>
           <Route
             path="/search"
@@ -323,106 +321,157 @@ function MainContent({
             onResultClick={onResultClick}
           />
         ) : (
-          <section className="content-section">
-            <div className="container">
-              <div className="hero-section">
-                <h1>Learn Web Development</h1>
-                <p>Master HTML, CSS, JavaScript, Python, and React with interactive tutorials and examples.</p>
+          <>
+            {/* Hero Section */}
+            <section className="hero-section">
+              <div className="hero-content">
+                <h1>Learn to code — for free.</h1>
+                <p className="subtitle">
+                  Build projects. Earn certifications. Since 2011, millions of people have used Codecademy to learn the technical skills they need to level up their careers.
+                </p>
+                <div className="hero-cta">
+                  <button className="cta-button" onClick={() => navigate('/topics/html')}>
+                    Start coding now
+                  </button>
+                  <button className="cta-button secondary">
+                    Browse our catalog
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            {/* Courses Section */}
+            <section className="courses-section">
+              <div className="courses-container">
+                <div className="section-header">
+                  <h2>Popular courses</h2>
+                  <p>Choose from our most popular programming languages and tools</p>
+                </div>
                 
-                <div className="featured-topics">
-                  <h2>Choose Your Learning Path</h2>
-                  <div className="topic-grid">
-                    {topics.map(topic => {
-                      const completedLessons = topic.lessons.filter(lesson => 
-                        userData?.lessonProgress?.[lesson.id]?.status === 'completed'
-                      ).length;
-                      const progressPercentage = (completedLessons / topic.lessons.length) * 100;
-                      
-                      return (
-                        <div
-                          key={topic.id}
-                          className="topic-card"
-                          onClick={() => navigate(`/topics/${topic.id}`)}
-                          style={{ '--topic-color': topic.color }}
-                        >
-                          <div className="topic-card-header">
-                            <div className="topic-card-icon">{topic.icon}</div>
-                            <div className="topic-card-info">
-                              <h3>{topic.title}</h3>
-                              <p>{topic.description}</p>
+                <div className="course-grid">
+                  {topics.map(topic => {
+                    const completedLessons = topic.lessons.filter(lesson => 
+                      userData?.lessonProgress?.[lesson.id]?.status === 'completed'
+                    ).length;
+                    const progressPercentage = (completedLessons / topic.lessons.length) * 100;
+                    
+                    return (
+                      <div
+                        key={topic.id}
+                        className="course-card"
+                        onClick={() => navigate(`/topics/${topic.id}`)}
+                        style={{ '--course-color': topic.color, '--course-color-hover': topic.color + 'dd' }}
+                      >
+                        <div className="course-header">
+                          <div className="course-icon">{topic.icon}</div>
+                          <h3 className="course-title">{topic.title}</h3>
+                          <p className="course-description">{topic.description}</p>
+                          <div className="course-meta">
+                            <span className="meta-item">{topic.difficulty}</span>
+                            <span className="meta-item">{topic.estimatedTime}</span>
+                            <span className="meta-item">{topic.lessons.length} lessons</span>
+                          </div>
+                        </div>
+                        
+                        <div className="course-body">
+                          <div className="progress-section">
+                            <div className="progress-label">
+                              <span className="progress-text">Progress</span>
+                              <span className="progress-percentage">{Math.round(progressPercentage)}%</span>
                             </div>
-                          </div>
-                          
-                          <div className="topic-card-meta">
-                            <span className="difficulty">{topic.difficulty}</span>
-                            <span className="duration">{topic.estimatedTime}</span>
-                            <span className="lessons">{topic.lessons.length} lessons</span>
-                          </div>
-                          
-                          <div className="topic-progress">
                             <div className="progress-bar">
                               <div 
                                 className="progress-fill" 
                                 style={{ width: `${progressPercentage}%` }}
                               />
                             </div>
-                            <span className="progress-text">
-                              {Math.round(progressPercentage)}% Complete
-                            </span>
                           </div>
                           
-                          <div className="topic-card-footer">
-                            <button className="continue-btn">
-                              {progressPercentage > 0 ? 'Continue Learning' : 'Start Learning'}
+                          <div className="course-footer">
+                            <span className="lesson-count">{completedLessons} of {topic.lessons.length} completed</span>
+                            <button className="continue-button">
+                              {progressPercentage > 0 ? 'Continue' : 'Start'}
                             </button>
                           </div>
                         </div>
-                      );
-                    })}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </section>
+
+            {/* Stats Section */}
+            <section className="stats-section">
+              <div className="stats-grid">
+                <div className="stat-card">
+                  <div className="stat-number">{userData?.totalLessonsCompleted || 0}</div>
+                  <div className="stat-label">Lessons Completed</div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-number">{userData?.totalQuizzesTaken || 0}</div>
+                  <div className="stat-label">Quizzes Taken</div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-number">{userData?.averageQuizScore || 0}%</div>
+                  <div className="stat-label">Average Score</div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-number">{userData?.streak || 0}</div>
+                  <div className="stat-label">Day Streak</div>
+                </div>
+              </div>
+            </section>
+
+            {/* Recent Activity */}
+            {userData?.recentActivity && userData.recentActivity.length > 0 && (
+              <section className="activity-section">
+                <div className="activity-container">
+                  <div className="section-header">
+                    <h2>Recent Activity</h2>
+                    <p>Keep track of your learning progress</p>
+                  </div>
+                  <div className="activity-list">
+                    {userData.recentActivity.slice(0, 5).map((activity, index) => (
+                      <div key={index} className="activity-item">
+                        <div className="activity-icon">
+                          {activity.type === 'lesson' ? '📚' : 
+                           activity.type === 'quiz' ? '🎯' : '📅'}
+                        </div>
+                        <div className="activity-content">
+                          <div className="activity-title">{activity.title}</div>
+                          <div className="activity-description">{activity.description}</div>
+                        </div>
+                        <div className="activity-time">
+                          {new Date(activity.timestamp).toLocaleDateString()}
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
+              </section>
+            )}
 
-                {userData?.recentActivity && userData.recentActivity.length > 0 && (
-                  <div className="recent-activity">
-                    <h2>Recent Activity</h2>
-                    <div className="activity-list">
-                      {userData.recentActivity.slice(0, 5).map((activity, index) => (
-                        <div key={index} className="activity-item">
-                          <div className="activity-icon">
-                            {activity.type === 'lesson' ? '📚' : 
-                             activity.type === 'quiz' ? '🎯' : '📅'}
-                          </div>
-                          <div className="activity-content">
-                            <h4>{activity.title}</h4>
-                            <p>{activity.description}</p>
-                            <span className="activity-time">
-                              {new Date(activity.timestamp).toLocaleDateString()}
-                            </span>
-                          </div>
-                        </div>
-                      ))}
+            {/* Achievements */}
+            {userData?.achievements && userData.achievements.length > 0 && (
+              <section className="achievements-section">
+                <div className="section-header">
+                  <h2>Your Achievements</h2>
+                  <p>Celebrate your learning milestones</p>
+                </div>
+                <div className="achievements-grid">
+                  {userData.achievements.map((achievement, index) => (
+                    <div key={index} className="achievement-badge">
+                      {achievement === 'first-lesson' && '🎓 First Lesson'}
+                      {achievement === 'lesson-master' && '📚 Lesson Master'}
+                      {achievement === 'perfect-score' && '💯 Perfect Score'}
+                      {achievement === 'quiz-master' && '🎯 Quiz Master'}
                     </div>
-                  </div>
-                )}
-
-                {userData?.achievements && userData.achievements.length > 0 && (
-                  <div className="achievements-section">
-                    <h2>Your Achievements</h2>
-                    <div className="achievements-grid">
-                      {userData.achievements.map((achievement, index) => (
-                        <div key={index} className="achievement-badge">
-                          {achievement === 'first-lesson' && '🎓 First Lesson'}
-                          {achievement === 'lesson-master' && '📚 Lesson Master'}
-                          {achievement === 'perfect-score' && '💯 Perfect Score'}
-                          {achievement === 'quiz-master' && '🎯 Quiz Master'}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </section>
+                  ))}
+                </div>
+              </section>
+            )}
+          </>
         )}
       </div>
     );
