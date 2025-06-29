@@ -327,14 +327,14 @@ function MainContent({
               <div className="hero-content">
                 <h1>Learn to code — for free.</h1>
                 <p className="subtitle">
-                  Build projects. Earn certifications. Since 2011, millions of people have used Codecademy to learn the technical skills they need to level up their careers.
+                  Build projects. Earn certifications. Since 2011, millions of people have used our platform to learn the technical skills they need to level up their careers.
                 </p>
                 <div className="hero-cta">
                   <button className="cta-button" onClick={() => navigate('/topics/html')}>
-                    Start coding now
+                    <span>🚀</span> Start coding now
                   </button>
                   <button className="cta-button secondary">
-                    Browse our catalog
+                    <span>📚</span> Browse catalog
                   </button>
                 </div>
               </div>
@@ -363,13 +363,21 @@ function MainContent({
                         style={{ '--course-color': topic.color, '--course-color-hover': topic.color + 'dd' }}
                       >
                         <div className="course-header">
-                          <div className="course-icon">{topic.icon}</div>
-                          <h3 className="course-title">{topic.title}</h3>
+                          <div className="course-icon-wrapper">
+                            <div className="course-icon">{topic.icon}</div>
+                            <h3 className="course-title">{topic.title}</h3>
+                          </div>
                           <p className="course-description">{topic.description}</p>
                           <div className="course-meta">
-                            <span className="meta-item">{topic.difficulty}</span>
-                            <span className="meta-item">{topic.estimatedTime}</span>
-                            <span className="meta-item">{topic.lessons.length} lessons</span>
+                            <span className="meta-item">
+                              <span>📊</span> {topic.difficulty}
+                            </span>
+                            <span className="meta-item">
+                              <span>⏱️</span> {topic.estimatedTime}
+                            </span>
+                            <span className="meta-item">
+                              <span>📚</span> {topic.lessons.length} lessons
+                            </span>
                           </div>
                         </div>
                         
@@ -388,9 +396,19 @@ function MainContent({
                           </div>
                           
                           <div className="course-footer">
-                            <span className="lesson-count">{completedLessons} of {topic.lessons.length} completed</span>
+                            <span className="lesson-count">
+                              <span>✅</span> {completedLessons} of {topic.lessons.length}
+                            </span>
                             <button className="continue-button">
-                              {progressPercentage > 0 ? 'Continue' : 'Start'}
+                              {progressPercentage > 0 ? (
+                                <>
+                                  <span>▶️</span> Continue
+                                </>
+                              ) : (
+                                <>
+                                  <span>🎯</span> Start
+                                </>
+                              )}
                             </button>
                           </div>
                         </div>
@@ -405,18 +423,22 @@ function MainContent({
             <section className="stats-section">
               <div className="stats-grid">
                 <div className="stat-card">
+                  <div className="stat-icon">📚</div>
                   <div className="stat-number">{userData?.totalLessonsCompleted || 0}</div>
                   <div className="stat-label">Lessons Completed</div>
                 </div>
                 <div className="stat-card">
+                  <div className="stat-icon">🎯</div>
                   <div className="stat-number">{userData?.totalQuizzesTaken || 0}</div>
                   <div className="stat-label">Quizzes Taken</div>
                 </div>
                 <div className="stat-card">
+                  <div className="stat-icon">📊</div>
                   <div className="stat-number">{userData?.averageQuizScore || 0}%</div>
                   <div className="stat-label">Average Score</div>
                 </div>
                 <div className="stat-card">
+                  <div className="stat-icon">🔥</div>
                   <div className="stat-number">{userData?.streak || 0}</div>
                   <div className="stat-label">Day Streak</div>
                 </div>
@@ -462,10 +484,10 @@ function MainContent({
                 <div className="achievements-grid">
                   {userData.achievements.map((achievement, index) => (
                     <div key={index} className="achievement-badge">
-                      {achievement === 'first-lesson' && '🎓 First Lesson'}
-                      {achievement === 'lesson-master' && '📚 Lesson Master'}
-                      {achievement === 'perfect-score' && '💯 Perfect Score'}
-                      {achievement === 'quiz-master' && '🎯 Quiz Master'}
+                      {achievement === 'first-lesson' && <>🎓 First Lesson</>}
+                      {achievement === 'lesson-master' && <>📚 Lesson Master</>}
+                      {achievement === 'perfect-score' && <>💯 Perfect Score</>}
+                      {achievement === 'quiz-master' && <>🎯 Quiz Master</>}
                     </div>
                   ))}
                 </div>
