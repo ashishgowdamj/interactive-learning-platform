@@ -23,8 +23,9 @@ function Navbar({ userData, onSearch, onToggleDarkMode, isDarkMode }) {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        <div className="site-logo-title" onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
-          <span className="site-title">Learn Code</span>
+        <div className="site-logo-title" onClick={handleLogoClick}>
+          <img src="/assets/icons/ILP.png" alt="ILP Logo" className="logo" />
+          <span className="site-title">Interactive Learning Platform</span>
         </div>
         <SearchBar onSearch={onSearch} />
         <button className="mobile-menu-button" onClick={toggleMobileMenu}>
@@ -40,6 +41,7 @@ function Navbar({ userData, onSearch, onToggleDarkMode, isDarkMode }) {
             <button 
               className="dark-mode-toggle-button" 
               onClick={onToggleDarkMode}
+              title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             >
               {isDarkMode ? '☀️' : '🌙'}
             </button>
