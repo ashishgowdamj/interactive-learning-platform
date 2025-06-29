@@ -1,13 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
-import { db } from './firebase';
-import { auth, onAuthStateChanged, logout } from './auth';
-import LoginPage from './LoginPage';
-import SignupPage from './SignupPage';
-import ScoreDisplay from './ScoreDisplay';
-import ProgressCircle from './ProgressCircle';
-import DailyChallenge from './DailyChallenge';
-import MotivationalQuote from './MotivationalQuote';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import Breadcrumb from './components/layout/Breadcrumb';
@@ -19,16 +10,34 @@ import { topics } from './data/topics';
 import './App.css';
 import './index.css';
 import { Routes, Route, Navigate, useNavigate, useParams, useLocation } from 'react-router-dom';
-import ProfilePage from './ProfilePage';
 import SearchResultsPage from './SearchResultsPage';
 
 function App() {
-  const [userData, setUserData] = useState(null);
-  const [loadingUserData, setLoadingUserData] = useState(true);
-  const [userDataError, setUserDataError] = useState(null);
-  const [user, setUser] = useState(null);
-  const [loadingAuth, setLoadingAuth] = useState(true);
-  const [showSignup, setShowSignup] = useState(false);
+  const [userData, setUserData] = useState({
+    firstName: 'Guest',
+    email: 'guest@example.com',
+    scores: { html: 0, css: 0, js: 0, python: 0, react: 0 },
+    recentActivity: [],
+    learningStatus: { 
+      html: 'Not started', 
+      css: 'Not started', 
+      js: 'Not started',
+      python: 'Not started',
+      react: 'Not started'
+    },
+    streak: 0,
+    lastActivityDate: null,
+    lessonProgress: {},
+    preferences: {
+      theme: 'light',
+      notifications: true,
+      emailUpdates: false
+    },
+    achievements: [],
+    totalLessonsCompleted: 0,
+    totalQuizzesTaken: 0,
+    averageQuizScore: 0
+  });
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [searchResults, setSearchResults] = useState(null);
   const [showQuiz, setShowQuiz] = useState(false);
@@ -37,16 +46,6 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const toggleShowSignup = () => {
-    setShowSignup(prevState => !prevState);
-    setUserDataError(null);
-  };
-
-  const handleLoginSuccess = () => {
-    setUser(auth.currentUser);
-    navigate('/');
-  };
-
   useEffect(() => {
     if (location.pathname !== '/search') {
       setSearchResults(null);
@@ -54,95 +53,18 @@ function App() {
   }, [location.pathname]);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setLoadingAuth(false);
-    });
-    return () => unsubscribe();
+    // Load data from localStorage
+    const savedData = localStorage.getItem('learningData');
+    if (savedData) {
+      setUserData(JSON.parse(savedData));
+    }
   }, []);
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      if (!user) {
-        setUserData(null);
-        setLoadingUserData(false);
-        return;
-      }
-
-      try {
-        setLoadingUserData(true);
-        const userDocRef = doc(db, "users", user.uid);
-        const userDocSnap = await getDoc(userDocRef);
-
-        if (userDocSnap.exists()) {
-          console.log("User data fetched:", userDocSnap.data());
-          setUserData(userDocSnap.data());
-        } else {
-          console.log("No user data found, creating initial data.");
-          const initialData = {
-            firstName: user.email.split('@')[0],
-            email: user.email,
-            scores: { html: 0, css: 0, js: 0, python: 0, react: 0 },
-            recentActivity: [],
-            learningStatus: { 
-              html: 'Not started', 
-              css: 'Not started', 
-              js: 'Not started',
-              python: 'Not started',
-              react: 'Not started'
-            },
-            streak: 0,
-            lastActivityDate: null,
-            lessonProgress: {},
-            preferences: {
-              theme: 'light',
-              notifications: true,
-              emailUpdates: false
-            },
-            achievements: [],
-            totalLessonsCompleted: 0,
-            totalQuizzesTaken: 0,
-            averageQuizScore: 0
-          };
-          await setDoc(userDocRef, initialData);
-          setUserData(initialData);
-        }
-      } catch (err) {
-        console.error("Error fetching user data:", err);
-        setUserDataError(err);
-      } finally {
-        setLoadingUserData(false);
-      }
-    };
-
-    fetchUserData();
-  }, [user]);
-
-  const saveUserData = async (data) => {
-    if (!user) return;
-    try {
-      const userDocRef = doc(db, "users", user.uid);
-      await setDoc(userDocRef, data, { merge: true });
-      console.log("User data saved.");
-    } catch (err) {
-      console.error("Error saving user data:\n", err);
-    }
+  const saveUserData = (data) => {
+    localStorage.setItem('learningData', JSON.stringify(data));
   };
 
-  const handleUpdateUserProfile = async (userId, updates) => {
-    if (!userId) return;
-    try {
-      const userDocRef = doc(db, "users", userId);
-      await updateDoc(userDocRef, updates);
-      console.log("User profile updated.", updates);
-      setUserData(prevUserData => ({ ...prevUserData, ...updates }));
-    } catch (error) {
-      console.error("Error updating user profile:\n", error);
-      throw error;
-    }
-  };
-
-  const updateLessonProgressInApp = async (newLessonProgress) => {
+  const updateLessonProgressInApp = (newLessonProgress) => {
     const updatedLessonId = Object.keys(newLessonProgress).find(
       lessonId => newLessonProgress[lessonId].status === 'completed' &&
       (!userData.lessonProgress[lessonId] || userData.lessonProgress[lessonId].status !== 'completed')
@@ -169,7 +91,6 @@ function App() {
           timestamp: new Date().toISOString()
         };
 
-        // Check for achievements
         const completedLessons = Object.values(newLessonProgress).filter(
           progress => progress.status === 'completed'
         ).length;
@@ -194,13 +115,13 @@ function App() {
         };
 
         setUserData(updatedUserData);
-        await saveUserData(updatedUserData);
+        saveUserData(updatedUserData);
         return;
       }
     }
 
     setUserData(prevUserData => ({ ...prevUserData, lessonProgress: newLessonProgress }));
-    await saveUserData({ lessonProgress: newLessonProgress });
+    saveUserData({ ...userData, lessonProgress: newLessonProgress });
   };
 
   useEffect(() => {
@@ -265,7 +186,6 @@ function App() {
   };
 
   const handleResultClick = (type, id) => {
-    console.log('handleResultClick called with type:', type, 'id:', id);
     setSearchResults(null);
     if (type === 'topic') {
       navigate(`/topics/${id}`);
@@ -280,10 +200,8 @@ function App() {
     setShowQuiz(true);
   };
 
-  const handleQuizComplete = async (score, topicId) => {
-    console.log('Quiz completed for topic:', topicId, 'with score:', score);
-    
-    if (user && userData && topicId) {
+  const handleQuizComplete = (score, topicId) => {
+    if (topicId) {
       const newScores = { ...userData.scores, [topicId]: score };
       
       const topic = topics.find(t => t.id === topicId);
@@ -294,12 +212,10 @@ function App() {
         timestamp: new Date().toISOString()
       };
 
-      // Calculate new average
       const totalQuizzes = (userData.totalQuizzesTaken || 0) + 1;
       const currentTotal = (userData.averageQuizScore || 0) * (userData.totalQuizzesTaken || 0);
       const newAverage = Math.round((currentTotal + score) / totalQuizzes);
 
-      // Check for achievements
       const newAchievements = [];
       if (score === 100 && !userData.achievements?.includes('perfect-score')) {
         newAchievements.push('perfect-score');
@@ -321,30 +237,9 @@ function App() {
       };
       
       setUserData(updatedUserData);
-      await saveUserData(updatedUserData);
-      console.log('Quiz score saved.');
+      saveUserData(updatedUserData);
     }
   };
-
-  if (loadingAuth) {
-    return <LoadingSpinner message="Loading authentication..." />;
-  }
-
-  if (!user) {
-    return showSignup ? (
-      <SignupPage onSignupSuccess={toggleShowSignup} onToggleLogin={toggleShowSignup} />
-    ) : (
-      <LoginPage onLoginSuccess={handleLoginSuccess} onToggleSignup={toggleShowSignup} />
-    );
-  }
-
-  if (loadingUserData) {
-    return <LoadingSpinner message="Loading your learning data..." />;
-  }
-
-  if (userDataError) {
-    return <div className="error-message">Error loading user data: {userDataError.message}</div>;
-  }
 
   return (
     <div className="app">
@@ -359,63 +254,36 @@ function App() {
         <Breadcrumb />
         
         <Routes>
-          <Route path="/login" element={<LoginPage onLoginSuccess={handleLoginSuccess} onToggleSignup={toggleShowSignup} />} />
-          <Route path="/signup" element={<SignupPage onSignupSuccess={toggleShowSignup} onToggleLogin={toggleShowSignup} />} />
-          <Route 
-            path="/profile" 
-            element={user ? 
-              <ProfilePage 
-                user={user} 
-                userData={userData} 
-                loadingUserData={loadingUserData} 
-                userDataError={userDataError} 
-                onUpdateUserProfile={handleUpdateUserProfile}
-              /> 
-              : <Navigate to="/login" replace />
-            }
-          />
           <Route
             path="/search"
-            element={user ? (
+            element={
               <SearchResultsPage 
                 results={searchResults} 
                 onResultClick={handleResultClick}
               />
-            ) : (
-              <Navigate to="/login" replace />
-            )}
+            }
           />
           <Route
             path="/"
-            element={user ? (
+            element={
               <MainContent
-                user={user}
                 userData={userData}
-                loadingUserData={loadingUserData}
-                userDataError={userDataError}
                 searchResults={searchResults}
                 onResultClick={handleResultClick}
                 onUpdateProgress={updateLessonProgressInApp}
                 onStartQuiz={onStartQuiz}
               />
-            ) : (
-              <Navigate to="/login" replace />
-            )}
+            }
           />
           <Route
              path="/topics/:topicId"
-             element={user ? (
+             element={
                  <TopicPage
-                    user={user}
                     userData={userData}
-                    loadingUserData={loadingUserData}
-                    userDataError={userDataError}
                     onUpdateProgress={updateLessonProgressInApp}
                     onStartQuiz={onStartQuiz}
                  />
-             ) : (
-                 <Navigate to="/login" replace />
-             )}
+             }
           />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
@@ -439,24 +307,13 @@ function App() {
 }
 
 function MainContent({
-     user,
      userData,
-     loadingUserData,
-     userDataError,
      searchResults,
      onResultClick,
      onUpdateProgress,
      onStartQuiz
     }) {
     const navigate = useNavigate();
-
-    if (loadingUserData) {
-        return <LoadingSpinner message="Loading your learning data..." />;
-    }
-
-    if (userDataError) {
-        return <div className="error-message">Error loading user data: {userDataError.message}</div>;
-    }
 
     return (
       <div className="fade-in">
@@ -469,11 +326,11 @@ function MainContent({
           <section className="content-section">
             <div className="container">
               <div className="hero-section">
-                <h1>Welcome to Interactive Learning Platform! 🚀</h1>
-                <p>Master web development with hands-on tutorials, interactive exercises, and real-time code execution.</p>
+                <h1>Learn Web Development</h1>
+                <p>Master HTML, CSS, JavaScript, Python, and React with interactive tutorials and examples.</p>
                 
                 <div className="featured-topics">
-                  <h2>🎯 Choose Your Learning Path</h2>
+                  <h2>Choose Your Learning Path</h2>
                   <div className="topic-grid">
                     {topics.map(topic => {
                       const completedLessons = topic.lessons.filter(lesson => 
@@ -497,9 +354,9 @@ function MainContent({
                           </div>
                           
                           <div className="topic-card-meta">
-                            <span className="difficulty">📊 {topic.difficulty}</span>
-                            <span className="duration">⏱️ {topic.estimatedTime}</span>
-                            <span className="lessons">📚 {topic.lessons.length} lessons</span>
+                            <span className="difficulty">{topic.difficulty}</span>
+                            <span className="duration">{topic.estimatedTime}</span>
+                            <span className="lessons">{topic.lessons.length} lessons</span>
                           </div>
                           
                           <div className="topic-progress">
@@ -525,34 +382,9 @@ function MainContent({
                   </div>
                 </div>
 
-                <div className="dashboard-section">
-                  <h2>📊 Your Learning Dashboard</h2>
-                  <div className="dashboard-grid">
-                    <div className="dashboard-card">
-                      <h3>📈 Progress Overview</h3>
-                      <ProgressCircle learningStatus={userData?.learningStatus} />
-                    </div>
-                    
-                    <div className="dashboard-card">
-                      <h3>🏆 Your Scores</h3>
-                      <ScoreDisplay scores={userData?.scores} />
-                    </div>
-                    
-                    <div className="dashboard-card">
-                      <h3>🎯 Daily Challenge</h3>
-                      <DailyChallenge />
-                    </div>
-                    
-                    <div className="dashboard-card">
-                      <h3>💡 Motivation</h3>
-                      <MotivationalQuote />
-                    </div>
-                  </div>
-                </div>
-
                 {userData?.recentActivity && userData.recentActivity.length > 0 && (
                   <div className="recent-activity">
-                    <h2>📝 Recent Activity</h2>
+                    <h2>Recent Activity</h2>
                     <div className="activity-list">
                       {userData.recentActivity.slice(0, 5).map((activity, index) => (
                         <div key={index} className="activity-item">
@@ -575,7 +407,7 @@ function MainContent({
 
                 {userData?.achievements && userData.achievements.length > 0 && (
                   <div className="achievements-section">
-                    <h2>🏅 Your Achievements</h2>
+                    <h2>Your Achievements</h2>
                     <div className="achievements-grid">
                       {userData.achievements.map((achievement, index) => (
                         <div key={index} className="achievement-badge">
@@ -597,10 +429,7 @@ function MainContent({
 }
 
 function TopicPage({
-    user,
     userData,
-    loadingUserData,
-    userDataError,
     onUpdateProgress,
     onStartQuiz
 }) {
@@ -610,19 +439,10 @@ function TopicPage({
     const selectedTopic = topics.find(topic => topic.id === topicId);
 
     useEffect(() => {
-        if (!loadingUserData && !selectedTopic && topicId) {
-            console.warn(`Topic with ID ${topicId} not found. Redirecting to home.`);
+        if (!selectedTopic && topicId) {
             navigate('/', { replace: true });
         }
-    }, [loadingUserData, selectedTopic, topicId, navigate]);
-
-    if (loadingUserData) {
-        return <LoadingSpinner message="Loading learning data..." />;
-    }
-
-    if (userDataError) {
-        return <div className="error-message">Error loading user data: {userDataError.message}</div>;
-    }
+    }, [selectedTopic, topicId, navigate]);
 
     if (selectedTopic) {
         return (
