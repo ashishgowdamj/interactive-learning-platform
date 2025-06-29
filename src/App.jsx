@@ -9,14 +9,15 @@ import ProgressCircle from './ProgressCircle';
 import DailyChallenge from './DailyChallenge';
 import MotivationalQuote from './MotivationalQuote';
 import Navbar from './components/layout/Navbar';
-import SecondaryNavbar from './components/layout/SecondaryNavbar';
+import Footer from './components/layout/Footer';
+import Breadcrumb from './components/layout/Breadcrumb';
 import LoadingSpinner from './components/common/LoadingSpinner';
 import TopicContent from './components/topics/TopicContent';
 import Quiz from './components/topics/Quiz';
 import SearchResults from './components/common/SearchResults';
 import { topics } from './data/topics';
 import './App.css';
-import './index.css'; // Ensure index.css styles are included
+import './index.css';
 import { Routes, Route, Navigate, useNavigate, useParams, useLocation } from 'react-router-dom';
 import ProfilePage from './ProfilePage';
 import SearchResultsPage from './SearchResultsPage';
@@ -79,14 +80,29 @@ function App() {
         } else {
           console.log("No user data found, creating initial data.");
           const initialData = {
-            firstName: user.email.split('@')[0], // Fallback to email username if no name
+            firstName: user.email.split('@')[0],
             email: user.email,
-            scores: { html: 0, css: 0, js: 0 },
+            scores: { html: 0, css: 0, js: 0, python: 0, react: 0 },
             recentActivity: [],
-            learningStatus: { html: 'Not started', css: 'Not started', js: 'Not started' },
+            learningStatus: { 
+              html: 'Not started', 
+              css: 'Not started', 
+              js: 'Not started',
+              python: 'Not started',
+              react: 'Not started'
+            },
             streak: 0,
             lastActivityDate: null,
-            lessonProgress: {}
+            lessonProgress: {},
+            preferences: {
+              theme: 'light',
+              notifications: true,
+              emailUpdates: false
+            },
+            achievements: [],
+            totalLessonsCompleted: 0,
+            totalQuizzesTaken: 0,
+            averageQuizScore: 0
           };
           await setDoc(userDocRef, initialData);
           setUserData(initialData);
@@ -119,9 +135,7 @@ function App() {
       const userDocRef = doc(db, "users", userId);
       await updateDoc(userDocRef, updates);
       console.log("User profile updated.", updates);
-
       setUserData(prevUserData => ({ ...prevUserData, ...updates }));
-
     } catch (error) {
       console.error("Error updating user profile:\n", error);
       throw error;
@@ -129,14 +143,12 @@ function App() {
   };
 
   const updateLessonProgressInApp = async (newLessonProgress) => {
-    // Find the lesson that was just updated
     const updatedLessonId = Object.keys(newLessonProgress).find(
       lessonId => newLessonProgress[lessonId].status === 'completed' &&
       (!userData.lessonProgress[lessonId] || userData.lessonProgress[lessonId].status !== 'completed')
     );
 
     if (updatedLessonId) {
-      // Find the lesson details
       let lessonDetails = null;
       let topicTitle = '';
       
@@ -150,7 +162,6 @@ function App() {
       }
 
       if (lessonDetails) {
-        // Create activity entry
         const activity = {
           type: 'lesson',
           title: lessonDetails.title,
@@ -158,14 +169,28 @@ function App() {
           timestamp: new Date().toISOString()
         };
 
-        // Update user data with new activity
+        // Check for achievements
+        const completedLessons = Object.values(newLessonProgress).filter(
+          progress => progress.status === 'completed'
+        ).length;
+
+        const newAchievements = [];
+        if (completedLessons === 1 && !userData.achievements?.includes('first-lesson')) {
+          newAchievements.push('first-lesson');
+        }
+        if (completedLessons === 10 && !userData.achievements?.includes('lesson-master')) {
+          newAchievements.push('lesson-master');
+        }
+
         const updatedUserData = {
           ...userData,
           lessonProgress: newLessonProgress,
           recentActivity: [
             activity,
-            ...(userData.recentActivity || []).slice(0, 9) // Keep last 10 activities
-          ]
+            ...(userData.recentActivity || []).slice(0, 9)
+          ],
+          totalLessonsCompleted: completedLessons,
+          achievements: [...(userData.achievements || []), ...newAchievements]
         };
 
         setUserData(updatedUserData);
@@ -174,7 +199,6 @@ function App() {
       }
     }
 
-    // If no new completion, just update the progress
     setUserData(prevUserData => ({ ...prevUserData, lessonProgress: newLessonProgress }));
     await saveUserData({ lessonProgress: newLessonProgress });
   };
@@ -242,9 +266,7 @@ function App() {
 
   const handleResultClick = (type, id) => {
     console.log('handleResultClick called with type:', type, 'id:', id);
-    // Clear search results before navigating
     setSearchResults(null);
-    // Navigate to the appropriate route
     if (type === 'topic') {
       navigate(`/topics/${id}`);
     } else if (type === 'lesson') {
@@ -264,7 +286,6 @@ function App() {
     if (user && userData && topicId) {
       const newScores = { ...userData.scores, [topicId]: score };
       
-      // Create activity entry for quiz completion
       const topic = topics.find(t => t.id === topicId);
       const activity = {
         type: 'quiz',
@@ -273,13 +294,30 @@ function App() {
         timestamp: new Date().toISOString()
       };
 
+      // Calculate new average
+      const totalQuizzes = (userData.totalQuizzesTaken || 0) + 1;
+      const currentTotal = (userData.averageQuizScore || 0) * (userData.totalQuizzesTaken || 0);
+      const newAverage = Math.round((currentTotal + score) / totalQuizzes);
+
+      // Check for achievements
+      const newAchievements = [];
+      if (score === 100 && !userData.achievements?.includes('perfect-score')) {
+        newAchievements.push('perfect-score');
+      }
+      if (totalQuizzes === 5 && !userData.achievements?.includes('quiz-master')) {
+        newAchievements.push('quiz-master');
+      }
+
       const updatedUserData = {
         ...userData,
         scores: newScores,
         recentActivity: [
           activity,
-          ...(userData.recentActivity || []).slice(0, 9) // Keep last 10 activities
-        ]
+          ...(userData.recentActivity || []).slice(0, 9)
+        ],
+        totalQuizzesTaken: totalQuizzes,
+        averageQuizScore: newAverage,
+        achievements: [...(userData.achievements || []), ...newAchievements]
       };
       
       setUserData(updatedUserData);
@@ -309,74 +347,81 @@ function App() {
   }
 
   return (
-    <div>
+    <div className="app">
       <Navbar
         userData={userData}
         onSearch={handleSearch}
         onToggleDarkMode={toggleDarkMode}
         isDarkMode={isDarkMode}
       />
-      <Routes>
-        <Route path="/login" element={<LoginPage onLoginSuccess={handleLoginSuccess} onToggleSignup={toggleShowSignup} />} />
-        <Route path="/signup" element={<SignupPage onSignupSuccess={toggleShowSignup} onToggleLogin={toggleShowSignup} />} />
-        <Route 
-          path="/profile" 
-          element={user ? 
-            <ProfilePage 
-              user={user} 
-              userData={userData} 
-              loadingUserData={loadingUserData} 
-              userDataError={userDataError} 
-              onUpdateUserProfile={handleUpdateUserProfile}
-            /> 
-            : <Navigate to="/login" replace />
-          }
-        />
-        <Route
-          path="/search"
-          element={user ? (
-            <SearchResultsPage 
-              results={searchResults} 
-              onResultClick={handleResultClick}
-            />
-          ) : (
-            <Navigate to="/login" replace />
-          )}
-        />
-        <Route
-          path="/"
-          element={user ? (
-            <MainContent
-              user={user}
-              userData={userData}
-              loadingUserData={loadingUserData}
-              userDataError={userDataError}
-              searchResults={searchResults}
-              onResultClick={handleResultClick}
-              onUpdateProgress={updateLessonProgressInApp}
-              onStartQuiz={onStartQuiz}
-            />
-          ) : (
-            <Navigate to="/login" replace />
-          )}
-        />
-        <Route
-           path="/topics/:topicId"
-           element={user ? (
-               <TopicPage
-                  user={user}
-                  userData={userData}
-                  loadingUserData={loadingUserData}
-                  userDataError={userDataError}
-                  onUpdateProgress={updateLessonProgressInApp}
-                  onStartQuiz={onStartQuiz}
-               />
-           ) : (
-               <Navigate to="/login" replace />
-           )}
-        />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+      
+      <main className="main-content">
+        <Breadcrumb />
+        
+        <Routes>
+          <Route path="/login" element={<LoginPage onLoginSuccess={handleLoginSuccess} onToggleSignup={toggleShowSignup} />} />
+          <Route path="/signup" element={<SignupPage onSignupSuccess={toggleShowSignup} onToggleLogin={toggleShowSignup} />} />
+          <Route 
+            path="/profile" 
+            element={user ? 
+              <ProfilePage 
+                user={user} 
+                userData={userData} 
+                loadingUserData={loadingUserData} 
+                userDataError={userDataError} 
+                onUpdateUserProfile={handleUpdateUserProfile}
+              /> 
+              : <Navigate to="/login" replace />
+            }
+          />
+          <Route
+            path="/search"
+            element={user ? (
+              <SearchResultsPage 
+                results={searchResults} 
+                onResultClick={handleResultClick}
+              />
+            ) : (
+              <Navigate to="/login" replace />
+            )}
+          />
+          <Route
+            path="/"
+            element={user ? (
+              <MainContent
+                user={user}
+                userData={userData}
+                loadingUserData={loadingUserData}
+                userDataError={userDataError}
+                searchResults={searchResults}
+                onResultClick={handleResultClick}
+                onUpdateProgress={updateLessonProgressInApp}
+                onStartQuiz={onStartQuiz}
+              />
+            ) : (
+              <Navigate to="/login" replace />
+            )}
+          />
+          <Route
+             path="/topics/:topicId"
+             element={user ? (
+                 <TopicPage
+                    user={user}
+                    userData={userData}
+                    loadingUserData={loadingUserData}
+                    userDataError={userDataError}
+                    onUpdateProgress={updateLessonProgressInApp}
+                    onStartQuiz={onStartQuiz}
+                 />
+             ) : (
+                 <Navigate to="/login" replace />
+             )}
+          />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </main>
+
+      <Footer />
 
       {showQuiz && quizTopicId && (
         <div className="quiz-overlay">
@@ -414,46 +459,140 @@ function MainContent({
     }
 
     return (
-      <main className="main-content">
+      <div className="fade-in">
         {searchResults ? (
           <SearchResults
             results={searchResults}
-                onResultClick={onResultClick}
+            onResultClick={onResultClick}
           />
         ) : (
-        <section className="content-section">
-          <div className="container">
-                    <div className="topic-content-placeholder">
-                         <h2>Welcome!</h2>
-                         <p>Select a topic below to start learning.</p>
-                        <div className="topic-buttons-container">
-                           {topics.map(t => (
-                              <button
-                                 key={t.id}
-                                 className="topic-btn"
-                                 onClick={() => navigate(`/topics/${t.id}`)}
-                              >
-                                 {t.title}
-                              </button>
-                           ))}
+          <section className="content-section">
+            <div className="container">
+              <div className="hero-section">
+                <h1>Welcome to Interactive Learning Platform! 🚀</h1>
+                <p>Master web development with hands-on tutorials, interactive exercises, and real-time code execution.</p>
+                
+                <div className="featured-topics">
+                  <h2>🎯 Choose Your Learning Path</h2>
+                  <div className="topic-grid">
+                    {topics.map(topic => {
+                      const completedLessons = topic.lessons.filter(lesson => 
+                        userData?.lessonProgress?.[lesson.id]?.status === 'completed'
+                      ).length;
+                      const progressPercentage = (completedLessons / topic.lessons.length) * 100;
+                      
+                      return (
+                        <div
+                          key={topic.id}
+                          className="topic-card"
+                          onClick={() => navigate(`/topics/${topic.id}`)}
+                          style={{ '--topic-color': topic.color }}
+                        >
+                          <div className="topic-card-header">
+                            <div className="topic-card-icon">{topic.icon}</div>
+                            <div className="topic-card-info">
+                              <h3>{topic.title}</h3>
+                              <p>{topic.description}</p>
+                            </div>
+                          </div>
+                          
+                          <div className="topic-card-meta">
+                            <span className="difficulty">📊 {topic.difficulty}</span>
+                            <span className="duration">⏱️ {topic.estimatedTime}</span>
+                            <span className="lessons">📚 {topic.lessons.length} lessons</span>
+                          </div>
+                          
+                          <div className="topic-progress">
+                            <div className="progress-bar">
+                              <div 
+                                className="progress-fill" 
+                                style={{ width: `${progressPercentage}%` }}
+                              />
+                            </div>
+                            <span className="progress-text">
+                              {Math.round(progressPercentage)}% Complete
+                            </span>
+                          </div>
+                          
+                          <div className="topic-card-footer">
+                            <button className="continue-btn">
+                              {progressPercentage > 0 ? 'Continue Learning' : 'Start Learning'}
+                            </button>
+                          </div>
                         </div>
-                    </div>
+                      );
+                    })}
+                  </div>
+                </div>
 
-                   <div className="dashboard-placeholder">
-            <h3>Your Progress ({userData?.firstName || user?.email})</h3>
-            {userData && (
-              <div className="dashboard-placeholder">
-                <ScoreDisplay scores={userData.scores} />
-                <ProgressCircle learningStatus={userData.learningStatus} />
-                <DailyChallenge />
-                <MotivationalQuote />
+                <div className="dashboard-section">
+                  <h2>📊 Your Learning Dashboard</h2>
+                  <div className="dashboard-grid">
+                    <div className="dashboard-card">
+                      <h3>📈 Progress Overview</h3>
+                      <ProgressCircle learningStatus={userData?.learningStatus} />
+                    </div>
+                    
+                    <div className="dashboard-card">
+                      <h3>🏆 Your Scores</h3>
+                      <ScoreDisplay scores={userData?.scores} />
+                    </div>
+                    
+                    <div className="dashboard-card">
+                      <h3>🎯 Daily Challenge</h3>
+                      <DailyChallenge />
+                    </div>
+                    
+                    <div className="dashboard-card">
+                      <h3>💡 Motivation</h3>
+                      <MotivationalQuote />
+                    </div>
+                  </div>
+                </div>
+
+                {userData?.recentActivity && userData.recentActivity.length > 0 && (
+                  <div className="recent-activity">
+                    <h2>📝 Recent Activity</h2>
+                    <div className="activity-list">
+                      {userData.recentActivity.slice(0, 5).map((activity, index) => (
+                        <div key={index} className="activity-item">
+                          <div className="activity-icon">
+                            {activity.type === 'lesson' ? '📚' : 
+                             activity.type === 'quiz' ? '🎯' : '📅'}
+                          </div>
+                          <div className="activity-content">
+                            <h4>{activity.title}</h4>
+                            <p>{activity.description}</p>
+                            <span className="activity-time">
+                              {new Date(activity.timestamp).toLocaleDateString()}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {userData?.achievements && userData.achievements.length > 0 && (
+                  <div className="achievements-section">
+                    <h2>🏅 Your Achievements</h2>
+                    <div className="achievements-grid">
+                      {userData.achievements.map((achievement, index) => (
+                        <div key={index} className="achievement-badge">
+                          {achievement === 'first-lesson' && '🎓 First Lesson'}
+                          {achievement === 'lesson-master' && '📚 Lesson Master'}
+                          {achievement === 'perfect-score' && '💯 Perfect Score'}
+                          {achievement === 'quiz-master' && '🎯 Quiz Master'}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
-            )}
-                     </div>
-          </div>
-        </section>
-      )}
-        </main>
+            </div>
+          </section>
+        )}
+      </div>
     );
 }
 
@@ -487,16 +626,16 @@ function TopicPage({
 
     if (selectedTopic) {
         return (
-            <main className="main-content">
+            <div className="fade-in">
                 <TopicContent
                     selectedTopicId={topicId}
                     topicsData={topics}
                     userData={userData}
                     onUpdateProgress={onUpdateProgress}
                     onStartQuiz={onStartQuiz}
-            />
-            </main>
-  );
+                />
+            </div>
+        );
     } else {
         return null;
     }
