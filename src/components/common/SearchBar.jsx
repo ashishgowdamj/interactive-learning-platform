@@ -29,11 +29,11 @@ function SearchBar({ onSearch, placeholder = 'Search lessons...' }) {
         {isSearching ? (
           <div className="search-spinner"></div>
         ) : (
-          <i className="fas fa-search search-icon"></i>
+          <span className="search-icon">S</span>
         )}
       </div>
     </div>
   );
 }
 
-export default SearchBar; 
+export default SearchBar;

@@ -370,13 +370,13 @@ function MainContent({
                           <p className="course-description">{topic.description}</p>
                           <div className="course-meta">
                             <span className="meta-item">
-                              <span>📊</span> {topic.difficulty}
+                              <span className="meta-icon">LV</span> {topic.difficulty}
                             </span>
                             <span className="meta-item">
-                              <span>⏱</span> {topic.estimatedTime}
+                              <span className="meta-icon">T</span> {topic.estimatedTime}
                             </span>
                             <span className="meta-item">
-                              <span>📚</span> {topic.lessons.length} lessons
+                              <span className="meta-icon">L</span> {topic.lessons.length} lessons
                             </span>
                           </div>
                         </div>
@@ -397,16 +397,16 @@ function MainContent({
                           
                           <div className="course-footer">
                             <span className="lesson-count">
-                              <span>✓</span> {completedLessons} of {topic.lessons.length}
+                              <span className="check-icon">✓</span> {completedLessons} of {topic.lessons.length}
                             </span>
                             <button className="continue-button">
                               {progressPercentage > 0 ? (
                                 <>
-                                  <span>▶</span> Continue
+                                  <span className="play-icon">▶</span> Continue
                                 </>
                               ) : (
                                 <>
-                                  <span>▶</span> Start
+                                  <span className="play-icon">▶</span> Start
                                 </>
                               )}
                             </button>
@@ -423,22 +423,22 @@ function MainContent({
             <section className="stats-section">
               <div className="stats-grid">
                 <div className="stat-card">
-                  <div className="stat-icon">📚</div>
+                  <div className="stat-icon">L</div>
                   <div className="stat-number">{userData?.totalLessonsCompleted || 0}</div>
                   <div className="stat-label">Lessons</div>
                 </div>
                 <div className="stat-card">
-                  <div className="stat-icon">🎯</div>
+                  <div className="stat-icon">Q</div>
                   <div className="stat-number">{userData?.totalQuizzesTaken || 0}</div>
                   <div className="stat-label">Quizzes</div>
                 </div>
                 <div className="stat-card">
-                  <div className="stat-icon">📊</div>
+                  <div className="stat-icon">%</div>
                   <div className="stat-number">{userData?.averageQuizScore || 0}%</div>
                   <div className="stat-label">Avg Score</div>
                 </div>
                 <div className="stat-card">
-                  <div className="stat-icon">🔥</div>
+                  <div className="stat-icon">S</div>
                   <div className="stat-number">{userData?.streak || 0}</div>
                   <div className="stat-label">Streak</div>
                 </div>
@@ -457,8 +457,8 @@ function MainContent({
                     {userData.recentActivity.slice(0, 4).map((activity, index) => (
                       <div key={index} className="activity-item">
                         <div className="activity-icon">
-                          {activity.type === 'lesson' ? '📚' : 
-                           activity.type === 'quiz' ? '🎯' : '📅'}
+                          {activity.type === 'lesson' ? 'L' : 
+                           activity.type === 'quiz' ? 'Q' : 'A'}
                         </div>
                         <div className="activity-content">
                           <div className="activity-title">{activity.title}</div>
@@ -484,10 +484,10 @@ function MainContent({
                 <div className="achievements-grid">
                   {userData.achievements.map((achievement, index) => (
                     <div key={index} className="achievement-badge">
-                      {achievement === 'first-lesson' && <>🎓 First Lesson</>}
-                      {achievement === 'lesson-master' && <>📚 Lesson Master</>}
-                      {achievement === 'perfect-score' && <>💯 Perfect Score</>}
-                      {achievement === 'quiz-master' && <>🎯 Quiz Master</>}
+                      {achievement === 'first-lesson' && <>A First Lesson</>}
+                      {achievement === 'lesson-master' && <>M Lesson Master</>}
+                      {achievement === 'perfect-score' && <>P Perfect Score</>}
+                      {achievement === 'quiz-master' && <>Q Quiz Master</>}
                     </div>
                   ))}
                 </div>

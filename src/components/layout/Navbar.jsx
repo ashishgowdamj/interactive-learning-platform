@@ -31,7 +31,7 @@ function Navbar({ userData, onSearch, onToggleDarkMode, isDarkMode }) {
         <SearchBar onSearch={onSearch} />
         
         <button className="mobile-menu-button" onClick={toggleMobileMenu}>
-          &#9776;
+          <span className="menu-icon">≡</span>
         </button>
         
         <ul className={`nav-links ${isMobileMenuOpen ? 'open' : ''}`}>
@@ -46,7 +46,7 @@ function Navbar({ userData, onSearch, onToggleDarkMode, isDarkMode }) {
               onClick={onToggleDarkMode}
               title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             >
-              {isDarkMode ? '☀️' : '🌙'}
+              <span className="theme-icon">{isDarkMode ? 'L' : 'D'}</span>
             </button>
           </li>
         </ul>

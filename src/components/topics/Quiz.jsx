@@ -100,7 +100,9 @@ function Quiz({ topic, onComplete, onClose }) {
 
   return (
     <div className="quiz-container">
-      <button className="quiz-close-button" onClick={onClose}>&times;</button>
+      <button className="quiz-close-button" onClick={onClose}>
+        <span className="close-icon">×</span>
+      </button>
 
       {showResults ? (
         <div className="quiz-results">
@@ -184,4 +186,4 @@ function Quiz({ topic, onComplete, onClose }) {
   );
 }
 
-export default Quiz; 
+export default Quiz;

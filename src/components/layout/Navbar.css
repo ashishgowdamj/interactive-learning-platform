@@ -83,11 +83,22 @@
   border-radius: 6px;
   transition: all 0.2s ease;
   margin-left: 0.75rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .dark-mode-toggle-button:hover {
   background: #2563eb;
   transform: translateY(-1px);
+}
+
+.theme-icon {
+  font-family: 'Courier New', monospace;
+  font-weight: 700;
+  font-size: 0.75rem;
 }
 
 /* Mobile Menu Button */
@@ -101,10 +112,20 @@
   padding: 0.5rem;
   border-radius: 6px;
   transition: all 0.2s ease;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
 }
 
 .mobile-menu-button:hover {
   background: #2563eb;
+}
+
+.menu-icon {
+  font-family: 'Courier New', monospace;
+  font-weight: 700;
+  font-size: 1rem;
 }
 
 /* Search Bar Integration */
@@ -147,6 +168,8 @@
   right: 0.75rem;
   color: #6b7280;
   font-size: 0.85rem;
+  font-family: 'Courier New', monospace;
+  font-weight: 700;
 }
 
 .search-spinner {
@@ -173,7 +196,7 @@
   }
 
   .mobile-menu-button {
-    display: block;
+    display: flex;
   }
 
   .nav-links {
