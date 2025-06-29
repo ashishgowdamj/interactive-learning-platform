@@ -4,7 +4,7 @@ export const topics = [
     title: 'HTML',
     description: 'Learn the structure and markup of web pages',
     icon: '</>',
-    color: '#e34c26',
+    color: '#64748b',
     difficulty: 'Beginner',
     estimatedTime: '4 hours',
     lessons: [
@@ -181,7 +181,7 @@ export const topics = [
     title: 'CSS',
     description: 'Style and design your web pages',
     icon: '{}',
-    color: '#1572b6',
+    color: '#64748b',
     difficulty: 'Beginner',
     estimatedTime: '5 hours',
     lessons: [
@@ -408,7 +408,7 @@ h1 {
     title: 'JavaScript',
     description: 'Add interactivity to your web pages',
     icon: 'JS',
-    color: '#f7df1e',
+    color: '#64748b',
     difficulty: 'Intermediate',
     estimatedTime: '8 hours',
     lessons: [
@@ -599,7 +599,7 @@ console.log("Is 7 even? " + isEven(7));`
     title: 'Python',
     description: 'Learn Python programming fundamentals',
     icon: 'PY',
-    color: '#3776ab',
+    color: '#64748b',
     difficulty: 'Beginner',
     estimatedTime: '6 hours',
     lessons: [
@@ -849,7 +849,7 @@ print("Factorial of 5:", factorial(5))`
     title: 'React.js',
     description: 'Build modern user interfaces with React',
     icon: 'RX',
-    color: '#61dafb',
+    color: '#64748b',
     difficulty: 'Advanced',
     estimatedTime: '10 hours',
     lessons: [
