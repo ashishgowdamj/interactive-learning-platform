@@ -327,14 +327,14 @@ function MainContent({
               <div className="hero-content">
                 <h1>Learn to code — for free.</h1>
                 <p className="subtitle">
-                  Build projects. Earn certifications. Since 2011, millions of people have used our platform to learn the technical skills they need to level up their careers.
+                  Build projects. Earn certifications. Since 2011, millions of people have used our platform to learn the technical skills they need.
                 </p>
                 <div className="hero-cta">
                   <button className="cta-button" onClick={() => navigate('/topics/html')}>
-                    <span>🚀</span> Start coding now
+                    Start coding now
                   </button>
                   <button className="cta-button secondary">
-                    <span>📚</span> Browse catalog
+                    Browse catalog
                   </button>
                 </div>
               </div>
@@ -373,7 +373,7 @@ function MainContent({
                               <span>📊</span> {topic.difficulty}
                             </span>
                             <span className="meta-item">
-                              <span>⏱️</span> {topic.estimatedTime}
+                              <span>⏱</span> {topic.estimatedTime}
                             </span>
                             <span className="meta-item">
                               <span>📚</span> {topic.lessons.length} lessons
@@ -397,16 +397,16 @@ function MainContent({
                           
                           <div className="course-footer">
                             <span className="lesson-count">
-                              <span>✅</span> {completedLessons} of {topic.lessons.length}
+                              <span>✓</span> {completedLessons} of {topic.lessons.length}
                             </span>
                             <button className="continue-button">
                               {progressPercentage > 0 ? (
                                 <>
-                                  <span>▶️</span> Continue
+                                  <span>▶</span> Continue
                                 </>
                               ) : (
                                 <>
-                                  <span>🎯</span> Start
+                                  <span>▶</span> Start
                                 </>
                               )}
                             </button>
@@ -425,22 +425,22 @@ function MainContent({
                 <div className="stat-card">
                   <div className="stat-icon">📚</div>
                   <div className="stat-number">{userData?.totalLessonsCompleted || 0}</div>
-                  <div className="stat-label">Lessons Completed</div>
+                  <div className="stat-label">Lessons</div>
                 </div>
                 <div className="stat-card">
                   <div className="stat-icon">🎯</div>
                   <div className="stat-number">{userData?.totalQuizzesTaken || 0}</div>
-                  <div className="stat-label">Quizzes Taken</div>
+                  <div className="stat-label">Quizzes</div>
                 </div>
                 <div className="stat-card">
                   <div className="stat-icon">📊</div>
                   <div className="stat-number">{userData?.averageQuizScore || 0}%</div>
-                  <div className="stat-label">Average Score</div>
+                  <div className="stat-label">Avg Score</div>
                 </div>
                 <div className="stat-card">
                   <div className="stat-icon">🔥</div>
                   <div className="stat-number">{userData?.streak || 0}</div>
-                  <div className="stat-label">Day Streak</div>
+                  <div className="stat-label">Streak</div>
                 </div>
               </div>
             </section>
@@ -454,7 +454,7 @@ function MainContent({
                     <p>Keep track of your learning progress</p>
                   </div>
                   <div className="activity-list">
-                    {userData.recentActivity.slice(0, 5).map((activity, index) => (
+                    {userData.recentActivity.slice(0, 4).map((activity, index) => (
                       <div key={index} className="activity-item">
                         <div className="activity-icon">
                           {activity.type === 'lesson' ? '📚' : 

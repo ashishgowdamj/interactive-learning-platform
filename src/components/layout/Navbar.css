@@ -7,51 +7,51 @@
   left: 0;
   right: 0;
   z-index: 1000;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .navbar-container {
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 70px;
+  height: 60px;
 }
 
 /* Logo and Title */
 .site-logo-title {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
   cursor: pointer;
   text-decoration: none;
-  transition: transform 0.3s ease;
+  transition: transform 0.2s ease;
 }
 
 .site-logo-title:hover {
-  transform: scale(1.02);
+  transform: scale(1.01);
 }
 
 .logo {
-  height: 40px;
+  height: 32px;
   width: auto;
-  transition: transform 0.3s ease;
+  transition: transform 0.2s ease;
 }
 
 .site-title {
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-size: 1rem;
+  font-weight: 600;
   color: #ffffff;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.25px;
 }
 
 /* Navigation Links */
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.25rem;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -61,10 +61,10 @@
   text-decoration: none;
   color: #9ca3af;
   font-weight: 500;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
   transition: all 0.2s ease;
-  font-size: 0.95rem;
+  font-size: 0.8rem;
 }
 
 .nav-links li a:hover {
@@ -78,11 +78,11 @@
   border: none;
   color: white;
   cursor: pointer;
-  font-size: 1rem;
-  padding: 0.75rem;
-  border-radius: 8px;
+  font-size: 0.8rem;
+  padding: 0.5rem;
+  border-radius: 6px;
   transition: all 0.2s ease;
-  margin-left: 1rem;
+  margin-left: 0.75rem;
 }
 
 .dark-mode-toggle-button:hover {
@@ -95,11 +95,11 @@
   display: none;
   background: #3b82f6;
   border: none;
-  font-size: 1.25rem;
+  font-size: 1rem;
   color: white;
   cursor: pointer;
-  padding: 0.75rem;
-  border-radius: 8px;
+  padding: 0.5rem;
+  border-radius: 6px;
   transition: all 0.2s ease;
 }
 
@@ -110,8 +110,8 @@
 /* Search Bar Integration */
 .search-bar-container {
   flex: 1;
-  max-width: 400px;
-  margin: 0 2rem;
+  max-width: 300px;
+  margin: 0 1rem;
 }
 
 .search-input-wrapper {
@@ -122,11 +122,11 @@
 
 .search-input {
   width: 100%;
-  padding: 0.75rem 1rem;
-  padding-right: 3rem;
+  padding: 0.5rem 0.75rem;
+  padding-right: 2.5rem;
   border: 1px solid #334155;
-  border-radius: 8px;
-  font-size: 0.95rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
   background: #1e293b;
   color: #ffffff;
   transition: all 0.2s ease;
@@ -144,16 +144,16 @@
 
 .search-icon {
   position: absolute;
-  right: 1rem;
+  right: 0.75rem;
   color: #6b7280;
-  font-size: 1rem;
+  font-size: 0.85rem;
 }
 
 .search-spinner {
   position: absolute;
-  right: 1rem;
-  width: 16px;
-  height: 16px;
+  right: 0.75rem;
+  width: 14px;
+  height: 14px;
   border: 2px solid #334155;
   border-top: 2px solid #3b82f6;
   border-radius: 50%;
@@ -168,7 +168,8 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .navbar-container {
-    padding: 0 1rem;
+    padding: 0 0.75rem;
+    height: 55px;
   }
 
   .mobile-menu-button {
@@ -178,38 +179,38 @@
   .nav-links {
     display: none;
     position: absolute;
-    top: 70px;
+    top: 55px;
     left: 0;
     right: 0;
     background: #10162f;
     border-top: 1px solid #334155;
     flex-direction: column;
-    padding: 1rem;
-    gap: 0.5rem;
+    padding: 0.75rem;
+    gap: 0.25rem;
   }
 
   .nav-links.open {
     display: flex;
-    animation: slideDown 0.3s ease;
+    animation: slideDown 0.2s ease;
   }
 
   .nav-links li a {
     width: 100%;
     text-align: center;
-    padding: 1rem;
-    border-radius: 8px;
+    padding: 0.75rem;
+    border-radius: 6px;
   }
 
   .site-title {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
   .logo {
-    height: 32px;
+    height: 28px;
   }
 
   .search-bar-container {
-    margin: 0 1rem;
+    margin: 0 0.75rem;
     max-width: none;
   }
 
@@ -222,7 +223,7 @@
 @keyframes slideDown {
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-5px);
   }
   to {
     opacity: 1;
